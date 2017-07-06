@@ -12,17 +12,17 @@ int main(void) {
 		exit(1);
 	}
 
+
 	int komenda = 0;
 	int i = 0;
 	int dst = 0;
 
 	while (1) {
 		i++;
-		if (i > 4000)
+		if (i > 500)
 		{
 			komenda = 0;
 		}
-		komenda = (i > 1000 && i <3999) ? 1 : 0;
 
 		switch (komenda)
 		{
