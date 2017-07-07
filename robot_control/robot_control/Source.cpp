@@ -23,7 +23,7 @@ int main(void) {
 	while (1) {
 		
 		i++;
-		if (i > 200)
+		if (i > 100)
 		{
 			
 			cmd[0] = 'x';
@@ -49,7 +49,7 @@ int main(void) {
 				printf("skrecam");
 				led_on(1);
 				led_on(0);
-				right();
+				right_rot();
 
 
 				break;
