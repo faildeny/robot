@@ -23,7 +23,7 @@ int main(void) {
 	while (1) {
 		
 		i++;
-		if (i > 800)
+		if (i > 400)
 		{
 			
 			cmd[0] = 'x';
@@ -44,7 +44,7 @@ int main(void) {
 				break;
 			case 'd':
 				printf("skrecam");
-				stop();
+				right();
 				break;
 			}
 
