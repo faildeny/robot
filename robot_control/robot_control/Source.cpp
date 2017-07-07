@@ -15,6 +15,7 @@ int main(void) {
 	char cmd[2];
 	cmd[0] = 'w';
 	cmd[1] = 'x';
+	set_speed(30);
 
 	int i = 0;
 	int dst = 0;
@@ -45,9 +46,10 @@ int main(void) {
 				printf("jade");
 				led_off(0);
 				led_off(1);
-				motor1(1, 30);
+				//motor1(1, 30);
+				//motor2
 
-				//fwd();
+				fwd();
 				break;
 			case 'd':
 				printf("skrecam");
