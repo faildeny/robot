@@ -112,15 +112,18 @@ while (true) {
 
 	bm->compute(frame, frame2, disp);
 
-
 	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
-	
-
 
 	resize(disp8, disp8, Size(), 3, 3, INTER_LINEAR);
 	Mat preview;
-
+	double *min, *max;
 	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
+
+	Size rozmiar = preview.size();
+	Range area(rozmiar.height/2-rozmiar.height / 4, rozmiar.height/2+rozmiar.height/4);
+	minMaxLoc(preview(area, area),min,max);
+	String text = to_string(*max);
+	putText(preview, text, punkt, CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 
 	applyColorMap(preview, preview, COLORMAP_JET);
 	imshow("disparity", preview);
