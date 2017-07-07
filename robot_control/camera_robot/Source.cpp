@@ -89,7 +89,7 @@ if (init() == -1) {
 char cmd[2];
 cmd[0] = 'w';
 cmd[1] = 'x';
-set_speed(30);
+set_speed(60);
 
 int i = 0;
 int dst = 0;
