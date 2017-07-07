@@ -9,7 +9,7 @@ using namespace std;
 
 int main (void) {
 
-VideoCapture cap(1);
+VideoCapture cap(0);
 Mat frame;
 bool success;
 
