@@ -78,8 +78,8 @@ Rect roi2(1, 1, roiw2, roiw2);
 
 while (true) {
 
-	cap.set(CV_CAP_PROP_EXPOSURE, -exposure);
-	cap2.set(CV_CAP_PROP_EXPOSURE, -exposure);
+	//cap.set(CV_CAP_PROP_EXPOSURE, -exposure);
+	//cap2.set(CV_CAP_PROP_EXPOSURE, -exposure);
 
 	success = cap.grab();
 	success2 = cap2.grab();
