@@ -23,9 +23,11 @@ int main(void) {
 	while (1) {
 		
 		i++;
-		if (i > 300)
+		if (i > 400)
 		{
+			
 			cmd[0] = 'x';
+			break;
 		}
 
 		switch (cmd[0])
