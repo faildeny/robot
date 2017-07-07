@@ -15,6 +15,7 @@ VideoCapture cap2(1);
 Mat frame;
 Mat frame2;
 bool success;
+bool success2;
 
 cap.set(CV_CAP_PROP_FRAME_HEIGHT, 360);
 cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
@@ -40,9 +41,9 @@ while (true) {
 	cap2.set(CV_CAP_PROP_EXPOSURE, -11);
 
 	success = cap.grab();
-	success = cap2.grab();
+	success2 = cap2.grab();
 	cap.retrieve(frame);
-	cap2.retrieve(frame);
+	cap2.retrieve(frame2);
 
 	//resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
 	imshow("kamera 1", frame);
