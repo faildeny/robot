@@ -12,33 +12,49 @@ int main(void) {
 		exit(1);
 	}
 
+	char cmd[2];
+	cmd[0] = 'w';
+	cmd[1] = 'x';
 
-	int komenda = 0;
 	int i = 0;
 	int dst = 0;
 
+
 	while (1) {
+		
 		i++;
-		if (i > 500)
+		if (i > 300)
 		{
-			komenda = 0;
+			cmd[0] = 'x';
 		}
 
-		switch (komenda)
+		switch (cmd[0])
 		{
-		case 1:
-			printf("jade!");
+		case 'w':
+			printf("mozna jechac: ");
+			switch (cmd[1])
+			{
+			case 'w':
+				printf("jade");
+				fwd();
+				break;
+			case 'd':
+				printf("skrecam");
+				right();
+				break;
+
+			}
 			fwd();
 			break;
 
-		case 0:
+		case 'x':
 			stop();
 			break;
 
 		}
-		printf("i= %d komenda= %d \n", i, komenda);
+		printf("i= %d command= %c %c \n", i, cmd[0], cmd[1]);
 		printf("dystans: %d\n", dst);
-		komenda = (dst > 40) ? 1 : 0;
+		cmd[1] = (dst > 40) ? 'w' : 'd';
 	}
 
 	getchar();
