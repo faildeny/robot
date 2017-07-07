@@ -23,7 +23,7 @@ int main(void) {
 	while (1) {
 		
 		i++;
-		if (i > 2000)
+		if (i > 800)
 		{
 			
 			cmd[0] = 'x';
@@ -34,6 +34,7 @@ int main(void) {
 		switch (cmd[0])
 		{
 		case 'w':
+			
 			printf("mozna jechac: ");
 			switch (cmd[1])
 			{
@@ -45,9 +46,8 @@ int main(void) {
 				printf("skrecam");
 				stop();
 				break;
-
 			}
-			fwd();
+
 			break;
 
 		case 'x':
