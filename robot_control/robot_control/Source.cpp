@@ -23,11 +23,13 @@ int main(void) {
 	while (1) {
 		
 		i++;
-		if (i > 400)
+		if (i > 200)
 		{
 			
 			cmd[0] = 'x';
 			stop();
+			led
+			exit(0);
 			break;
 		}
 
@@ -40,11 +42,17 @@ int main(void) {
 			{
 			case 'w':
 				printf("jade");
+				led_off(0);
+				led_off(1);
 				fwd();
 				break;
 			case 'd':
 				printf("skrecam");
+				led_on(1);
+				led_on(0);
 				right();
+
+
 				break;
 			}
 
