@@ -23,7 +23,7 @@ int main(void) {
 	while (1) {
 		
 		i++;
-		if (i > 402)
+		if (i > 2000)
 		{
 			
 			cmd[0] = 'x';
@@ -55,11 +55,13 @@ int main(void) {
 			break;
 
 		}
+		dst = us_dist(15);
+		cmd[1] = (dst > 40) ? 'w' : 'd';
 		printf("i= %d command= %c %c \n", i, cmd[0], cmd[1]);
 		printf("dystans: %d\n", dst);
-		cmd[1] = (dst > 40) ? 'w' : 'd';
+		
 	}
 
-	getchar();
+	//getchar();
 	return 0;
 }
