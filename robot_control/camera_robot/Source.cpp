@@ -92,8 +92,8 @@ while (true) {
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 
 	//resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
-	imshow("kamera 1", frame);
-	imshow("kamera 2", frame2);
+	//imshow("kamera 1", frame);
+	//imshow("kamera 2", frame2);
 
 
 	numberOfDisparities = numdis * 16;
