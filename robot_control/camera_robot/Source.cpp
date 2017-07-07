@@ -92,8 +92,8 @@ while (true) {
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 
 	//resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
-	//imshow("kamera 1", frame);
-	//imshow("kamera 2", frame2);
+	imshow("kamera 1", frame);
+	imshow("kamera 2", frame2);
 
 
 	numberOfDisparities = numdis * 16;
@@ -117,14 +117,14 @@ while (true) {
 
 	resize(disp8, disp8, Size(), 3, 3, INTER_LINEAR);
 	Mat preview;
-	double *min, *max;
+	double min, max;
 	ostringstream ss;
 	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
 
 	Size rozmiar = preview.size();
 	Range area(rozmiar.height/2-rozmiar.height / 4, rozmiar.height/2+rozmiar.height/4);
-	minMaxLoc(preview(area, area),min,max);
-	ss << *max;
+	minMaxLoc(preview(area, area),&min,&max);
+	ss << max;
 	String text = ss.str();
 	putText(preview, text, Point(100,100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 
