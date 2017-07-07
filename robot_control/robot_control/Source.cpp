@@ -23,7 +23,7 @@ int main(void) {
 	while (1) {
 		
 		i++;
-		if (i > 400)
+		if (i > 401)
 		{
 			
 			cmd[0] = 'x';
