@@ -85,9 +85,9 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 
-	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
-	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 
 	//resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
