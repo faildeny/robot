@@ -42,7 +42,7 @@ int main(void) {
 				break;
 			case 'd':
 				printf("skrecam");
-				right();
+				stop();
 				break;
 
 			}
