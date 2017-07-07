@@ -28,6 +28,8 @@ int main(void) {
 			
 			cmd[0] = 'x';
 			stop();
+			led_off(0);
+			led_off(1);
 			exit(0);
 			break;
 		}
@@ -43,7 +45,9 @@ int main(void) {
 				printf("jade");
 				led_off(0);
 				led_off(1);
-				fwd();
+				motor1(1, 30);
+
+				//fwd();
 				break;
 			case 'd':
 				printf("skrecam");
