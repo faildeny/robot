@@ -27,6 +27,7 @@ int main(void) {
 		{
 			
 			cmd[0] = 'x';
+			stop();
 			break;
 		}
 
