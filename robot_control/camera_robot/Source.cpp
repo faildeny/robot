@@ -126,7 +126,7 @@ while (true) {
 	minMaxLoc(preview(area, area),min,max);
 	ss << *max;
 	String text = ss.str();
-	putText(preview, text, punkt, CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
+	putText(preview, text, Point(100,100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 
 	applyColorMap(preview, preview, COLORMAP_JET);
 	imshow("disparity", preview);
