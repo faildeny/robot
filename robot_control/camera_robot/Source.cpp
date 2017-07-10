@@ -89,7 +89,7 @@ if (init() == -1) {
 char cmd[2];
 cmd[0] = 'w';
 cmd[1] = 'x';
-set_speed(60);
+set_speed(140);
 
 int i = 0;
 int dst = 0;
@@ -206,10 +206,14 @@ while (true) {
 
 	////////////////////////////////
 
-	int iKey = waitKey(50);
+	int iKey = waitKey(5);
 	if (iKey == 27)
 	{
 		break;
+	}
+	if (iKey == 32)
+	{
+		cmd[0] = 'x';
 	}
 }
 return 0;
