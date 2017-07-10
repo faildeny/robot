@@ -179,14 +179,14 @@ while (true) {
 			led_off(1);
 			//motor1(1, 30);
 			//motor2
-			set_speed(80);
+			set_speed(60);
 			fwd();
 			break;
 		case 'd':
 			printf("skrecam");
 			led_on(1);
 			led_on(0);
-			set_speed(60);
+			set_speed(40);
 			right_rot();
 
 
