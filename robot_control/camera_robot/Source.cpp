@@ -89,7 +89,7 @@ if (init() == -1) {
 char cmd[2];
 cmd[0] = 'w';
 cmd[1] = 'x';
-set_speed(140);
+set_speed(100);
 
 int i = 0;
 int dst = 0;
@@ -179,13 +179,14 @@ while (true) {
 			led_off(1);
 			//motor1(1, 30);
 			//motor2
-
+			set_speed(80);
 			fwd();
 			break;
 		case 'd':
 			printf("skrecam");
 			led_on(1);
 			led_on(0);
+			set_speed(60);
 			right_rot();
 
 
