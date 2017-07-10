@@ -202,7 +202,7 @@ while (true) {
 	}
 	dst = us_dist(15);
 	cmd[1] = (dst > 40) ? 'w' : 'd';
-	cmd[1] = (max < 230) ? 'w' : 'd';
+	cmd[1] = (max < 170) ? 'w' : 'd';
 	printf("i= %d command= %c %c \n", i, cmd[0], cmd[1]);
 	printf("dystans: %d\n", dst);
 
