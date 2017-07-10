@@ -144,15 +144,17 @@ while (true) {
 	Size rozmiar = preview.size();
 
 	Rect area_rect(rozmiar.width / 2 - rozmiar.width / 4, rozmiar.height / 2 - rozmiar.height / 4, rozmiar.width / 2, rozmiar.height / 2);
-	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
+	
 	
 	Range area(rozmiar.height/2-rozmiar.height / 4, rozmiar.height/2+rozmiar.height/4);
 	minMaxLoc(preview(area, area),&min,&max);
 	ss << max;
 	String text = ss.str();
-	putText(preview, text, Point(100,100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
+	
 
 	applyColorMap(preview, preview, COLORMAP_JET);
+	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
+	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 	imshow("disparity", preview);
 
 	////////////////////////////////////
