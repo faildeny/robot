@@ -141,8 +141,11 @@ while (true) {
 	double min, max;
 	ostringstream ss;
 	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
-
 	Size rozmiar = preview.size();
+
+	Rect area_rect(rozmiar.width / 2 - rozmiar.width / 4, rozmiar.height / 2 - rozmiar.height / 4, rozmiar.width / 2, rozmiar.height / 2);
+	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
+	
 	Range area(rozmiar.height/2-rozmiar.height / 4, rozmiar.height/2+rozmiar.height/4);
 	minMaxLoc(preview(area, area),&min,&max);
 	ss << max;
@@ -157,7 +160,6 @@ while (true) {
 	i++;
 	if (i > 500)
 	{
-
 		cmd[0] = 'x';
 		stop();
 		led_off(0);
