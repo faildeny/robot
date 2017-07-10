@@ -215,6 +215,10 @@ while (true) {
 	{
 		cmd[0] = 'x';
 	}
+	if (iKey == 119)
+	{
+		cmd[0] = 'w';
+	}
 }
 return 0;
 }
