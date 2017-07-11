@@ -49,7 +49,7 @@ Mat frame_detect;
 bool success;
 bool success2;
 
-Size frame_size(640, 360);
+Size frame_size(320, 180);
 
 cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
 cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
@@ -231,7 +231,7 @@ while (true) {
 				led_off(1);
 				//motor1(1, 30);
 				//motor2
-				set_speed(60);
+				set_speed(80);
 				fwd();
 				break;
 			}
