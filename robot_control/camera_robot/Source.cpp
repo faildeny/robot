@@ -1,6 +1,8 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/calib3d/calib3d.hpp"
+#include "opencv2\objdetect\objdetect.hpp"
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -9,6 +11,25 @@ extern "C" {
 #include "gopigo.h"
 }
 
+String face_cascade_name = "haarcascade_frontalface_alt.xml";
+CascadeClassifier face_cascade;
+RNG rng(12345);
+
+void detectAndDisplay(Mat frame)
+{
+	std::vector<Rect> faces;
+	Mat frame_gray;
+
+	cvtColor(frame, frame_gray, CV_BGR2GRAY);
+	equalizeHist(frame_gray, frame_gray);
+
+	face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
+	for (int i = 0; i < faces.size(); i++)
+	{
+		rectangle(frame, faces[i], Scalar(0, 255, 200), 2, 8);
+	}
+	imshow("oknno", frame);
+}
 
 using namespace cv;
 using namespace std;
@@ -106,12 +127,13 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 
+	detectAndDisplay(frame);
+
 	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 
-	//resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
 	imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
