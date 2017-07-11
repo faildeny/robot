@@ -183,15 +183,15 @@ while (true) {
 	String text = ss.str();
 	
 
-	applyColorMap(preview, preview, COLORMAP_JET);
-	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
-	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
-	imshow("disparity", preview);
+	//applyColorMap(preview, preview, COLORMAP_JET);
+	//rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
+	//putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
+	//imshow("disparity", preview);
 
 	////////////////////////////////////
 
 	i++;
-	if (i > 500)
+	if (i > 200)
 	{
 		cmd[0] = 'x';
 		stop();
@@ -268,14 +268,20 @@ while (true) {
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
 	//cmd[1] = (dst > 40) ? 'w' : 'd';
 	cmd[1] = (max < 170 && max > 0) ? 'w' : 'r';
-	cmd[2] = (direction > 10) ? 'd' : 'w';
-	cmd[2] = (direction < -10) ? 'a' : 'w';
+	if (direction < 10 && direction > -10) {
+		cmd[2] = 'w';
+	}
+	else 
+	{ 
+		cmd[2] = (direction < -10) ? 'a' : 'd';
+	}
+	
 	printf("i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
 	printf("dystans: %d\n", dst);
 
 	////////////////////////////////
 
-	int iKey = waitKey(5);
+	int iKey = waitKey(20);
 	if (iKey == 27)
 	{
 		break;
