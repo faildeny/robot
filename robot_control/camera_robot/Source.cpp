@@ -64,7 +64,7 @@ if (!cap2.isOpened()) {
 }
 
 
-
+if (!face_cascade.load(face_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 
 //StereoBM::StereoMatcher;
