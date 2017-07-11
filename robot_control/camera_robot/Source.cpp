@@ -276,7 +276,7 @@ while (true) {
 		cmd[2] = (direction < -10) ? 'a' : 'd';
 	}
 	
-	printf("i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
+	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
 	printf("dystans: %d\n", dst);
 
 	////////////////////////////////
