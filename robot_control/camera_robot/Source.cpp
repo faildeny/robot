@@ -11,6 +11,10 @@ extern "C" {
 #include "gopigo.h"
 }
 
+using namespace cv;
+using namespace std;
+
+
 String face_cascade_name = "haarcascade_frontalface_alt.xml";
 CascadeClassifier face_cascade;
 RNG rng(12345);
@@ -31,8 +35,7 @@ void detectAndDisplay(Mat frame)
 	imshow("oknno", frame);
 }
 
-using namespace cv;
-using namespace std;
+
 
 int main (void) {
 
