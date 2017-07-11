@@ -19,7 +19,7 @@ String face_cascade_name = "haarcascade_frontalface_alt.xml";
 CascadeClassifier face_cascade;
 RNG rng(12345);
 
-void detectAndDisplay(Mat frame)
+void detectAndDisplay(Mat frame, Rect &target)
 {
 	std::vector<Rect> faces;
 	Mat frame_gray;
@@ -31,6 +31,7 @@ void detectAndDisplay(Mat frame)
 	for (int i = 0; i < faces.size(); i++)
 	{
 		rectangle(frame, faces[i], Scalar(0, 255, 200), 2, 8);
+		target = faces[0];
 	}
 	imshow("oknno", frame);
 }
@@ -44,13 +45,16 @@ VideoCapture cap2(1);
 
 Mat frame;
 Mat frame2;
+Mat frame_detect;
 bool success;
 bool success2;
 
-cap.set(CV_CAP_PROP_FRAME_HEIGHT, 360);
-cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-cap2.set(CV_CAP_PROP_FRAME_HEIGHT, 360);
-cap2.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+Size frame_size(640, 360);
+
+cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
+cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
+cap2.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
+cap2.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
 
 
 if (!cap.isOpened()) {
@@ -110,13 +114,15 @@ if (init() == -1) {
 	exit(1);
 }
 
-char cmd[2];
+char cmd[3];
 cmd[0] = 'w';
 cmd[1] = 'x';
+cmd[2] = 'd';
 set_speed(100);
 
 int i = 0;
 int dst = 0;
+Rect target;
 
 ///////
 
@@ -129,8 +135,8 @@ while (true) {
 	success2 = cap2.grab();
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
-
-	detectAndDisplay(frame);
+	frame_detect = frame;
+	detectAndDisplay(frame_detect, target);
 
 	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
@@ -211,15 +217,26 @@ while (true) {
 			set_speed(60);
 			fwd();
 			break;
-		case 'd':
-			printf("skrecam");
-			led_on(1);
-			led_on(0);
-			set_speed(40);
-			right_rot();
 
+		case 'r':
 
-			break;
+			switch (cmd[2])
+			{	
+			case 'd':
+				printf("skrecam w prawo");
+				led_on(1);
+				led_off(0);
+				set_speed(40);
+				right_rot();
+				break;
+			case 'a':
+				printf("skrecam w lewo");
+				led_on(0);
+				led_off(1);
+				set_speed(40);
+				left_rot();
+				break;
+			}
 		}
 
 		break;
@@ -230,9 +247,11 @@ while (true) {
 
 	}
 	dst = us_dist(15);
-	cmd[1] = (dst > 40) ? 'w' : 'd';
-	cmd[1] = (max < 170 && max > 0) ? 'w' : 'd';
-	printf("i= %d command= %c %c \n", i, cmd[0], cmd[1]);
+	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
+	//cmd[1] = (dst > 40) ? 'w' : 'd';
+	cmd[1] = (max < 170 && max > 0) ? 'w' : 'r';
+	cmd[2] = (direction > 0) ? 'd' : 'a';
+	printf("i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
 	printf("dystans: %d\n", dst);
 
 	////////////////////////////////
