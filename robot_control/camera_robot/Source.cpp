@@ -24,6 +24,7 @@ bool success;
 bool success2;
 
 
+
 cap.set(CV_CAP_PROP_FRAME_HEIGHT, 360);
 cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
 cap2.set(CV_CAP_PROP_FRAME_HEIGHT, 360);
