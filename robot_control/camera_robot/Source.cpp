@@ -122,7 +122,7 @@ set_speed(100);
 
 int i = 0;
 int dst = 0;
-Rect target;
+Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
 
 ///////
 
@@ -209,14 +209,32 @@ while (true) {
 		switch (cmd[1])
 		{
 		case 'w':
-			printf("jade");
-			led_off(0);
-			led_off(1);
-			//motor1(1, 30);
-			//motor2
-			set_speed(60);
-			fwd();
-			break;
+			switch (cmd[2])
+			{
+			case 'd':
+				printf("skrecam w prawo");
+				led_on(1);
+				led_off(0);
+				set_speed(40);
+				right_rot();
+				break;
+			case 'a':
+				printf("skrecam w lewo");
+				led_on(0);
+				led_off(1);
+				set_speed(40);
+				left_rot();
+				break;
+			case 'w':
+				printf("jade");
+				led_off(0);
+				led_off(1);
+				//motor1(1, 30);
+				//motor2
+				set_speed(60);
+				fwd();
+				break;
+			}
 
 		case 'r':
 
@@ -250,7 +268,8 @@ while (true) {
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
 	//cmd[1] = (dst > 40) ? 'w' : 'd';
 	cmd[1] = (max < 170 && max > 0) ? 'w' : 'r';
-	cmd[2] = (direction > 0) ? 'd' : 'a';
+	cmd[2] = (direction > 10) ? 'd' : 'w';
+	cmd[2] = (direction < -10) ? 'a' : 'w';
 	printf("i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
 	printf("dystans: %d\n", dst);
 
