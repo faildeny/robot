@@ -192,9 +192,9 @@ while (true) {
 	Range dir_area_r(preview_size.width*0.5, preview_size.width - border);
 	Range dir_area_h(preview_size.height*0.3, preview_size.height*0.9);
 	Scalar sum_l_scalar = sum(preview(dir_area_h, dir_area_l));
-	sum_l = sum_l_scalar[0];
+	sum_l = sum_l_scalar[0]/countNonZero(preview(dir_area_h, dir_area_l));
 	Scalar sum_r_scalar = sum(preview(dir_area_h, dir_area_r));
-	sum_r = sum_r_scalar[0];
+	sum_r = sum_r_scalar[0] /countNonZero(preview(dir_area_h, dir_area_r));
 
 	Rect left(border, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
 	Rect right(preview_size.width*0.5, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
