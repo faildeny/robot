@@ -49,7 +49,7 @@ Mat frame_detect;
 bool success;
 bool success2;
 
-Size frame_size(320, 180);
+Size frame_size(160, 90);
 
 cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
 cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
