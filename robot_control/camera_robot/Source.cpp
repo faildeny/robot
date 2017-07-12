@@ -234,14 +234,14 @@ while (true) {
 				printf("skrecam w prawo");
 				led_on(0);
 				led_off(1);
-				set_speed(80);
+				set_speed(40);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(1);
 				led_off(0);
-				set_speed(80);
+				set_speed(40);
 				left_rot();
 				break;
 			case 'w':
@@ -264,18 +264,18 @@ while (true) {
 				printf("skrecam w prawo");
 				led_on(1);
 				led_on(0);
-				set_speed(80);
+				set_speed(40);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(0);
 				led_on(1);
-				set_speed(80);
+				set_speed(40);
 				left_rot();
 				break;
 			case 'w':
-				set_speed(80);
+				set_speed(40);
 				right_rot();
 				break;
 			}
