@@ -235,26 +235,28 @@ while (true) {
 				fwd();
 				break;
 			}
+			break;
 
 		case 'r':
-			printf("za blisko");
+			printf("za blisko ");
 			switch (cmd[2])
 			{	
 			case 'd':
-				printf("skrecam w prawo, bo blisko");
+				printf("skrecam w prawo");
 				led_on(1);
-				led_off(0);
+				led_on(0);
 				set_speed(40);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(0);
-				led_off(1);
+				led_on(1);
 				set_speed(40);
 				left_rot();
 				break;
 			}
+			break;
 		}
 
 		break;
