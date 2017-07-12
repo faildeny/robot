@@ -49,7 +49,7 @@ Mat frame_detect;
 bool success;
 bool success2;
 
-Size frame_size(160, 90);
+Size frame_size(320, 180);
 
 cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
 cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
@@ -169,22 +169,41 @@ while (true) {
 
 	resize(disp8, disp8, Size(), 3, 3, INTER_LINEAR);
 	Mat preview;
+	//distance from central area
+
 	double min, max;
 	ostringstream ss;
 	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
-	Size rozmiar = preview.size();
+	Size preview_size = preview.size();
 
-	Rect area_rect(rozmiar.width / 2 - rozmiar.width / 4, rozmiar.height / 2 - rozmiar.height / 4, rozmiar.width / 2, rozmiar.height / 2);
+	Rect area_rect(preview_size.width / 2 - preview_size.width / 4, preview_size.height / 2 - preview_size.height / 4, preview_size.width / 2, preview_size.height / 2);
 	
 	
-	Range area(rozmiar.height/2-rozmiar.height / 4, rozmiar.height/2+rozmiar.height/4);
-	minMaxLoc(preview(area, area),&min,&max);
+	Range area_h(preview_size.height/2-preview_size.height / 4, preview_size.height/2+preview_size.height/4);
+	Range area_w(preview_size.width / 2 - preview_size.width / 4, preview_size.width / 2 + preview_size.width / 4);
+	minMaxLoc(preview(area_h, area_w),&min,&max);
 	ss << max;
 	String text = ss.str();
-	
+
+	//choosing direction to turn by sides comparison
+	int sum_l, sum_r;
+	int border=15;
+	Range dir_area_l(border, preview_size.width*0.5);
+	Range dir_area_r(preview_size.width*0.5, preview_size.width - border);
+	Range dir_area_h(preview_size.height*0.3, preview_size.height*0.9);
+	Scalar sum_l_scalar = sum(preview(dir_area_h, dir_area_l));
+	sum_l = sum_l_scalar[0];
+	Scalar sum_r_scalar = sum(preview(dir_area_h, dir_area_r));
+	sum_r = sum_r_scalar[0];
+
+	Rect left(border, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
+	Rect right(preview_size.width*0.5, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
 
 	applyColorMap(preview, preview, COLORMAP_JET);
 	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
+
+	rectangle(preview, left, Scalar(255, 50, 50), 2, 8);
+	rectangle(preview, right, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 	imshow("disparity", preview);
 
@@ -286,19 +305,29 @@ while (true) {
 		break;
 
 	}
+	//decisions list:
 
-	dst = us_dist(15);
+	//dst = us_dist(15);
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
-	//cmd[1] = (dst > 40) ? 'w' : 'd';
 	cmd[1] = (max < 170 && max > 0) ? 'w' : 'r';
-	if (direction < 10 && direction > -10) {
-		cmd[2] = 'w';
+	switch (cmd[1])
+	{
+	case 'w':
+
+		if (direction < 10 && direction > -10) {
+			cmd[2] = 'w';
+		}
+		else
+		{
+			cmd[2] = (direction < -10) ? 'a' : 'd';
+		}
+		break;
+
+	case 'r':
+		cmd[2] = (sum_l < sum_r) ? 'a' : 'd';
+		printf("suma_l= %d suma_r= %d", sum_l, sum_r);
+		break;
 	}
-	else 
-	{ 
-		cmd[2] = (direction < -10) ? 'a' : 'd';
-	}
-	
 	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
 	printf("dystans: %d\n", dst);
 
