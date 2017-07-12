@@ -187,7 +187,7 @@ while (true) {
 
 	//choosing direction to turn by sides comparison
 	int sum_l, sum_r;
-	int border=15;
+	int border=45;
 	Range dir_area_l(border, preview_size.width*0.5);
 	Range dir_area_r(preview_size.width*0.5, preview_size.width - border);
 	Range dir_area_h(preview_size.height*0.3, preview_size.height*0.9);
