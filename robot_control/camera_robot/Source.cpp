@@ -281,8 +281,6 @@ while (true) {
 		bwd();
 		break;
 
-
-
 	}
 	dst = us_dist(15);
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
@@ -316,7 +314,7 @@ while (true) {
 		cmd[0] = 'w';
 		break;
 	case 'i':
-		cmd[0] = 'j';
+		cmd[0] = 'i';
 		break;
 	case 'j':
 		cmd[0] = 'j';
