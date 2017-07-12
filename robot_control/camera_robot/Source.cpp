@@ -183,10 +183,10 @@ while (true) {
 	String text = ss.str();
 	
 
-	//applyColorMap(preview, preview, COLORMAP_JET);
-	//rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
-	//putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
-	//imshow("disparity", preview);
+	applyColorMap(preview, preview, COLORMAP_JET);
+	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
+	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
+	imshow("disparity", preview);
 
 	////////////////////////////////////
 
@@ -213,15 +213,15 @@ while (true) {
 			{
 			case 'd':
 				printf("skrecam w prawo");
-				led_on(1);
-				led_off(0);
+				led_on(0);
+				led_off(1);
 				set_speed(100);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
-				led_on(0);
-				led_off(1);
+				led_on(1);
+				led_off(0);
 				set_speed(100);
 				left_rot();
 				break;
