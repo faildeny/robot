@@ -237,11 +237,11 @@ while (true) {
 			}
 
 		case 'r':
-
+			printf("za blisko");
 			switch (cmd[2])
 			{	
 			case 'd':
-				printf("skrecam w prawo");
+				printf("skrecam w prawo, bo blisko");
 				led_on(1);
 				led_off(0);
 				set_speed(40);
