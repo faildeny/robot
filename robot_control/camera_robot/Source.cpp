@@ -215,14 +215,14 @@ while (true) {
 				printf("skrecam w prawo");
 				led_on(0);
 				led_off(1);
-				set_speed(100);
+				set_speed(80);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(1);
 				led_off(0);
-				set_speed(100);
+				set_speed(80);
 				left_rot();
 				break;
 			case 'w':
@@ -231,7 +231,7 @@ while (true) {
 				led_off(1);
 				//motor1(1, 30);
 				//motor2
-				set_speed(80);
+				set_speed(60);
 				fwd();
 				break;
 			}
@@ -254,6 +254,10 @@ while (true) {
 				led_on(1);
 				set_speed(40);
 				left_rot();
+				break;
+			case 'w':
+				set_speed(40);
+				right_rot();
 				break;
 			}
 			break;
@@ -282,6 +286,7 @@ while (true) {
 		break;
 
 	}
+
 	dst = us_dist(15);
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
 	//cmd[1] = (dst > 40) ? 'w' : 'd';
