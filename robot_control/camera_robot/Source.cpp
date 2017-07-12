@@ -264,6 +264,24 @@ while (true) {
 	case 'x':
 		stop();
 		break;
+	case 'i':
+		set_speed(80);
+		fwd();
+		break;
+	case 'j':
+		set_speed(80);
+		left_rot();
+		break;
+	case 'l':
+		set_speed(80);
+		right_rot();
+		break;
+	case 'k':
+		set_speed(60);
+		bwd();
+		break;
+
+
 
 	}
 	dst = us_dist(15);
@@ -288,13 +306,28 @@ while (true) {
 	{
 		break;
 	}
-	if (iKey == 32)
+	char cKey = (char)iKey;
+	switch (cKey)
 	{
+	case 'x':
 		cmd[0] = 'x';
-	}
-	if (iKey == 119)
-	{
+		break;
+	case 'w':
 		cmd[0] = 'w';
+		break;
+	case 'i':
+		cmd[0] = 'j';
+		break;
+	case 'j':
+		cmd[0] = 'j';
+		break;
+	case 'l':
+		cmd[0] = 'l';
+		break;
+	case 'k':
+		cmd[0] = 'k';
+		break;
+
 	}
 }
 return 0;
