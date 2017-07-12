@@ -187,7 +187,7 @@ while (true) {
 
 	//choosing direction to turn by sides comparison
 	int sum_l, sum_r;
-	int border=45;
+	int border=50;
 	Range dir_area_l(border, preview_size.width*0.5);
 	Range dir_area_r(preview_size.width*0.5, preview_size.width - border);
 	Range dir_area_h(preview_size.height*0.3, preview_size.height*0.9);
@@ -264,18 +264,18 @@ while (true) {
 				printf("skrecam w prawo");
 				led_on(1);
 				led_on(0);
-				set_speed(40);
+				set_speed(80);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(0);
 				led_on(1);
-				set_speed(40);
+				set_speed(80);
 				left_rot();
 				break;
 			case 'w':
-				set_speed(40);
+				set_speed(80);
 				right_rot();
 				break;
 			}
