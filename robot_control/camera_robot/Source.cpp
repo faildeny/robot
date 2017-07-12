@@ -319,7 +319,7 @@ while (true) {
 		}
 		else
 		{
-			cmd[2] = (direction < -10) ? 'a' : 'd';
+			cmd[2] = (direction < -10) ? 'w' : 'w';
 		}
 		break;
 
