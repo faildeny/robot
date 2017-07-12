@@ -73,8 +73,8 @@ if (!face_cascade.load(face_cascade_name)) { printf("classifier cannot be loaded
 
 //StereoBM::StereoMatcher;
 namedWindow("okno");
-int numdis = 4; //7
-int wsize = 7; //6
+int numdis = 1; //7
+int wsize = 5; //6
 int prefilter = 31;
 int texturet = 10;
 int speckleSize = 200;
@@ -82,7 +82,7 @@ int unique = 5;
 int dispmax = 1;
 int roiw1 = 100;
 int roiw2 = 200;
-int ratio = 80; //90
+int ratio = 60; //90
 int offset = 135; //125
 int exposure = 5;
 createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
