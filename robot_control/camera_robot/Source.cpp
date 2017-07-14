@@ -136,19 +136,20 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 	frame_detect = frame;
-	detectAndDisplay(frame_detect, target);
-
-	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
+	//detectAndDisplay(frame_detect, target);
+	
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
-	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
+	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
+	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
+	
 
 	imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
 	imshow("Diff", difference);
 
-	numberOfDisparities = numdis * 16;
+	numberOfDisparities = numdis * 8;
 	SADWindowSize = wsize * 2 + 1;
 
 	bm->setROI1(roi1);

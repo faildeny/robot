@@ -10,7 +10,7 @@ using namespace cv;
 
 void detectAndDisplay(Mat frame);
 
-String face_cascade_name = "haarcascade_frontalface_alt.xml";
+String face_cascade_name = "cascade.xml";
 String eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
@@ -60,7 +60,7 @@ void detectAndDisplay(Mat frame)
 	cvtColor(frame, frame_gray, CV_BGR2GRAY);
 	equalizeHist(frame_gray, frame_gray);
 
-	face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
+	face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0, Size(30, 30));
 	for (int i = 0; i < faces.size(); i++)
 	{
 		Point center(faces[i].x + faces[i].width*0.5, faces[i].y + faces[i].height*0.5);
