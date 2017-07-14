@@ -149,7 +149,7 @@ while (true) {
 	Mat difference = frame - frame2;
 	imshow("Diff", difference);
 
-	numberOfDisparities = numdis * 8;
+	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
 
 	bm->setROI1(roi1);
