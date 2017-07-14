@@ -105,8 +105,6 @@ Ptr<StereoBM> bm = StereoBM::create(16, 9);
 
 int SADWindowSize = 15;
 int numberOfDisparities = 64;
-Rect roi1(1, 1, 1000, 1000);
-Rect roi2(1, 1, roiw2, roiw2);
 
 //Initialize robot
 
@@ -152,8 +150,7 @@ while (true) {
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
 
-	bm->setROI1(roi1);
-	bm->setROI2(roi2);
+	
 	bm->setPreFilterCap(prefilter); //31
 	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
 	bm->setMinDisparity(0);
@@ -334,7 +331,7 @@ while (true) {
 
 	////////////////////////////////
 
-	int iKey = waitKey(20);
+	int iKey = waitKey(1);
 	if (iKey == 27)
 	{
 		break;
