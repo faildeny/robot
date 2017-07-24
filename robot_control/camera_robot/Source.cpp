@@ -177,17 +177,18 @@ while (true) {
 	//detectAndDisplay(frame_detect, target);
 	
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
-	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
+	
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
-	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
 	
 	remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 	remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 
+	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
 	imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
-	imshow("Diff", difference);
+	//imshow("Diff", difference);
 
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
