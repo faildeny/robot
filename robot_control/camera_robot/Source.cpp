@@ -149,8 +149,10 @@ printf("CM1: %d x %d \n", CM1.data[0], D1.data[0]);
 initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
 initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
 
-printf("map1x size: %d x %d dims: %d area: %d \n", map1x.cols, map1x.rows,map1x.dims,map1x.size().area());
-printf("map1y size: %d x %d dims: %d \n", map1y.cols, map1y.rows, map1y.dims);
+printf("map1x size: %d x %d dims: %d area: %d \n", map1x.cols, map1x.rows, map1x.dims, map1x.size().area());
+printf("map1y size: %d x %d dims: %d area: %d \n", map1y.cols, map1y.rows, map1y.dims, map1y.size().area());
+printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x.dims, map2x.size().area());
+printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
 
 //Initialize robot
 
