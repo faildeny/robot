@@ -141,7 +141,8 @@ printf("Done Calibration\n");
 printf("D1: %d", D1.cols);
 printf("Starting Rectification\n");
 
-
+printf("frame size: %d x %d \n",frame.cols, frame.rows);
+printf("CM1: %d x %d \n", CM1.data[0], D1.data[0]);
 
 initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
 initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
