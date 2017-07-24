@@ -232,7 +232,11 @@ while (true) {
 	
 	Range area_h(preview_size.height/2-preview_size.height / 4, preview_size.height/2+preview_size.height/4);
 	Range area_w(preview_size.width / 2 - preview_size.width / 4, preview_size.width / 2 + preview_size.width / 4);
-	minMaxLoc(preview(area_h, area_w),&min,&max);
+	disp.convertTo(disp, CV_32FC1);
+	minMaxLoc(preview(area_h, area_w), &min, &max);
+	//float d = disp.at<float>(punkt);
+	double dystans =5.0 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / max*16.f;
+	max = dystans;
 	ss << max;
 	String text = ss.str();
 
