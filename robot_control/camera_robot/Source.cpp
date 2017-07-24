@@ -180,8 +180,8 @@ while (true) {
 	
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 	
-	remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-	remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+	//remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+	//remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 
 	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
