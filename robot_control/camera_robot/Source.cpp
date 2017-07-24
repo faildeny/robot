@@ -218,7 +218,7 @@ while (true) {
 
 	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
 
-	resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
+	//resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
 	Mat preview;
 	//distance from central area
 
@@ -364,7 +364,7 @@ while (true) {
 
 	//dst = us_dist(15);
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
-	cmd[1] = (max < 170 && max > 0) ? 'w' : 'r';
+	cmd[1] = (max > 0.3 && max < 10) ? 'w' : 'r';
 	switch (cmd[1])
 	{
 	case 'w':
