@@ -106,6 +106,46 @@ Ptr<StereoBM> bm = StereoBM::create(16, 9);
 int SADWindowSize = 15;
 int numberOfDisparities = 64;
 
+// Camera transforamtion matrices
+
+Mat CM1 = Mat(3, 3, CV_64FC1);
+Mat CM2 = Mat(3, 3, CV_64FC1);
+Mat D1, D2;
+Mat R, T, E, F;
+Mat R1, R2, P1, P2, Q;
+Mat map1x, map1y, map2x, map2y;
+Mat imgU1, imgU2;
+
+FileStorage fs1("extrinsics.yml", FileStorage::READ);
+if (!fs1.isOpened())
+{
+	cout << "Failed to open " << endl;
+	return 1;
+}
+
+fs1["M1"] >> CM1;
+fs1["M2"] >> CM2;
+fs1["D1"] >> D1;
+fs1["D2"] >> D2;
+fs1["R"] >> R;
+fs1["T"] >> T;
+fs1["E"] >> E;
+fs1["F"] >> F;
+fs1["R1"] >> R1;
+fs1["R2"] >> R2;
+fs1["P1"] >> P1;
+fs1["P2"] >> P2;
+fs1["Q"] >> Q;
+
+printf("Done Calibration\n");
+printf("D1: %d", D1.cols);
+printf("Starting Rectification\n");
+
+
+
+initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
+initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
+
 //Initialize robot
 
 if (init() == -1) {
@@ -141,6 +181,8 @@ while (true) {
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
 	
+	remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+	remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 
 	imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
