@@ -77,7 +77,7 @@ cap2.retrieve(frame2);
 
 //StereoBM::StereoMatcher;
 namedWindow("okno");
-int numdis = 1; //7
+int numdis = 2; //7
 int wsize = 5; //6
 int prefilter = 31;
 int texturet = 10;
@@ -235,7 +235,7 @@ while (true) {
 	disp.convertTo(disp, CV_32FC1);
 	minMaxLoc(preview(area_h, area_w), &min, &max);
 	//float d = disp.at<float>(punkt);
-	double dystans =5.0 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / max*16.f;
+	double dystans =0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / max*16.f;
 	max = dystans;
 	ss << max;
 	String text = ss.str();
