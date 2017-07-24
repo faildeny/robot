@@ -225,13 +225,13 @@ while (true) {
 	double min, max;
 	ostringstream ss;
 	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
-	Size preview_size = preview.size();
+	Size disp_size = disp.size();
 
-	Rect area_rect(preview_size.width / 2 - preview_size.width / 4, preview_size.height / 2 - preview_size.height / 4, preview_size.width / 2, preview_size.height / 2);
+	Rect area_rect(disp_size.width / 2 - disp_size.width / 4, disp_size.height / 2 - disp_size.height / 4, disp_size.width / 2, disp_size.height / 2);
 	
 	
-	Range area_h(preview_size.height/2-preview_size.height / 4, preview_size.height/2+preview_size.height/4);
-	Range area_w(preview_size.width / 2 - preview_size.width / 4, preview_size.width / 2 + preview_size.width / 4);
+	Range area_h(disp_size.height/2-disp_size.height / 4, disp_size.height/2+disp_size.height/4);
+	Range area_w(disp_size.width / 2 - disp_size.width / 4, disp_size.width / 2 + disp_size.width / 4);
 	disp.convertTo(disp, CV_32FC1);
 	minMaxLoc(disp(area_h, area_w), &min, &max);
 	//float d = disp.at<float>(punkt);
@@ -243,16 +243,16 @@ while (true) {
 	//choosing direction to turn by sides comparison
 	int sum_l, sum_r;
 	int border=50;
-	Range dir_area_l(border, preview_size.width*0.5);
-	Range dir_area_r(preview_size.width*0.5, preview_size.width - border);
-	Range dir_area_h(preview_size.height*0.3, preview_size.height*0.9);
-	Scalar sum_l_scalar = sum(disp(dir_area_h, dir_area_l));
-	sum_l = sum_l_scalar[0]/countNonZero(disp(dir_area_h, dir_area_l));
-	Scalar sum_r_scalar = sum(disp(dir_area_h, dir_area_r));
-	sum_r = sum_r_scalar[0] /countNonZero(disp(dir_area_h, dir_area_r));
+	Range dir_area_l(border, disp_size.width*0.5);
+	Range dir_area_r(disp_size.width*0.5, disp_size.width - border);
+	Range dir_area_h(disp_size.height*0.3, disp_size.height*0.9);
+	Scalar sum_l_scalar = sum(preview(dir_area_h, dir_area_l));
+	sum_l = sum_l_scalar[0]/countNonZero(preview(dir_area_h, dir_area_l));
+	Scalar sum_r_scalar = sum(preview(dir_area_h, dir_area_r));
+	sum_r = sum_r_scalar[0] /countNonZero(preview(dir_area_h, dir_area_r));
 
-	Rect left(border, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
-	Rect right(preview_size.width*0.5, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
+	Rect left(border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
+	Rect right(disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
 
 	applyColorMap(preview, preview, COLORMAP_JET);
 	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
