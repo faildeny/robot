@@ -72,6 +72,8 @@ if (!face_cascade.load(face_cascade_name)) { printf("classifier cannot be loaded
 
 cap.grab();
 cap.retrieve(frame);
+cap2.grab();
+cap2.retrieve(frame2);
 
 //StereoBM::StereoMatcher;
 namedWindow("okno");
