@@ -77,7 +77,7 @@ cap2.retrieve(frame2);
 
 //StereoBM::StereoMatcher;
 namedWindow("okno");
-int numdis = 2; //7
+int numdis = 3; //7
 int wsize = 5; //6
 int prefilter = 31;
 int texturet = 10;
@@ -233,7 +233,7 @@ while (true) {
 	Range area_h(preview_size.height/2-preview_size.height / 4, preview_size.height/2+preview_size.height/4);
 	Range area_w(preview_size.width / 2 - preview_size.width / 4, preview_size.width / 2 + preview_size.width / 4);
 	disp.convertTo(disp, CV_32FC1);
-	minMaxLoc(preview(area_h, area_w), &min, &max);
+	minMaxLoc(disp(area_h, area_w), &min, &max);
 	//float d = disp.at<float>(punkt);
 	double dystans =0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / max*16.f;
 	max = dystans;
@@ -246,10 +246,10 @@ while (true) {
 	Range dir_area_l(border, preview_size.width*0.5);
 	Range dir_area_r(preview_size.width*0.5, preview_size.width - border);
 	Range dir_area_h(preview_size.height*0.3, preview_size.height*0.9);
-	Scalar sum_l_scalar = sum(preview(dir_area_h, dir_area_l));
-	sum_l = sum_l_scalar[0]/countNonZero(preview(dir_area_h, dir_area_l));
-	Scalar sum_r_scalar = sum(preview(dir_area_h, dir_area_r));
-	sum_r = sum_r_scalar[0] /countNonZero(preview(dir_area_h, dir_area_r));
+	Scalar sum_l_scalar = sum(disp(dir_area_h, dir_area_l));
+	sum_l = sum_l_scalar[0]/countNonZero(disp(dir_area_h, dir_area_l));
+	Scalar sum_r_scalar = sum(disp(dir_area_h, dir_area_r));
+	sum_r = sum_r_scalar[0] /countNonZero(disp(dir_area_h, dir_area_r));
 
 	Rect left(border, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
 	Rect right(preview_size.width*0.5, preview_size.height*0.3, preview_size.width*0.5 - border, preview_size.height*0.6);
