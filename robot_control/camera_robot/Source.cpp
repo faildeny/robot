@@ -146,6 +146,8 @@ printf("Starting Rectification\n");
 initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
 initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
 
+printf("map1x size: %d x %d dims: %d \n", map1x.cols, map1x.rows,map1x.dims);
+
 //Initialize robot
 
 if (init() == -1) {
@@ -183,8 +185,8 @@ while (true) {
 	//remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 	//remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 
-	resize(frame, frame, Size(), 0.4, 0.4, INTER_AREA);
-	resize(frame2, frame2, Size(), 0.4, 0.4, INTER_AREA);
+	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
@@ -208,7 +210,7 @@ while (true) {
 
 	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
 
-	resize(disp8, disp8, Size(), 3, 3, INTER_LINEAR);
+	resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
 	Mat preview;
 	//distance from central area
 
