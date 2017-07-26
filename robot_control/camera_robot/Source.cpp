@@ -294,6 +294,9 @@ while (true) {
 	}
 	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
 	printf("dystans: %d\n", dst);
+// encoders
+	cout << "enc_read(0): " << enc_read(0) << " enc_read(1) " << enc_read(1) << endl;
+	cout << "read_enc_status(): " << read_enc_status() << endl;
 
 // keyboard button press
 
@@ -311,6 +314,9 @@ while (true) {
 	case 'w':
 		cmd[0] = 'w';
 		break;
+	case 'c':
+		cmd[0] = 'c';
+		break;
 	case 'i':
 		cmd[0] = 'i';
 		break;
@@ -326,7 +332,7 @@ while (true) {
 
 	}
 // robot movement 
-	if (i > 2000)
+	if (i > 1000)
 	{
 		cmd[0] = 'x';
 		stop();
