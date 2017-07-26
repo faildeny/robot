@@ -314,7 +314,7 @@ while (true) {
 	{
 		break;
 	}
-	if (iKey!=(-1))
+	if (iKey>0 && iKey<255)
 	cKey = (char)iKey;
 	cout << iKey;
 	/*switch (cKey)
