@@ -413,6 +413,8 @@ while (true) {
 		break;
 	case 'c':
 		stop();
+		led_off(0);
+		led_off(1);
 		exit(0);
 		break;
 	case 'i':
