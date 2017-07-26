@@ -168,6 +168,7 @@ cmd[1] = 'x';
 cmd[2] = 'd';
 set_speed(100);
 
+enc_tgt(1, 1, 18);
 int i = 0;
 int dst = 0;
 Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
