@@ -155,9 +155,9 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 	//print current command and distance
 
 	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
-	printf("distance: %d\n", dist);
+	printf("distance: %f direction: %d \n", dist,direction);
 	
 	// encoders
-	printf("enc_read(0): %d enc_read(1): %d \n", enc_read(0), enc_read(1));
-	printf("read_enc_status(): %d \n", read_enc_status());
+	//printf("enc_read(0): %d enc_read(1): %d \n", enc_read(0), enc_read(1));
+	//printf("read_enc_status(): %d \n", read_enc_status());
 }
