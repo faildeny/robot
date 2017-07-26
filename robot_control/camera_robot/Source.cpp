@@ -112,7 +112,7 @@ Ptr<StereoBM> bm = StereoBM::create(16, 9);
 int SADWindowSize = 15;
 int numberOfDisparities = 64;
 
-// Camera transforamtion matrices
+// Camera transformation matrices
 
 Mat CM1 = Mat(3, 3, CV_64FC1);
 Mat CM2 = Mat(3, 3, CV_64FC1);
@@ -176,6 +176,7 @@ RobotControl robot;
 //int dst = 0;
 Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
 int i = 0;
+char cKey = 'w';
 ///////
 
 while (true) {
