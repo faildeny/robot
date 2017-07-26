@@ -168,7 +168,7 @@ cmd[1] = 'x';
 cmd[2] = 'd';
 set_speed(100);
 
-enc_tgt(1, 1, 7);
+enc_tgt(1, 1, 10);
 int i = 0;
 int dst = 0;
 Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
@@ -275,7 +275,7 @@ while (true) {
 	//dst = us_dist(15);
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
 	cmd[1] = (max > 0.3 && max < 10) ? 'w' : 'r';
-	cmd[1] = (read_enc_status() == 1) ? 'w' : 'r';
+	cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
 	switch (cmd[1])
 	{
 	case 'w':
