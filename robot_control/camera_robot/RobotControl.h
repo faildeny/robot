@@ -10,7 +10,7 @@ class RobotControl
 public:
 	char cmd[3];
 	int i;
-	int dist;
+	double dist;
 public:
 	void move();
 	void decide(char key, int direction, double distance, int turn);

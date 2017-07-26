@@ -24,6 +24,7 @@ RNG rng(12345);
 void detectAndDisplay(Mat frame, Rect &target)
 {
 	std::vector<Rect> faces;
+	Rect none(frame.cols*0.5, frame.rows*0.5, 10, 10);
 	Mat frame_gray;
 
 	cvtColor(frame, frame_gray, CV_BGR2GRAY);
@@ -35,6 +36,9 @@ void detectAndDisplay(Mat frame, Rect &target)
 		rectangle(frame, faces[i], Scalar(0, 255, 200), 2, 8);
 		target = faces[0];
 	}
+	if (faces.size() == 0)
+		target = none;
+
 	imshow("oknno", frame);
 }
 
