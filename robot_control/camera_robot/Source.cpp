@@ -220,7 +220,9 @@ while (true) {
 
 	//resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
 	Mat preview;
-	//distance from central area
+
+
+//distance from central area
 
 	double min, max;
 	ostringstream ss;
@@ -240,7 +242,7 @@ while (true) {
 	ss << max;
 	String text = ss.str();
 
-	//choosing direction to turn by sides comparison
+//choosing direction to turn by sides comparison
 	int sum_l, sum_r;
 	int border=50;
 	Range dir_area_l(border, disp_size.width*0.5);
@@ -254,6 +256,8 @@ while (true) {
 	Rect left(border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
 	Rect right(disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
 
+//showing interface on the disparity image
+
 	applyColorMap(preview, preview, COLORMAP_JET);
 	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
 
@@ -262,9 +266,66 @@ while (true) {
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 	imshow("disparity", preview);
 
-	////////////////////////////////////
+// end of camera setup
 
+	
+//decisions list:
 	i++;
+	//dst = us_dist(15);
+	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
+	cmd[1] = (max > 0.3 && max < 10) ? 'w' : 'r';
+	switch (cmd[1])
+	{
+	case 'w':
+
+		if (direction < 10 && direction > -10) {
+			cmd[2] = 'w';
+		}
+		else
+		{
+			cmd[2] = (direction < -10) ? 'w' : 'w';
+		}
+		break;
+
+	case 'r':
+		cmd[2] = (sum_l < sum_r) ? 'a' : 'd';
+		printf("suma_l= %d suma_r= %d", sum_l, sum_r);
+		break;
+	}
+	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
+	printf("dystans: %d\n", dst);
+
+// keyboard button press
+
+	int iKey = waitKey(1);
+	if (iKey == 27)
+	{
+		break;
+	}
+	char cKey = (char)iKey;
+	switch (cKey)
+	{
+	case 'x':
+		cmd[0] = 'x';
+		break;
+	case 'w':
+		cmd[0] = 'w';
+		break;
+	case 'i':
+		cmd[0] = 'i';
+		break;
+	case 'j':
+		cmd[0] = 'j';
+		break;
+	case 'l':
+		cmd[0] = 'l';
+		break;
+	case 'k':
+		cmd[0] = 'k';
+		break;
+
+	}
+// robot movement 
 	if (i > 2000)
 	{
 		cmd[0] = 'x';
@@ -314,7 +375,7 @@ while (true) {
 		case 'r':
 			printf("za blisko ");
 			switch (cmd[2])
-			{	
+			{
 			case 'd':
 				printf("skrecam w prawo");
 				led_on(1);
@@ -342,6 +403,10 @@ while (true) {
 	case 'x':
 		stop();
 		break;
+	case 'c':
+		stop();
+		exit(0);
+		break;
 	case 'i':
 		set_speed(80);
 		fwd();
@@ -357,62 +422,6 @@ while (true) {
 	case 'k':
 		set_speed(60);
 		bwd();
-		break;
-
-	}
-	//decisions list:
-
-	//dst = us_dist(15);
-	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
-	cmd[1] = (max > 0.3 && max < 10) ? 'w' : 'r';
-	switch (cmd[1])
-	{
-	case 'w':
-
-		if (direction < 10 && direction > -10) {
-			cmd[2] = 'w';
-		}
-		else
-		{
-			cmd[2] = (direction < -10) ? 'w' : 'w';
-		}
-		break;
-
-	case 'r':
-		cmd[2] = (sum_l < sum_r) ? 'a' : 'd';
-		printf("suma_l= %d suma_r= %d", sum_l, sum_r);
-		break;
-	}
-	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
-	printf("dystans: %d\n", dst);
-
-	////////////////////////////////
-
-	int iKey = waitKey(1);
-	if (iKey == 27)
-	{
-		break;
-	}
-	char cKey = (char)iKey;
-	switch (cKey)
-	{
-	case 'x':
-		cmd[0] = 'x';
-		break;
-	case 'w':
-		cmd[0] = 'w';
-		break;
-	case 'i':
-		cmd[0] = 'i';
-		break;
-	case 'j':
-		cmd[0] = 'j';
-		break;
-	case 'l':
-		cmd[0] = 'l';
-		break;
-	case 'k':
-		cmd[0] = 'k';
 		break;
 
 	}

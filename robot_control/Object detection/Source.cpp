@@ -19,7 +19,7 @@ RNG rng(12345);
 
 int main(int argc, const char** argv)
 {
-	VideoCapture capture(0);
+	VideoCapture capture(1);
 	Mat frame;
 
 	if (!face_cascade.load(face_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
