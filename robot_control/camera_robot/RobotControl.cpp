@@ -14,7 +14,7 @@ RobotControl::RobotControl()
 	set_speed(100);
 	enc_tgt(1, 1, 10);
 	i = 0;
-	dst = 0;
+	dist = 0;
 }
 
 
@@ -155,7 +155,7 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 	//print current command and distance
 
 	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
-	printf("distance: %d\n", dst);
+	printf("distance: %d\n", dist);
 	
 	// encoders
 	printf("enc_read(0): %d enc_read(1): %d \n", enc_read(0), enc_read(1));
