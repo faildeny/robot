@@ -17,8 +17,8 @@ using namespace cv;
 using namespace std;
 
 
-String face_cascade_name = "haarcascade_frontalface_alt.xml";
-CascadeClassifier face_cascade;
+String object_cascade_name = "cascade.xml";
+CascadeClassifier object_cascade;
 RNG rng(12345);
 
 void detectAndDisplay(Mat frame, Rect &target)
@@ -29,7 +29,7 @@ void detectAndDisplay(Mat frame, Rect &target)
 	cvtColor(frame, frame_gray, CV_BGR2GRAY);
 	equalizeHist(frame_gray, frame_gray);
 
-	face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
+	object_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 	for (int i = 0; i < faces.size(); i++)
 	{
 		rectangle(frame, faces[i], Scalar(0, 255, 200), 2, 8);
@@ -70,7 +70,7 @@ if (!cap2.isOpened()) {
 }
 
 
-if (!face_cascade.load(face_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
+if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 cap.grab();
 cap.retrieve(frame);
@@ -161,23 +161,9 @@ printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y
 //Initialize robot
 RobotControl robot;
 
-//if (init() == -1) {
-//	exit(1);
-//}
-//
-//char cmd[3];
-//cmd[0] = 'w';
-//cmd[1] = 'x';
-//cmd[2] = 'd';
-//set_speed(100);
-//
-//enc_tgt(1, 1, 10);
-//int i = 0;
-//int dst = 0;
 Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
 int i = 0;
 char cKey = 'w';
-///////
 
 while (true) {
 
@@ -189,7 +175,7 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 	frame_detect = frame;
-	//detectAndDisplay(frame_detect, target);
+	
 	
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	
@@ -204,6 +190,8 @@ while (true) {
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
+
+	detectAndDisplay(frame, target);
 
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
@@ -275,37 +263,9 @@ while (true) {
 
 // end of camera setup
 
-	
-//decisions list:
 	i++;
 	//dst = us_dist(15);
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
-	
-//	cmd[1] = (distance > 0.3 && distance < 10) ? 'w' : 'r';
-//	cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
-//	switch (cmd[1])
-//	{
-//	case 'w':
-//
-//		if (direction < 10 && direction > -10) {
-//			cmd[2] = 'w';
-//		}
-//		else
-//		{
-//			cmd[2] = (direction < -10) ? 'w' : 'w';
-//		}
-//		break;
-//
-//	case 'r':
-//		cmd[2] = (sum_l < sum_r) ? 'a' : 'd';
-//		printf("suma_l= %d suma_r= %d", sum_l, sum_r);
-//		break;
-//	}
-//	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
-//	printf("dystans: %d\n", dst);
-//// encoders
-//	cout << "enc_read(0): " << enc_read(0) << " enc_read(1) " << enc_read(1) << endl;
-//	cout << "read_enc_status(): " << read_enc_status() << endl;
 
 // keyboard button press
 
@@ -317,135 +277,11 @@ while (true) {
 	if (iKey>0 && iKey<255)
 	cKey = (char)iKey;
 	cout << iKey;
-	/*switch (cKey)
-	{
-	case 'x':
-		cmd[0] = 'x';
-		break;
-	case 'w':
-		cmd[0] = 'w';
-		break;
-	case 'c':
-		cmd[0] = 'c';
-		break;
-	case 'i':
-		cmd[0] = 'i';
-		break;
-	case 'j':
-		cmd[0] = 'j';
-		break;
-	case 'l':
-		cmd[0] = 'l';
-		break;
-	case 'k':
-		cmd[0] = 'k';
-		break;
+// robot control
 
-	}*/
 	robot.decide(cKey, direction, distance, turn);
 	robot.move();
-// robot movement 
-	//if (i > 1000)
-	//{
-	//	cmd[0] = 'x';
-	//	stop();
-	//	led_off(0);
-	//	led_off(1);
-	//	exit(0);
-	//	break;
-	//}
 
-	//switch (cmd[0])
-	//{
-	//case 'w':
-
-	//	printf("mozna jechac: ");
-	//	switch (cmd[1])
-	//	{
-	//	case 'w':
-	//		switch (cmd[2])
-	//		{
-	//		case 'd':
-	//			printf("skrecam w prawo");
-	//			led_on(0);
-	//			led_off(1);
-	//			set_speed(40);
-	//			right_rot();
-	//			break;
-	//		case 'a':
-	//			printf("skrecam w lewo");
-	//			led_on(1);
-	//			led_off(0);
-	//			set_speed(40);
-	//			left_rot();
-	//			break;
-	//		case 'w':
-	//			printf("jade");
-	//			led_off(0);
-	//			led_off(1);
-	//			//motor1(1, 30);
-	//			//motor2
-	//			set_speed(60);
-	//			fwd();
-	//			break;
-	//		}
-	//		break;
-
-	//	case 'r':
-	//		printf("za blisko ");
-	//		switch (cmd[2])
-	//		{
-	//		case 'd':
-	//			printf("skrecam w prawo");
-	//			led_on(1);
-	//			led_on(0);
-	//			set_speed(40);
-	//			right_rot();
-	//			break;
-	//		case 'a':
-	//			printf("skrecam w lewo");
-	//			led_on(0);
-	//			led_on(1);
-	//			set_speed(40);
-	//			left_rot();
-	//			break;
-	//		case 'w':
-	//			set_speed(40);
-	//			right_rot();
-	//			break;
-	//		}
-	//		break;
-	//	}
-
-	//	break;
-
-	//case 'x':
-	//	stop();
-	//	break;
-	//case 'c':
-	//	stop();
-	//	led_off(0);
-	//	led_off(1);
-	//	exit(0);
-	//	break;
-	//case 'i':
-	//	set_speed(80);
-	//	fwd();
-	//	break;
-	//case 'j':
-	//	set_speed(80);
-	//	left_rot();
-	//	break;
-	//case 'l':
-	//	set_speed(80);
-	//	right_rot();
-	//	break;
-	//case 'k':
-	//	set_speed(60);
-	//	bwd();
-	//	break;
-
-	//}
 }
 return 0;
 }
