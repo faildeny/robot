@@ -11,6 +11,8 @@ extern "C" {
 #include "gopigo.h"
 }
 
+#include "RobotControl.h"
+
 using namespace cv;
 using namespace std;
 
@@ -157,22 +159,23 @@ printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x
 printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
 
 //Initialize robot
+RobotControl robot;
 
-if (init() == -1) {
-	exit(1);
-}
-
-char cmd[3];
-cmd[0] = 'w';
-cmd[1] = 'x';
-cmd[2] = 'd';
-set_speed(100);
-
-enc_tgt(1, 1, 10);
-int i = 0;
-int dst = 0;
+//if (init() == -1) {
+//	exit(1);
+//}
+//
+//char cmd[3];
+//cmd[0] = 'w';
+//cmd[1] = 'x';
+//cmd[2] = 'd';
+//set_speed(100);
+//
+//enc_tgt(1, 1, 10);
+//int i = 0;
+//int dst = 0;
 Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
-
+int i = 0;
 ///////
 
 while (true) {
@@ -238,13 +241,14 @@ while (true) {
 	disp.convertTo(disp, CV_32FC1);
 	minMaxLoc(disp(area_h, area_w), &min, &max);
 	//float d = disp.at<float>(punkt);
-	double dystans =0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / max*16.f;
-	max = dystans;
+	double distance =0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / max*16.f;
+	max = distance;
 	ss << max;
 	String text = ss.str();
 
 //choosing direction to turn by sides comparison
 	int sum_l, sum_r;
+	int turn;
 	int border=50;
 	Range dir_area_l(border, disp_size.width*0.5);
 	Range dir_area_r(disp_size.width*0.5, disp_size.width - border);
@@ -253,6 +257,7 @@ while (true) {
 	sum_l = sum_l_scalar[0]/countNonZero(preview(dir_area_h, dir_area_l));
 	Scalar sum_r_scalar = sum(preview(dir_area_h, dir_area_r));
 	sum_r = sum_r_scalar[0] /countNonZero(preview(dir_area_h, dir_area_r));
+	turn = sum_l - sum_r;
 
 	Rect left(border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
 	Rect right(disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
@@ -274,31 +279,32 @@ while (true) {
 	i++;
 	//dst = us_dist(15);
 	int direction = target.x + target.width*0.5 - frame_size.width*0.5;
-	cmd[1] = (max > 0.3 && max < 10) ? 'w' : 'r';
-	cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
-	switch (cmd[1])
-	{
-	case 'w':
-
-		if (direction < 10 && direction > -10) {
-			cmd[2] = 'w';
-		}
-		else
-		{
-			cmd[2] = (direction < -10) ? 'w' : 'w';
-		}
-		break;
-
-	case 'r':
-		cmd[2] = (sum_l < sum_r) ? 'a' : 'd';
-		printf("suma_l= %d suma_r= %d", sum_l, sum_r);
-		break;
-	}
-	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
-	printf("dystans: %d\n", dst);
-// encoders
-	cout << "enc_read(0): " << enc_read(0) << " enc_read(1) " << enc_read(1) << endl;
-	cout << "read_enc_status(): " << read_enc_status() << endl;
+	
+//	cmd[1] = (distance > 0.3 && distance < 10) ? 'w' : 'r';
+//	cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
+//	switch (cmd[1])
+//	{
+//	case 'w':
+//
+//		if (direction < 10 && direction > -10) {
+//			cmd[2] = 'w';
+//		}
+//		else
+//		{
+//			cmd[2] = (direction < -10) ? 'w' : 'w';
+//		}
+//		break;
+//
+//	case 'r':
+//		cmd[2] = (sum_l < sum_r) ? 'a' : 'd';
+//		printf("suma_l= %d suma_r= %d", sum_l, sum_r);
+//		break;
+//	}
+//	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1],cmd[2]);
+//	printf("dystans: %d\n", dst);
+//// encoders
+//	cout << "enc_read(0): " << enc_read(0) << " enc_read(1) " << enc_read(1) << endl;
+//	cout << "read_enc_status(): " << read_enc_status() << endl;
 
 // keyboard button press
 
@@ -308,7 +314,7 @@ while (true) {
 		break;
 	}
 	char cKey = (char)iKey;
-	switch (cKey)
+	/*switch (cKey)
 	{
 	case 'x':
 		cmd[0] = 'x';
@@ -332,109 +338,111 @@ while (true) {
 		cmd[0] = 'k';
 		break;
 
-	}
+	}*/
+	robot.decide(cKey, direction, distance, turn);
+	robot.move();
 // robot movement 
-	if (i > 1000)
-	{
-		cmd[0] = 'x';
-		stop();
-		led_off(0);
-		led_off(1);
-		exit(0);
-		break;
-	}
+	//if (i > 1000)
+	//{
+	//	cmd[0] = 'x';
+	//	stop();
+	//	led_off(0);
+	//	led_off(1);
+	//	exit(0);
+	//	break;
+	//}
 
-	switch (cmd[0])
-	{
-	case 'w':
+	//switch (cmd[0])
+	//{
+	//case 'w':
 
-		printf("mozna jechac: ");
-		switch (cmd[1])
-		{
-		case 'w':
-			switch (cmd[2])
-			{
-			case 'd':
-				printf("skrecam w prawo");
-				led_on(0);
-				led_off(1);
-				set_speed(40);
-				right_rot();
-				break;
-			case 'a':
-				printf("skrecam w lewo");
-				led_on(1);
-				led_off(0);
-				set_speed(40);
-				left_rot();
-				break;
-			case 'w':
-				printf("jade");
-				led_off(0);
-				led_off(1);
-				//motor1(1, 30);
-				//motor2
-				set_speed(60);
-				fwd();
-				break;
-			}
-			break;
+	//	printf("mozna jechac: ");
+	//	switch (cmd[1])
+	//	{
+	//	case 'w':
+	//		switch (cmd[2])
+	//		{
+	//		case 'd':
+	//			printf("skrecam w prawo");
+	//			led_on(0);
+	//			led_off(1);
+	//			set_speed(40);
+	//			right_rot();
+	//			break;
+	//		case 'a':
+	//			printf("skrecam w lewo");
+	//			led_on(1);
+	//			led_off(0);
+	//			set_speed(40);
+	//			left_rot();
+	//			break;
+	//		case 'w':
+	//			printf("jade");
+	//			led_off(0);
+	//			led_off(1);
+	//			//motor1(1, 30);
+	//			//motor2
+	//			set_speed(60);
+	//			fwd();
+	//			break;
+	//		}
+	//		break;
 
-		case 'r':
-			printf("za blisko ");
-			switch (cmd[2])
-			{
-			case 'd':
-				printf("skrecam w prawo");
-				led_on(1);
-				led_on(0);
-				set_speed(40);
-				right_rot();
-				break;
-			case 'a':
-				printf("skrecam w lewo");
-				led_on(0);
-				led_on(1);
-				set_speed(40);
-				left_rot();
-				break;
-			case 'w':
-				set_speed(40);
-				right_rot();
-				break;
-			}
-			break;
-		}
+	//	case 'r':
+	//		printf("za blisko ");
+	//		switch (cmd[2])
+	//		{
+	//		case 'd':
+	//			printf("skrecam w prawo");
+	//			led_on(1);
+	//			led_on(0);
+	//			set_speed(40);
+	//			right_rot();
+	//			break;
+	//		case 'a':
+	//			printf("skrecam w lewo");
+	//			led_on(0);
+	//			led_on(1);
+	//			set_speed(40);
+	//			left_rot();
+	//			break;
+	//		case 'w':
+	//			set_speed(40);
+	//			right_rot();
+	//			break;
+	//		}
+	//		break;
+	//	}
 
-		break;
+	//	break;
 
-	case 'x':
-		stop();
-		break;
-	case 'c':
-		stop();
-		led_off(0);
-		led_off(1);
-		exit(0);
-		break;
-	case 'i':
-		set_speed(80);
-		fwd();
-		break;
-	case 'j':
-		set_speed(80);
-		left_rot();
-		break;
-	case 'l':
-		set_speed(80);
-		right_rot();
-		break;
-	case 'k':
-		set_speed(60);
-		bwd();
-		break;
+	//case 'x':
+	//	stop();
+	//	break;
+	//case 'c':
+	//	stop();
+	//	led_off(0);
+	//	led_off(1);
+	//	exit(0);
+	//	break;
+	//case 'i':
+	//	set_speed(80);
+	//	fwd();
+	//	break;
+	//case 'j':
+	//	set_speed(80);
+	//	left_rot();
+	//	break;
+	//case 'l':
+	//	set_speed(80);
+	//	right_rot();
+	//	break;
+	//case 'k':
+	//	set_speed(60);
+	//	bwd();
+	//	break;
 
-	}
+	//}
 }
 return 0;
 }

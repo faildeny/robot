@@ -19,7 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RobotControl.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RobotControl.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{10598b0d-beff-416f-810f-290a88801a6b}</ProjectGuid>
