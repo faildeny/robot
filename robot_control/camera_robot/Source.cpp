@@ -180,7 +180,7 @@ while (true) {
 	cap2.retrieve(frame2);
 	frame_detect = frame;
 	
-	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
