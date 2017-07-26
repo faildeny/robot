@@ -314,7 +314,9 @@ while (true) {
 	{
 		break;
 	}
-	char cKey = (char)iKey;
+	if (iKey!=(-1))
+	cKey = (char)iKey;
+	cout << iKey;
 	/*switch (cKey)
 	{
 	case 'x':
