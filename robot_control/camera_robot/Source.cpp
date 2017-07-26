@@ -176,9 +176,9 @@ while (true) {
 	cap2.retrieve(frame2);
 	frame_detect = frame;
 	
-	
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
-	
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 	
 	remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
@@ -191,7 +191,7 @@ while (true) {
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
 
-	detectAndDisplay(frame, target);
+	detectAndDisplay(frame_detect, target);
 
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
