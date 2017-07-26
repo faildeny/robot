@@ -30,7 +30,7 @@ void detectAndDisplay(Mat frame, Rect &target)
 	cvtColor(frame, frame_gray, CV_BGR2GRAY);
 	equalizeHist(frame_gray, frame_gray);
 
-	object_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
+	object_cascade.detectMultiScale(frame_gray, faces, 0.2, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 	for (int i = 0; i < faces.size(); i++)
 	{
 		rectangle(frame, faces[i], Scalar(0, 255, 200), 2, 8);
@@ -180,7 +180,7 @@ while (true) {
 	cap2.retrieve(frame2);
 	frame_detect = frame;
 	
-	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
