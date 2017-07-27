@@ -167,14 +167,18 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 int RobotControl::turn() {
 	if (!busy) {
 		enc_tgt(1, 1, 20);
-		cmd[2] = 'd';
 		busy = true;
+		printf("skrecac w prawo");
 	}
+
+	cmd[2] = 'd';
 
 	if (!read_enc_status())
 	{
 		busy = false;
 		return 1;
+		printf("skrecilem w prawo");
+
 	}
 	return 0;
 }
@@ -182,9 +186,10 @@ int RobotControl::turn() {
 int RobotControl::forward() {
 	if (!busy) {
 		enc_tgt(1, 1, 40);
-		cmd[2] = 'w';
 		busy = true;
 	}
+
+	cmd[2] = 'w';
 
 	if (!read_enc_status())
 	{
