@@ -284,7 +284,7 @@ while (true) {
 // robot control
 
 	robot.decide(cKey, direction, distance, turn);
-	robot.headTo(direction);
+	//robot.headTo(direction);
 	//robot.square();
 	robot.showStatus();
 	robot.move();
