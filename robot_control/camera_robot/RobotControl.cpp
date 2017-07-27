@@ -64,7 +64,8 @@ void RobotControl::move() {
 				led_off(0);
 				led_off(1);
 				set_speed(speed.forward);
-				fwd();
+				//fwd();
+				stop();
 				break;
 			}
 			break;

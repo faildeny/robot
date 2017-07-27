@@ -11,7 +11,7 @@ using namespace cv;
 void detectAndDisplay(Mat frame);
 
 String face_cascade_name = "cascade.xml";
-String eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
+//String eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
 string window_name = "Capture - Rozpoznanie twarzy";
@@ -23,7 +23,7 @@ int main(int argc, const char** argv)
 	Mat frame;
 
 	if (!face_cascade.load(face_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
-	if (!eyes_cascade.load(eyes_cascade_name)) { printf("classifier eyes cannon be loaded \n"); return -1; }
+	//if (!eyes_cascade.load(eyes_cascade_name)) { printf("classifier eyes cannon be loaded \n"); return -1; }
 
 	if (capture.isOpened())
 	{
@@ -68,13 +68,13 @@ void detectAndDisplay(Mat frame)
 		rectangle(frame, faces[i], Scalar(0, 255, 200), 2, 8);
 		
 		Mat faceROI = frame_gray(faces[i]);
-		std::vector<Rect> eyes;
+		//std::vector<Rect> eyes;
 		//eyes_cascade.detectMultiScale(frame, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 
-		for (int j = 0; j < eyes.size(); j++)
-		{
-			rectangle(frame, eyes[j], Scalar(255, 0, 200), 2, 8);
-		}
+		//for (int j = 0; j < eyes.size(); j++)
+		//{
+		//	rectangle(frame, eyes[j], Scalar(255, 0, 200), 2, 8);
+		//}
 	}
 	imshow("oknno", frame);
 }
