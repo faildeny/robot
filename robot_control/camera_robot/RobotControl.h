@@ -10,7 +10,7 @@ class RobotControl
 public:
 	char cmd[3];
 	int i;
-	int status;
+	int step;
 	double dist;
 	int dir;
 	bool busy;

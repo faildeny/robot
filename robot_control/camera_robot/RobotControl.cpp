@@ -15,7 +15,7 @@ RobotControl::RobotControl(int speed_value)
 	speed.rotate = speed_value;
 	enc_tgt(1, 1, 10);
 	i = 0;
-	status = 0;
+	step = 0;
 	dist = 0;
 	dir = 0;
 	busy = false;
@@ -165,12 +165,13 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 
 int RobotControl::turn() {
 	if (!busy) {
-		enc_tgt(1, 1, 7);
+		enc_tgt(1, 1, 6);
 		busy = true;
-		printf("skrecac w prawo");
+		
 	}
 
 	cmd[2] = 'd';
+	printf("skrecac w prawo");
 
 	if (!read_enc_status())
 	{
@@ -200,24 +201,40 @@ int RobotControl::forward() {
 
 void RobotControl::square() {
 
-	switch (status) {
+	switch (step) {
 		case 0:
-			if (forward()) status = 1;
+			if (forward()) step++;
 			break;
 
 		case 1:
-			if (turn()) status= 2;
+			if (turn()) step++;
 			break;
 
 		case 2:
-			if (forward()) status = 3;
+			if (forward()) step++;
 			break;
 
 		case 3:
-			if (turn()) status = 4;
+			if (turn()) step++;
+			break;
+		
+		case 4:
+			if (forward()) step++;
 			break;
 
-		case 4:
+		case 5:
+			if (turn()) step++;
+			break;
+
+		case 6:
+			if (forward()) step++;
+			break;
+
+		case 7:
+			if (turn()) step++;
+			break;
+
+		case 8:
 			printf("Order has been completed! \n");
 			break;
 	}
