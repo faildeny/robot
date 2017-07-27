@@ -285,6 +285,7 @@ while (true) {
 
 	robot.decide(cKey, direction, distance, turn);
 	robot.square();
+	robot.showStatus();
 	robot.move();
 
 }

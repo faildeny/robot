@@ -16,9 +16,9 @@ RobotControl::RobotControl()
 	i = 0;
 	status = 0;
 	dist = 0;
+	dir = 0;
 	busy = false;
 }
-
 
 RobotControl::~RobotControl()
 {
@@ -133,6 +133,7 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 	i++;
 	cmd[0] = key;
 	dist= distance;
+	dir = direction;
 
 	cmd[1] = (distance > 0.3 && distance < 10) ? 'w' : 'r';
 	//cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
@@ -156,8 +157,7 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 	}
 	//print current command and distance
 
-	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
-	printf("distance: %f direction: %d \n", dist,direction);
+	
 	
 	// encoders
 	//printf("enc_read(0): %d enc_read(1): %d \n", enc_read(0), enc_read(1));
@@ -217,4 +217,9 @@ void RobotControl::square() {
 			printf("Order has been completed! \n");
 			break;
 	}
+}
+
+void RobotControl::showStatus() {
+	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
+	printf("distance: %f direction: %d \n", dist, dir);
 }

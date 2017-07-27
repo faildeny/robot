@@ -12,6 +12,7 @@ public:
 	int i;
 	int status;
 	double dist;
+	int dir;
 	bool busy;
 public:
 	void move();
@@ -19,6 +20,7 @@ public:
 	int turn();
 	int forward();
 	void square();
+	void showStatus();
 	RobotControl();
 	~RobotControl();
 };
