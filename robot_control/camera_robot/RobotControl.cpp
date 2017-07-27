@@ -146,7 +146,7 @@ void RobotControl::decide(char key, double direction, double distance, int turn)
 		}
 		else
 		{
-			//cmd[2] = (direction < -0.2) ? 'a' : 'd';
+			cmd[2] = (direction < -0.1) ? 'a' : 'd';
 			headTo(direction);
 		}
 		break;
