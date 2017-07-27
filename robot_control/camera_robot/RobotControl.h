@@ -12,7 +12,7 @@ public:
 	int i;
 	int step;
 	double dist;
-	int dir;
+	double dir;
 	bool busy;
 	struct RobotSpeed {
 		int rotate;
@@ -21,10 +21,11 @@ public:
 	RobotSpeed speed;
 public:
 	void move();
-	void decide(char key, int direction, double distance, int turn);
+	void decide(char key, double direction, double distance, int turn);
 	int turn();
 	int forward();
 	void square();
+	void headTo(double direction);
 	void showStatus();
 	RobotControl(int speed_value);
 	~RobotControl();

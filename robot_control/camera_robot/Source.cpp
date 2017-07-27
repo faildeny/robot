@@ -269,7 +269,7 @@ while (true) {
 
 	i++;
 	//dst = us_dist(15);
-	int direction = target.x + target.width*0.5 - frame_detect.cols*0.5;
+	double direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
 
 // keyboard button press
 
@@ -284,6 +284,7 @@ while (true) {
 // robot control
 
 	robot.decide(cKey, direction, distance, turn);
+	robot.headTo(direction);
 	//robot.square();
 	robot.showStatus();
 	robot.move();

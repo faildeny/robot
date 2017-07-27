@@ -128,7 +128,7 @@ void RobotControl::move() {
 
 }
 
-void RobotControl::decide(char key, int direction, double distance, int turn) {
+void RobotControl::decide(char key, double direction, double distance, int turn) {
 
 	i++;
 	cmd[0] = key;
@@ -141,12 +141,12 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 	{
 	case 'w':
 
-		if (direction < 10 && direction > -10) {
+		if (direction < 0.2 && direction > -0.2) {
 			cmd[2] = 'w';
 		}
 		else
 		{
-			cmd[2] = (direction < -10) ? 'a' : 'd';
+			cmd[2] = (direction < -0.2) ? 'a' : 'd';
 		}
 		break;
 
@@ -238,6 +238,31 @@ void RobotControl::square() {
 		case 8:
 			printf("Order has been completed! \n");
 			break;
+	}
+}
+
+void RobotControl::headTo(double direction) {
+	if (!busy) {
+		enc_tgt(1, 1, int(3.0*direction));
+		busy = true;
+		printf("planowany skok enkodera: %d \n", int(3.0*direction));
+	}
+	set_speed(speed.rotate);
+	while (busy) {
+		printf("ustawiam sie! \n");
+
+		switch (cmd[2]) {
+		case 'a':
+			left_rot();
+			break;
+		case 'd':
+			right_rot();
+			break;
+		}
+
+		if (!read_enc_status()) {
+			busy = false;
+		}
 	}
 }
 
