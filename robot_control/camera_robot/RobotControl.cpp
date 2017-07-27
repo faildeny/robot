@@ -165,7 +165,7 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 
 int RobotControl::turn() {
 	if (!busy) {
-		enc_tgt(1, 1, 6);
+		enc_tgt(1, 1, 8);
 		busy = true;
 		
 	}
@@ -185,7 +185,7 @@ int RobotControl::turn() {
 
 int RobotControl::forward() {
 	if (!busy) {
-		enc_tgt(1, 1, 20);
+		enc_tgt(1, 1, 16);
 		busy = true;
 	}
 
