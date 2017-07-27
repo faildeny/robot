@@ -14,6 +14,11 @@ public:
 	double dist;
 	int dir;
 	bool busy;
+	struct RobotSpeed {
+		int rotate;
+		int forward;
+	};
+	RobotSpeed speed;
 public:
 	void move();
 	void decide(char key, int direction, double distance, int turn);
@@ -21,7 +26,7 @@ public:
 	int forward();
 	void square();
 	void showStatus();
-	RobotControl();
+	RobotControl(int speed_value);
 	~RobotControl();
 };
 

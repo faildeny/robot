@@ -2,7 +2,7 @@
 
 
 
-RobotControl::RobotControl()
+RobotControl::RobotControl(int speed_value)
 {
 	if (init() == -1) {
 		exit(1);
@@ -11,7 +11,8 @@ RobotControl::RobotControl()
 	cmd[0] = 'w';
 	cmd[1] = 'x';
 	cmd[2] = 'd';
-	set_speed(100);
+	speed.forward = speed_value;
+	speed.rotate = speed_value;
 	enc_tgt(1, 1, 10);
 	i = 0;
 	status = 0;
@@ -48,23 +49,21 @@ void RobotControl::move() {
 				printf("skrecam w prawo");
 				led_on(0);
 				led_off(1);
-				set_speed(40);
+				set_speed(speed.rotate);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(1);
 				led_off(0);
-				set_speed(40);
+				set_speed(speed.rotate);
 				left_rot();
 				break;
 			case 'w':
 				printf("jade");
 				led_off(0);
 				led_off(1);
-				//motor1(1, 30);
-				//motor2
-				set_speed(60);
+				set_speed(speed.forward);
 				fwd();
 				break;
 			}
@@ -78,18 +77,18 @@ void RobotControl::move() {
 				printf("skrecam w prawo");
 				led_on(1);
 				led_on(0);
-				set_speed(40);
+				set_speed(speed.rotate);
 				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(0);
 				led_on(1);
-				set_speed(40);
+				set_speed(speed.rotate);
 				left_rot();
 				break;
 			case 'w':
-				set_speed(40);
+				set_speed(speed.rotate);
 				right_rot();
 				break;
 			}
@@ -166,7 +165,7 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 
 int RobotControl::turn() {
 	if (!busy) {
-		enc_tgt(1, 1, 20);
+		enc_tgt(1, 1, 7);
 		busy = true;
 		printf("skrecac w prawo");
 	}
@@ -185,7 +184,7 @@ int RobotControl::turn() {
 
 int RobotControl::forward() {
 	if (!busy) {
-		enc_tgt(1, 1, 40);
+		enc_tgt(1, 1, 20);
 		busy = true;
 	}
 
