@@ -146,7 +146,8 @@ void RobotControl::decide(char key, double direction, double distance, int turn)
 		}
 		else
 		{
-			cmd[2] = (direction < -0.2) ? 'a' : 'd';
+			//cmd[2] = (direction < -0.2) ? 'a' : 'd';
+			headTo(direction);
 		}
 		break;
 
@@ -268,5 +269,5 @@ void RobotControl::headTo(double direction) {
 
 void RobotControl::showStatus() {
 	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
-	printf("distance: %f direction: %d \n", dist, dir);
+	printf("distance: %f direction: %f \n", dist, dir);
 }
