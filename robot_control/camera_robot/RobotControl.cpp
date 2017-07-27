@@ -244,9 +244,9 @@ void RobotControl::square() {
 
 void RobotControl::headTo(double direction) {
 	if (!busy) {
-		enc_tgt(1, 1, int(3.0*direction));
+		enc_tgt(1, 1, int(4.0*direction));
 		busy = true;
-		printf("planowany skok enkodera: %d \n", int(3.0*direction));
+		printf("planowany skok enkodera: %d \n", int(4.0*direction));
 	}
 	set_speed(speed.rotate);
 	while (busy) {
