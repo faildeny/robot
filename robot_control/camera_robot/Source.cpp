@@ -283,7 +283,7 @@ while (true) {
 	cout << iKey;
 // robot control
 
-	robot.decide(cKey, direction, distance, turn);
+	robot.decide(cKey, direction, 1, turn);
 	robot.square();
 	robot.showStatus();
 	robot.move();
