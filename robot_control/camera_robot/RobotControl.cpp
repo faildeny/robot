@@ -250,14 +250,14 @@ void RobotControl::headTo(double direction) {
 	}
 	set_speed(speed.rotate);
 	while (busy) {
-		printf("ustawiam sie! \n");
+		printf("ustawiam sie! %d \n",cmd[2]);
 
 		switch (cmd[2]) {
 		case 'a':
 			left_rot();
 			printf("jade w lewo \n");
-			//break;
-		case 'd':
+			break;
+		default:
 			right_rot();
 			printf("jade w prawo \n");
 			break;
