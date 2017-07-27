@@ -14,7 +14,9 @@ RobotControl::RobotControl()
 	set_speed(100);
 	enc_tgt(1, 1, 10);
 	i = 0;
+	status = 0;
 	dist = 0;
+	busy = false;
 }
 
 
@@ -160,4 +162,59 @@ void RobotControl::decide(char key, int direction, double distance, int turn) {
 	// encoders
 	//printf("enc_read(0): %d enc_read(1): %d \n", enc_read(0), enc_read(1));
 	//printf("read_enc_status(): %d \n", read_enc_status());
+}
+
+int RobotControl::turn() {
+	if (!busy) {
+		enc_tgt(1, 1, 20);
+		cmd[2] = 'd';
+		busy = true;
+	}
+
+	if (!read_enc_status())
+	{
+		busy = false;
+		return 1;
+	}
+	return 0;
+}
+
+int RobotControl::forward() {
+	if (!busy) {
+		enc_tgt(1, 1, 40);
+		cmd[2] = 'w';
+		busy = true;
+	}
+
+	if (!read_enc_status())
+	{
+		busy = false;
+		return 1;
+	}
+	return 0;
+}
+
+void RobotControl::square() {
+
+	switch (status) {
+		case 0:
+			if (forward()) status = 1;
+			break;
+
+		case 1:
+			if (turn()) status= 2;
+			break;
+
+		case 2:
+			if (forward()) status = 3;
+			break;
+
+		case 3:
+			if (turn()) status = 4;
+			break;
+
+		case 4:
+			printf("Order has been completed! \n");
+			break;
+	}
 }
