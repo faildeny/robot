@@ -141,7 +141,7 @@ void RobotControl::decide(char key, double direction, double distance, int turn)
 	{
 	case 'w':
 
-		if (direction < 0.2 && direction > -0.2) {
+		if (direction < 0.1 && direction > -0.1) {
 			cmd[2] = 'w';
 		}
 		else
