@@ -243,31 +243,34 @@ void RobotControl::square() {
 }
 
 void RobotControl::headTo(double direction) {
-	if (!busy) {
-		enc_tgt(1, 1, 1);
-		busy = true;
+	//if (!busy) {
+		//enc_tgt(1, 1, 1);
+	//	busy = true;
 		printf("planowany skok enkodera: 1 moglo byc: %d \n", 1+int(4.0*direction));
-	}
-	set_speed(speed.rotate);
-	while (busy) {
-		printf("ustawiam sie! %d \n",cmd[2]);
 
+	printf("ustawiam sie! %d \n", cmd[2]);
+	set_speed(speed.rotate);
+	
 		switch (cmd[2]) {
 		case 'a':
-			left_rot();
+			enc_tgt(1, 0, 1);
+			//left_rot();
+			left();
 			printf("jade w lewo \n");
 			break;
 		case 'd':
-			right_rot();
+			enc_tgt(0, 1, 1);
+			//right_rot();
+			right();
 			printf("jade w prawo \n");
 			break;
 		}
 
-
-		if (!read_enc_status()) {
-			busy = false;
+		while (!read_enc_status()) {
+		//if (!read_enc_status()) {
+		//	busy = false;
+		//}
 		}
-	}
 }
 
 void RobotControl::showStatus() {
