@@ -187,6 +187,16 @@ while (true) {
 	success2 = cap2.grab();
 	success = cap.grab();
 	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
 
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
