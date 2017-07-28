@@ -271,6 +271,7 @@ void RobotControl::headTo(double direction) {
 		//	busy = false;
 		//}
 		}
+		stop();
 }
 
 void RobotControl::showStatus() {
