@@ -179,7 +179,7 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 	frame_detect = frame;
-	printf("nowe obrazy");
+	printf("nowe obrazy \n");
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
@@ -283,11 +283,11 @@ while (true) {
 	cout << iKey;
 // robot control
 
-	robot.showStatus();
 	robot.decide(cKey, direction, distance, turn);
 	//robot.headTo(direction);
 	//robot.square();
 	robot.move();
+	robot.showStatus();
 
 }
 return 0;

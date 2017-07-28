@@ -265,11 +265,13 @@ void RobotControl::headTo(double direction) {
 			right();
 			break;
 		}
+		printf("enocder status: %d \n ", read_enc_status());
 		while (read_enc_status()) {
 		//if (!read_enc_status()) {
 		//	busy = false;
 		//}
 		}
+		printf("enocder status: %d \n ", read_enc_status());
 		stop();
 }
 
