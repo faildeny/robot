@@ -194,7 +194,7 @@ while (true) {
 
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	imshow("kamera 1", frame);
+	//imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
@@ -267,7 +267,7 @@ while (true) {
 	rectangle(preview, left, Scalar(255, 50, 50), 2, 8);
 	rectangle(preview, right, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
-	imshow("disparity", preview);
+	//imshow("disparity", preview);
 
 // end of camera setup
 
