@@ -182,7 +182,6 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 	frame_detect = frame;
-	imshow("time diff", previous - frame);
 	previous = frame;
 	printf("nowe obrazy \n");
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
@@ -200,7 +199,7 @@ while (true) {
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
 
-	detectAndDisplay(frame_detect, target);
+	//detectAndDisplay(frame_detect, target);
 
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
