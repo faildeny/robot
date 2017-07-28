@@ -254,13 +254,13 @@ void RobotControl::headTo(double direction) {
 		switch (cmd[2]) {
 		case 'a':
 			printf("jade w lewo \n");
-			enc_tgt(1, 0, 1);
+			enc_tgt(0, 1, 1);
 			//left_rot();
 			left();
 			break;
 		case 'd':
 			printf("jade w prawo \n");
-			enc_tgt(0, 1, 1);
+			enc_tgt(1, 0, 1);
 			//right_rot();
 			right();
 			break;
