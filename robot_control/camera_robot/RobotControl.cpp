@@ -67,6 +67,20 @@ void RobotControl::move() {
 				//fwd();
 				stop();
 				break;
+			case 'q':
+				printf("trim w lewo");
+				led_on(1);
+				led_off(0);
+				set_speed(speed.rotate);
+				left();
+				break;
+			case 'e':
+				printf("trim w prawo");
+				led_on(1);
+				led_off(0);
+				set_speed(speed.rotate);
+				right();
+				break;
 			}
 			break;
 
@@ -146,7 +160,7 @@ void RobotControl::decide(char key, double direction, double distance, int turn)
 		}
 		else
 		{
-			cmd[2] = (direction < -0.1) ? 'a' : 'd';
+			cmd[2] = (direction < -0.1) ? 'q' : 'e';
 			headTo(direction);
 		}
 		break;
@@ -252,13 +266,13 @@ void RobotControl::headTo(double direction) {
 	set_speed(speed.rotate);
 	
 		switch (cmd[2]) {
-		case 'a':
+		case 'q':
 			printf("jade w lewo \n");
 			enc_tgt(0, 1, 1);
 			//left_rot();
 			left();
 			break;
-		case 'd':
+		case 'e':
 			printf("jade w prawo \n");
 			enc_tgt(1, 0, 1);
 			//right_rot();
@@ -267,7 +281,7 @@ void RobotControl::headTo(double direction) {
 		}
 
 		while (read_enc_status()) {
-			printf("direction while turning: %f", direction);
+			printf("direction while turning: %f \n", direction);
 		//if (!read_enc_status()) {
 		//	busy = false;
 		//}
