@@ -253,20 +253,21 @@ void RobotControl::headTo(double direction) {
 	
 		switch (cmd[2]) {
 		case 'a':
+			printf("jade w lewo \n");
 			enc_tgt(1, 0, 1);
 			//left_rot();
 			left();
-			printf("jade w lewo \n");
 			break;
 		case 'd':
+			printf("jade w prawo \n");
 			enc_tgt(0, 1, 1);
 			//right_rot();
 			right();
-			printf("jade w prawo \n");
 			break;
 		}
 
 		while (!read_enc_status()) {
+			printf("direction while turning: %f", direction);
 		//if (!read_enc_status()) {
 		//	busy = false;
 		//}
