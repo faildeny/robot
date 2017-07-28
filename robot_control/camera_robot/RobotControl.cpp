@@ -281,7 +281,6 @@ void RobotControl::headTo(double direction) {
 		}
 
 		while (read_enc_status()) {
-			printf("direction while turning: %f \n", direction);
 		//if (!read_enc_status()) {
 		//	busy = false;
 		//}
