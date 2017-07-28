@@ -78,7 +78,9 @@ if (!cap2.isOpened()) {
 }
 
 Mat frame_detect;
-bool target_found = false;;
+bool target_found = false;
+double direction;
+double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 
@@ -287,7 +289,8 @@ while (true) {
 
 	i++;
 	//dst = us_dist(15);
-	double direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
+	direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
+	target_size = target.width / frame_detect.cols;
 
 // keyboard button press
 
@@ -302,7 +305,7 @@ while (true) {
 
 // robot control
 
-	robot.decide(cKey, direction, distance, turn);
+	robot.decide(cKey, direction, distance, turn,target_size);
 	//robot.headTo(direction);
 	if(!target_found) robot.square();
 	robot.move();

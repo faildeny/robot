@@ -94,6 +94,9 @@ void RobotControl::move() {
 				break;
 			}
 			break;
+		case 'x':
+			printf("I FOUND IT \n");
+			stop();
 		}
 
 		break;
@@ -128,14 +131,15 @@ void RobotControl::move() {
 
 }
 
-void RobotControl::decide(char key, double direction, double distance, int turn) {
+void RobotControl::decide(char key, double direction, double distance, int turn, double target_size) {
 
 	i++;
 	cmd[0] = key;
 	dist= distance;
 	dir = direction;
 
-	cmd[1] = (distance > 0.38 && distance < 10) ? 'w' : 'r';
+	cmd[1] = (distance > 0.35 && distance < 10) ? 'w' : 'r';
+	if (target_size > 0.3) cmd[1] = 'x';
 	//cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
 	switch (cmd[1])
 	{
@@ -155,6 +159,8 @@ void RobotControl::decide(char key, double direction, double distance, int turn)
 		cmd[2] = (turn < 0) ? 'a' : 'd';
 		printf("roznica wyboru kierunku: %d", turn);
 		break;
+	case 'x':
+
 	}
 	//print current command and distance
 

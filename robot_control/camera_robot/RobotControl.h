@@ -22,7 +22,7 @@ public:
 	RobotSpeed speed;
 public:
 	void move();
-	void decide(char key, double direction, double distance, int turn);
+	void decide(char key, double direction, double distance, int turn, double target_size);
 	int turn();
 	int forward();
 	void square();
