@@ -244,9 +244,9 @@ void RobotControl::square() {
 
 void RobotControl::headTo(double direction) {
 	if (!busy) {
-		enc_tgt(1, 1, 1+int(4.0*direction));
+		enc_tgt(1, 1, 1);
 		busy = true;
-		printf("planowany skok enkodera: %d \n", 1+int(4.0*direction));
+		printf("planowany skok enkodera: 1 moglo byc: %d \n", 1+int(4.0*direction));
 	}
 	set_speed(speed.rotate);
 	while (busy) {
@@ -257,7 +257,7 @@ void RobotControl::headTo(double direction) {
 			left_rot();
 			printf("jade w lewo \n");
 			break;
-		default:
+		case 'd':
 			right_rot();
 			printf("jade w prawo \n");
 			break;
