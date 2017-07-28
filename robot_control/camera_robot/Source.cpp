@@ -187,16 +187,6 @@ while (true) {
 	success2 = cap2.grab();
 	success = cap.grab();
 	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
 
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
@@ -213,12 +203,12 @@ while (true) {
 
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	imshow("kamera 1", frame);
+	//imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
 
-	//detectAndDisplay(frame_detect, target);
+	detectAndDisplay(frame_detect, target);
 
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
