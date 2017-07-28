@@ -163,7 +163,7 @@ printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x
 printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
 
 //Initialize robot
-RobotControl robot(80);
+RobotControl robot(60);
 
 Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
 int i = 0;
