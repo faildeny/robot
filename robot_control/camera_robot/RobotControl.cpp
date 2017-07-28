@@ -274,6 +274,6 @@ void RobotControl::headTo(double direction) {
 }
 
 void RobotControl::showStatus() {
-	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
+	printf(" i= %d previous command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
 	printf("distance: %f direction: %f \n \n", dist, dir);
 }
