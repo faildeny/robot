@@ -135,7 +135,7 @@ void RobotControl::decide(char key, double direction, double distance, int turn)
 	dist= distance;
 	dir = direction;
 
-	cmd[1] = (distance > 0.2 && distance < 10) ? 'w' : 'r';
+	cmd[1] = (distance > 0.38 && distance < 10) ? 'w' : 'r';
 	//cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
 	switch (cmd[1])
 	{
