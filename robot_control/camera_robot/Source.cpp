@@ -168,7 +168,7 @@ printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y
 //Initialize robot
 RobotControl robot(100);
 
-Rect target(frame_size.width*0.5,frame_size.height*0.5,10,10);
+Rect target(frame_size.width*0.5*0.2,frame_size.height*0.5,10,10);
 int i = 0;
 char cKey = 'w';
 
