@@ -271,7 +271,8 @@ void RobotControl::headTo(double direction) {
 		//}
 		}
 		stop();
-		pi_sleep(2000);
+		pi_sleep(5000);
+		printf("wyspalem sie");
 }
 
 void RobotControl::showStatus() {
