@@ -85,7 +85,7 @@ cap2.retrieve(frame2);
 previous = frame;
 
 //StereoBM::StereoMatcher;
-//namedWindow("okno");
+namedWindow("okno");
 int numdis = 3; //7
 int wsize = 5; //6
 int prefilter = 31;
@@ -98,18 +98,18 @@ int roiw2 = 200;
 int ratio = 60; //90
 int offset = 135; //125
 int exposure = 5;
-//createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
-//createTrackbar("Rozmiar okna", "okno", &wsize, 40);
-//createTrackbar("Prefilter", "okno", &prefilter, 100);
-//createTrackbar("Texture threshold", "okno", &texturet, 50);
-//createTrackbar("Speckle Window", "okno", &speckleSize, 500);
-//createTrackbar("Uniqueness ratio", "okno", &unique, 100);
-//createTrackbar("MinDisp", "okno", &dispmax, 10);
-//createTrackbar("ROI 1", "okno", &roiw1, 4000);
-//createTrackbar("ROI 2", "okno", &roiw2, 500);
-//createTrackbar("Skala", "okno", &ratio, 500);
-//createTrackbar("Przesuniecie", "okno", &offset, 400);
-//createTrackbar("Exposure", "okno", &exposure, 15);
+createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
+createTrackbar("Rozmiar okna", "okno", &wsize, 40);
+createTrackbar("Prefilter", "okno", &prefilter, 100);
+createTrackbar("Texture threshold", "okno", &texturet, 50);
+createTrackbar("Speckle Window", "okno", &speckleSize, 500);
+createTrackbar("Uniqueness ratio", "okno", &unique, 100);
+createTrackbar("MinDisp", "okno", &dispmax, 10);
+createTrackbar("ROI 1", "okno", &roiw1, 4000);
+createTrackbar("ROI 2", "okno", &roiw2, 500);
+createTrackbar("Skala", "okno", &ratio, 500);
+createTrackbar("Przesuniecie", "okno", &offset, 400);
+createTrackbar("Exposure", "okno", &exposure, 15);
 
 Mat disp = Mat::zeros(frame.size(), frame.type());
 Mat disp8;
@@ -194,7 +194,7 @@ while (true) {
 
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	//imshow("kamera 1", frame);
+	imshow("kamera 1", frame);
 	//imshow("kamera 2", frame2);
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
@@ -267,7 +267,7 @@ while (true) {
 	rectangle(preview, left, Scalar(255, 50, 50), 2, 8);
 	rectangle(preview, right, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
-	//imshow("disparity", preview);
+	imshow("disparity", preview);
 
 // end of camera setup
 
