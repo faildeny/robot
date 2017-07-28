@@ -63,9 +63,6 @@ cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
 cap2.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
 cap2.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
 
-cap.set(CV_CAP_PROP_BUFFERSIZE, 1);
-cap2.set(CV_CAP_PROP_BUFFERSIZE, 1);
-
 
 if (!cap.isOpened()) {
 	cout << "nie moge otworzyc kamery 1" << endl;
@@ -182,6 +179,15 @@ while (true) {
 
 	success = cap.grab();
 	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+	success = cap.grab();
+	success2 = cap2.grab();
+
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 	frame_detect = frame;
