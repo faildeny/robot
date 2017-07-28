@@ -270,9 +270,7 @@ void RobotControl::headTo(double direction) {
 		//	busy = false;
 		//}
 		}
-		//stop();
-		pi_sleep(5000);
-		printf("wyspalem sie");
+		stop();
 }
 
 void RobotControl::showStatus() {
