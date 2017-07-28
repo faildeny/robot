@@ -52,6 +52,7 @@ VideoCapture cap2(1);
 Mat frame;
 Mat frame2;
 Mat frame_detect;
+Mat previous;
 bool success;
 bool success2;
 
@@ -80,6 +81,8 @@ cap.grab();
 cap.retrieve(frame);
 cap2.grab();
 cap2.retrieve(frame2);
+
+previous = frame;
 
 //StereoBM::StereoMatcher;
 namedWindow("okno");
@@ -179,6 +182,8 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 	frame_detect = frame;
+	imshow("time diff", previous - frame);
+	previous = frame;
 	printf("nowe obrazy \n");
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
