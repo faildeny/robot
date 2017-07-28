@@ -67,20 +67,6 @@ void RobotControl::move() {
 				//fwd();
 				stop();
 				break;
-			case 'q':
-				printf("trim w lewo");
-				led_on(1);
-				led_off(0);
-				set_speed(speed.rotate);
-				left();
-				break;
-			case 'e':
-				printf("trim w prawo");
-				led_on(1);
-				led_off(0);
-				set_speed(speed.rotate);
-				right();
-				break;
 			}
 			break;
 
@@ -262,7 +248,7 @@ void RobotControl::headTo(double direction) {
 	//	busy = true;
 		printf("planowany skok enkodera: 1 moglo byc: %d \n", 1+int(4.0*direction));
 
-	printf("ustawiam sie! %d \n", cmd[2]);
+	printf("ustawiam sie! \n");
 	set_speed(speed.rotate);
 	
 		switch (cmd[2]) {
@@ -290,5 +276,5 @@ void RobotControl::headTo(double direction) {
 
 void RobotControl::showStatus() {
 	printf(" i= %d command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
-	printf("distance: %f direction: %f \n", dist, dir);
+	printf("distance: %f direction: %f \n \n", dist, dir);
 }
