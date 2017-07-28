@@ -305,7 +305,7 @@ while (true) {
 
 // robot control
 
-	robot.decide(cKey, direction, distance, turn,target_size);
+	robot.decide(cKey, direction, distance, turn, target_size);
 	//robot.headTo(direction);
 	if(!target_found) robot.square();
 	robot.move();
