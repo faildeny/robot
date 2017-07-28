@@ -85,7 +85,7 @@ cap2.retrieve(frame2);
 previous = frame;
 
 //StereoBM::StereoMatcher;
-namedWindow("okno");
+//namedWindow("okno");
 int numdis = 3; //7
 int wsize = 5; //6
 int prefilter = 31;
@@ -98,18 +98,18 @@ int roiw2 = 200;
 int ratio = 60; //90
 int offset = 135; //125
 int exposure = 5;
-createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
-createTrackbar("Rozmiar okna", "okno", &wsize, 40);
-createTrackbar("Prefilter", "okno", &prefilter, 100);
-createTrackbar("Texture threshold", "okno", &texturet, 50);
-createTrackbar("Speckle Window", "okno", &speckleSize, 500);
-createTrackbar("Uniqueness ratio", "okno", &unique, 100);
-createTrackbar("MinDisp", "okno", &dispmax, 10);
-createTrackbar("ROI 1", "okno", &roiw1, 4000);
-createTrackbar("ROI 2", "okno", &roiw2, 500);
-createTrackbar("Skala", "okno", &ratio, 500);
-createTrackbar("Przesuniecie", "okno", &offset, 400);
-createTrackbar("Exposure", "okno", &exposure, 15);
+//createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
+//createTrackbar("Rozmiar okna", "okno", &wsize, 40);
+//createTrackbar("Prefilter", "okno", &prefilter, 100);
+//createTrackbar("Texture threshold", "okno", &texturet, 50);
+//createTrackbar("Speckle Window", "okno", &speckleSize, 500);
+//createTrackbar("Uniqueness ratio", "okno", &unique, 100);
+//createTrackbar("MinDisp", "okno", &dispmax, 10);
+//createTrackbar("ROI 1", "okno", &roiw1, 4000);
+//createTrackbar("ROI 2", "okno", &roiw2, 500);
+//createTrackbar("Skala", "okno", &ratio, 500);
+//createTrackbar("Przesuniecie", "okno", &offset, 400);
+//createTrackbar("Exposure", "okno", &exposure, 15);
 
 Mat disp = Mat::zeros(frame.size(), frame.type());
 Mat disp8;
