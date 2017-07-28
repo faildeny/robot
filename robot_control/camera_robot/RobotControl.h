@@ -14,6 +14,7 @@ public:
 	double dist;
 	double dir;
 	bool busy;
+	bool found;
 	struct RobotSpeed {
 		int rotate;
 		int forward;

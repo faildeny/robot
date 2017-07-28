@@ -21,7 +21,7 @@ String object_cascade_name = "cascade.xml";
 CascadeClassifier object_cascade;
 RNG rng(12345);
 
-void detectAndDisplay(Mat frame, Rect &target)
+bool detectAndDisplay(Mat frame, Rect &target)
 {
 	std::vector<Rect> faces;
 	Rect none(frame.cols*0.5, frame.rows*0.5, 10, 10);
@@ -36,10 +36,14 @@ void detectAndDisplay(Mat frame, Rect &target)
 		rectangle(frame, faces[i], Scalar(0, 255, 200), 2, 8);
 		target = faces[0];
 	}
-	if (faces.size() == 0)
+	if (faces.size() == 0) {
 		target = none;
-
-	imshow("oknno", frame);
+		return 0;
+	}
+	else {
+		imshow("oknno", frame);
+		return 1;
+	}
 }
 
 
@@ -51,7 +55,6 @@ VideoCapture cap2(1);
 
 Mat frame;
 Mat frame2;
-Mat frame_detect;
 Mat previous;
 bool success;
 bool success2;
@@ -74,8 +77,10 @@ if (!cap2.isOpened()) {
 	return -1;
 }
 
-
+Mat frame_detect;
+bool target_found = false;;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
+
 
 cap.grab();
 cap.retrieve(frame);
@@ -208,7 +213,7 @@ while (true) {
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
 
-	detectAndDisplay(frame_detect, target);
+	target_found=detectAndDisplay(frame_detect, target);
 
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
@@ -294,11 +299,12 @@ while (true) {
 	if (iKey>0 && iKey<255)
 	cKey = (char)iKey;
 	cout << iKey;
+
 // robot control
 
 	robot.decide(cKey, direction, distance, turn);
 	//robot.headTo(direction);
-	//robot.square();
+	if(!target_found) robot.square();
 	robot.move();
 	robot.showStatus();
 

@@ -19,6 +19,7 @@ RobotControl::RobotControl(int speed_value)
 	dist = 0;
 	dir = 0;
 	busy = false;
+	found = false;
 }
 
 RobotControl::~RobotControl()
@@ -64,7 +65,7 @@ void RobotControl::move() {
 				led_off(0);
 				led_off(1);
 				set_speed(speed.forward);
-				//fwd();
+				fwd();
 				stop();
 				break;
 			}
