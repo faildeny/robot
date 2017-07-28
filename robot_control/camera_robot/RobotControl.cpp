@@ -265,13 +265,13 @@ void RobotControl::headTo(double direction) {
 			right();
 			break;
 		}
-
 		while (read_enc_status()) {
 		//if (!read_enc_status()) {
 		//	busy = false;
 		//}
 		}
 		stop();
+		pi_sleep(2000);
 }
 
 void RobotControl::showStatus() {
