@@ -141,6 +141,7 @@ void RobotControl::decide(char key, double direction, double distance, int turn,
 	cmd[1] = (distance > 0.35 && distance < 10) ? 'w' : 'r';
 	if (target_size > 0.3) cmd[1] = 'x';
 	//cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
+	
 	switch (cmd[1])
 	{
 	case 'w':

@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Object detection", "Object 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qr_detect", "qr_detect\qr_detect.vcxproj", "{9EC46534-94FF-49F6-9F49-09199A5DBD3F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Odometry", "..\..\..\..\Documents\Visual Studio 2015\Projects\Odometry\Odometry\Odometry.vcxproj", "{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{9EC46534-94FF-49F6-9F49-09199A5DBD3F}.Release|x64.Build.0 = Release|x64
 		{9EC46534-94FF-49F6-9F49-09199A5DBD3F}.Release|x86.ActiveCfg = Release|Win32
 		{9EC46534-94FF-49F6-9F49-09199A5DBD3F}.Release|x86.Build.0 = Release|Win32
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Debug|x64.ActiveCfg = Debug|x64
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Debug|x64.Build.0 = Debug|x64
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Debug|x86.ActiveCfg = Debug|Win32
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Debug|x86.Build.0 = Debug|Win32
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Release|x64.ActiveCfg = Release|x64
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Release|x64.Build.0 = Release|x64
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Release|x86.ActiveCfg = Release|Win32
+		{54C6AC51-5E6C-4502-BA1D-B3AA7D1DB12C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
