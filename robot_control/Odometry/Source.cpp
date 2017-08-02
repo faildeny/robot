@@ -136,7 +136,7 @@ int main(int argc, char** argv) {
 	cap.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 	cap.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
 
-	double scale = 1.00;
+	double scale = 10.00;
 	//sprintf(filename1, "/home/avisingh/Datasets/KITTI_VO/00/image_2/%06d.png", 0);
 	//sprintf(filename2, "/home/avisingh/Datasets/KITTI_VO/00/image_2/%06d.png", 1);
 
