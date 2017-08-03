@@ -46,7 +46,7 @@ using namespace cv;
 using namespace std;
 
 #define MAX_FRAME 1000
-#define MIN_NUM_FEAT 50
+#define MIN_NUM_FEAT 400
 
 void featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Point2f>& points2, vector<uchar>& status) {
 
@@ -78,7 +78,7 @@ void featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Poin
 
 void featureDetection(Mat img_1, vector<Point2f>& points1) {   //uses FAST as of now, modify parameters as necessary
 	vector<KeyPoint> keypoints_1;
-	int fast_threshold = 30;
+	int fast_threshold = 25;
 	bool nonmaxSuppression = true;
 	FAST(img_1, keypoints_1, fast_threshold, nonmaxSuppression);
 	KeyPoint::convert(keypoints_1, points1, vector<int>());
