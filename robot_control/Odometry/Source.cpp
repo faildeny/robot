@@ -46,7 +46,7 @@ using namespace cv;
 using namespace std;
 
 #define MAX_FRAME 1000
-#define MIN_NUM_FEAT 2000
+#define MIN_NUM_FEAT 50
 
 void featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Point2f>& points2, vector<uchar>& status) {
 
@@ -78,7 +78,7 @@ void featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Poin
 
 void featureDetection(Mat img_1, vector<Point2f>& points1) {   //uses FAST as of now, modify parameters as necessary
 	vector<KeyPoint> keypoints_1;
-	int fast_threshold = 20;
+	int fast_threshold = 30;
 	bool nonmaxSuppression = true;
 	FAST(img_1, keypoints_1, fast_threshold, nonmaxSuppression);
 	KeyPoint::convert(keypoints_1, points1, vector<int>());
@@ -131,12 +131,12 @@ int main(int argc, char** argv) {
 				  //ofstream myfile;
 				  //myfile.open("results1_1.txt");
 
-	VideoCapture cap(1);
+	VideoCapture cap(0);
 
 	cap.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 	cap.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
 
-	double scale = 10.00;
+	double scale = 0.50;
 	//sprintf(filename1, "/home/avisingh/Datasets/KITTI_VO/00/image_2/%06d.png", 0);
 	//sprintf(filename2, "/home/avisingh/Datasets/KITTI_VO/00/image_2/%06d.png", 1);
 
@@ -182,7 +182,6 @@ int main(int argc, char** argv) {
 	vector<Point2f> prevFeatures = points2;
 	vector<Point2f> currFeatures;
 
-	char filename[100];
 
 	R_f = R.clone();
 	t_f = t.clone();
@@ -217,6 +216,8 @@ int main(int argc, char** argv) {
 
 			currPts.at<double>(0, i) = currFeatures.at(i).x;
 			currPts.at<double>(1, i) = currFeatures.at(i).y;
+
+			line(currImage_c, prevFeatures.at(i), currFeatures.at(i), Scalar(255, 10, 255), 1);
 		}
 
 		//scale = getAbsoluteScale(numFrame, 0, t.at<double>(2));
@@ -244,7 +245,7 @@ int main(int argc, char** argv) {
 			featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
 
 		}
-
+	
 		prevImage = currImage.clone();
 		prevFeatures = currFeatures;
 
