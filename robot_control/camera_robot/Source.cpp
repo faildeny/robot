@@ -56,7 +56,7 @@ int enc_right = 0;
 double azimuth = 0;;
 double angleDeg = 5;
 double angle_step = angleDeg*3.14159265 / 180;
-double move_step = 11.4;
+double move_step = 1.14;
 
 void updateMap(Point position)
 {
@@ -67,11 +67,8 @@ void updateMap(Point position)
 
 void updateCoordinates(int left,int right) {
 	azimuth += (left-right)*angle_step;
-
-	if (left == right) {
-		position.x += (left*move_step)*sin(azimuth);
-		position.y += (left*move_step)*cos(azimuth);
-	}
+	position.x += (left+right*move_step)*sin(azimuth);
+	position.y += (left+right*move_step)*cos(azimuth);
 }
 
 //End of odometry module

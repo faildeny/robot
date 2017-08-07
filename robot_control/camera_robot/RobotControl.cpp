@@ -286,6 +286,10 @@ void RobotControl::showStatus() {
 }
 
 void RobotControl::readEncoders(int &left,int &right) {
-	left=enc_read(0);
+	left = enc_read(0);
 	right = enc_read(1);
+
+	if (cmd[2] == 'a') left = -left;
+	if (cmd[2] == 'd') right = -right;
+	
 }
