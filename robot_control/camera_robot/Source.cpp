@@ -47,6 +47,34 @@ bool detectAndDisplay(Mat frame, Rect &target)
 }
 
 
+// Odometry module
+
+Mat map = Mat::zeros(600, 600, CV_8UC3);
+Point position(0, 0);
+int enc_left = 0;
+int enc_right = 0;
+double azimuth = 0;;
+double angleDeg = 5;
+double angle_step = angleDeg*3.14159265 / 180;
+double move_step = 11.4;
+
+void updateMap(Point position)
+{
+	int x = position.x + 300;
+	int y = position.y + 350;
+	circle(map, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
+}
+
+void updateCoordinates(int left,int right) {
+	azimuth += (left-right)*angle_step;
+
+	if (left == right) {
+		position.x += (left*move_step)*sin(azimuth);
+		position.y += (left*move_step)*cos(azimuth);
+	}
+}
+
+//End of odometry module
 
 int main (void) {
 
@@ -284,6 +312,7 @@ while (true) {
 	rectangle(preview, right, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 	imshow("disparity", preview);
+	
 
 // end of camera setup
 
@@ -310,6 +339,12 @@ while (true) {
 	if(!target_found) robot.square();
 	robot.move();
 	robot.showStatus();
+
+// Odometry
+	robot.readEncoders(enc_left, enc_right);
+	updateCoordinates(enc_left, enc_right);
+	updateMap(position);
+	imshow("map", map);
 
 }
 return 0;

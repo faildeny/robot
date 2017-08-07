@@ -284,3 +284,8 @@ void RobotControl::showStatus() {
 	printf(" i= %d previous command= %c %c %c \n", i, cmd[0], cmd[1], cmd[2]);
 	printf("distance: %f direction: %f \n \n", dist, dir);
 }
+
+void RobotControl::readEncoders(int &left,int &right) {
+	left=enc_read(0);
+	right = enc_read(1);
+}

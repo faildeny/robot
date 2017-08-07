@@ -20,6 +20,9 @@ public:
 		int forward;
 	};
 	RobotSpeed speed;
+
+
+	
 public:
 	void move();
 	void decide(char key, double direction, double distance, int turn, double target_size);
@@ -28,6 +31,8 @@ public:
 	void square();
 	void headTo(double direction);
 	void showStatus();
+	void readEncoders(int &left,int &right);
+
 	RobotControl(int speed_value);
 	~RobotControl();
 };

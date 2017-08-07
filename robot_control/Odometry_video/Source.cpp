@@ -82,10 +82,10 @@ int main(int argc, char** argv) {
 	double scale = 1.00;
 	char filename1[200];
 	char filename2[200];
-	sprintf(filename1, "image_00/data/(%d).png", 1);
-	sprintf(filename2, "image_00/data/(%d).png", 2);
+	sprintf(filename1, "frame/image_%d.jpg", 13);
+	sprintf(filename2, "frame/image_%d.jpg", 14);
 
-	VideoCapture cap("crossing.mp4");
+	//VideoCapture cap("crossing.mp4");
 
 	char text[100];
 	int fontFace = FONT_HERSHEY_PLAIN;
@@ -96,9 +96,9 @@ int main(int argc, char** argv) {
 	//read the first two frames from the dataset
 	
 	Mat img_1_c = imread(filename1);
-	cap.read(img_1_c);
+	//cap.read(img_1_c);
 	Mat img_2_c = imread(filename2);
-	cap.read(img_2_c);
+	//cap.read(img_2_c);
 
 	resize(img_1_c, img_1_c, Size(), 0.25, 0.25);
 	resize(img_2_c, img_2_c, Size(), 0.25, 0.25);
@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
 	//cv::Point2d pp(607.1928*0.5, 185.2157*0.5);
 
 	double focal = 1095*0.25;
-	cv::Point2d pp(637.6*0.25, 358*0.25);
+	cv::Point2d pp(623*0.25, 366*0.25);
 	//recovering the pose and the essential matrix
 	Mat E, R, t, mask;
 	E = findEssentialMat(points2, points1, focal, pp, RANSAC, 0.99, 1.0, mask);
@@ -146,11 +146,12 @@ int main(int argc, char** argv) {
 
 	Mat traj = Mat::zeros(600, 600, CV_8UC3);
 
-	for (int numFrame = 2; numFrame < MAX_FRAME; numFrame++) {
-		sprintf(filename, "image_00/data/(%d).png", numFrame);
+	for (int numFrame = 14; numFrame < MAX_FRAME; numFrame++) {
+		numFrame++;
+		sprintf(filename, "frame/image_%d.jpg", numFrame);
 		//cout << numFrame << endl;
 		Mat currImage_c = imread(filename);
-		cap.read(currImage_c);
+		//cap.read(currImage_c);
 		resize(currImage_c, currImage_c, Size(), 0.25, 0.25);
 		cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
 		vector<uchar> status;
@@ -208,7 +209,7 @@ int main(int argc, char** argv) {
 		sprintf(text, "Coordinates: x = %02fm y = %02fm z = %02fm", t_f.at<double>(0), t_f.at<double>(1), t_f.at<double>(2));
 		putText(traj, text, textOrg, fontFace, fontScale, Scalar::all(255), thickness, 8);
 
-		imshow("Road facing camera", currImage_c);
+		imshow("Robot camera", currImage_c);
 		imshow("Trajectory", traj);
 
 		waitKey(1);
