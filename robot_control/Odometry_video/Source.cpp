@@ -1,61 +1,36 @@
-#include "opencv2/video/tracking.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/features2d/features2d.hpp"
-#include "opencv2/calib3d/calib3d.hpp"
+/*
 
+The MIT License
 
-#include <iostream>
-#include <ctype.h>
-#include <algorithm> // for copy
-#include <iterator> // for ostream_iterator
-#include <vector>
-#include <ctime>
-#include <sstream>
-#include <fstream>
-#include <string>
+Copyright (c) 2015 Avi Singh
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+#include "vo_features.h"
 
 using namespace cv;
 using namespace std;
 
-#define MAX_FRAME 1000
-#define MIN_NUM_FEAT 400
-
-void featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Point2f>& points2, vector<uchar>& status) {
-
-	//this function automatically gets rid of points for which tracking fails
-
-	vector<float> err;
-	Size winSize = Size(21, 21);
-	TermCriteria termcrit = TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 30, 0.01);
-
-	calcOpticalFlowPyrLK(img_1, img_2, points1, points2, status, err, winSize, 3, termcrit, 0, 0.001);
-
-	//getting rid of points for which the KLT tracking failed or those who have gone outside the frame
-	int indexCorrection = 0;
-	for (int i = 0; i<status.size(); i++)
-	{
-		Point2f pt = points2.at(i - indexCorrection);
-		if ((status.at(i) == 0) || (pt.x<0) || (pt.y<0)) {
-			if ((pt.x<0) || (pt.y<0)) {
-				status.at(i) = 0;
-			}
-			points1.erase(points1.begin() + (i - indexCorrection));
-			points2.erase(points2.begin() + (i - indexCorrection));
-			indexCorrection++;
-		}
-
-	}
-
-}
-
-void featureDetection(Mat img_1, vector<Point2f>& points1) {   //uses FAST as of now, modify parameters as necessary
-	vector<KeyPoint> keypoints_1;
-	int fast_threshold = 25;
-	bool nonmaxSuppression = true;
-	FAST(img_1, keypoints_1, fast_threshold, nonmaxSuppression);
-	KeyPoint::convert(keypoints_1, points1, vector<int>());
-}
+#define MAX_FRAME 2000
+#define MIN_NUM_FEAT 500
 
 // IMP: Change the file directories (4 places) according to where your dataset is saved before running!
 
@@ -101,17 +76,16 @@ int main(int argc, char** argv) {
 	Mat img_1, img_2;
 	Mat R_f, t_f; //the final rotation and tranlation vectors containing the 
 
-				  //ofstream myfile;
-				  //myfile.open("results1_1.txt");
+	ofstream myfile;
+	myfile.open("results1_1.txt");
 
-	VideoCapture cap(1);
+	double scale = 1.00;
+	char filename1[200];
+	char filename2[200];
+	sprintf(filename1, "image_00/data/(%d).png", 1);
+	sprintf(filename2, "image_00/data/(%d).png", 2);
 
-	cap.set(CV_CAP_PROP_FRAME_WIDTH, 320);
-	cap.set(CV_CAP_PROP_FRAME_HEIGHT, 180);
-
-	double scale = 2;
-	//sprintf(filename1, "/home/avisingh/Datasets/KITTI_VO/00/image_2/%06d.png", 0);
-	//sprintf(filename2, "/home/avisingh/Datasets/KITTI_VO/00/image_2/%06d.png", 1);
+	VideoCapture cap("crossing.mp4");
 
 	char text[100];
 	int fontFace = FONT_HERSHEY_PLAIN;
@@ -120,16 +94,18 @@ int main(int argc, char** argv) {
 	cv::Point textOrg(10, 50);
 
 	//read the first two frames from the dataset
-	//Mat img_1_c = imread(filename1);
-	//Mat img_2_c = imread(filename2);
+	
+	Mat img_1_c = imread(filename1);
+	cap.read(img_1_c);
+	Mat img_2_c = imread(filename2);
+	cap.read(img_2_c);
 
-	Mat img_1_c;
-	Mat img_2_c;
-	cap.grab();
-	cap.retrieve(img_1_c);
-	cap.grab();
-	cap.retrieve(img_2_c);
+	resize(img_1_c, img_1_c, Size(), 0.25, 0.25);
+	resize(img_2_c, img_2_c, Size(), 0.25, 0.25);
 
+	if (!img_1_c.data || !img_2_c.data) {
+		std::cout << " --(!) Error reading images " << std::endl; return -1;
+	}
 
 	// we work with grayscale images
 	cvtColor(img_1_c, img_1, COLOR_BGR2GRAY);
@@ -143,12 +119,14 @@ int main(int argc, char** argv) {
 
 															 //TODO: add a fucntion to load these values directly from KITTI's calib files
 															 // WARNING: different sequences in the KITTI VO dataset have different intrinsic/extrinsic parameters
-	double focal = 1080.375*0.25;
-	//cv::Point2d pp(644.09296, 348.5013);
-	cv::Point2d pp(644.09296*0.25, 348.5013*0.25);
+	//double focal = 718.8560*0.5;
+	//cv::Point2d pp(607.1928*0.5, 185.2157*0.5);
+
+	double focal = 1095*0.25;
+	cv::Point2d pp(637.6*0.25, 358*0.25);
 	//recovering the pose and the essential matrix
 	Mat E, R, t, mask;
-	E = findEssentialMat(points2, points1, focal, pp, RANSAC, 0.999, 1.0, mask);
+	E = findEssentialMat(points2, points1, focal, pp, RANSAC, 0.99, 1.0, mask);
 	recoverPose(E, points2, points1, R, t, focal, pp, mask);
 
 	Mat prevImage = img_2;
@@ -156,6 +134,7 @@ int main(int argc, char** argv) {
 	vector<Point2f> prevFeatures = points2;
 	vector<Point2f> currFeatures;
 
+	char filename[100];
 
 	R_f = R.clone();
 	t_f = t.clone();
@@ -168,17 +147,16 @@ int main(int argc, char** argv) {
 	Mat traj = Mat::zeros(600, 600, CV_8UC3);
 
 	for (int numFrame = 2; numFrame < MAX_FRAME; numFrame++) {
-		//sprintf(filename, "/home/avisingh/Datasets/KITTI_VO/00/image_2/%06d.png", numFrame);
+		sprintf(filename, "image_00/data/(%d).png", numFrame);
 		//cout << numFrame << endl;
-		//Mat currImage_c = imread(filename);
-		Mat currImage_c;
-		cap.grab();
-		cap.retrieve(currImage_c);
+		Mat currImage_c = imread(filename);
+		cap.read(currImage_c);
+		resize(currImage_c, currImage_c, Size(), 0.25, 0.25);
 		cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
 		vector<uchar> status;
 		featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
 
-		E = findEssentialMat(currFeatures, prevFeatures, focal, pp, RANSAC, 0.999, 10.0, mask);
+		E = findEssentialMat(currFeatures, prevFeatures, focal, pp, RANSAC, 0.999, 1.0, mask);
 		recoverPose(E, currFeatures, prevFeatures, R, t, focal, pp, mask);
 
 		Mat prevPts(2, prevFeatures.size(), CV_64F), currPts(2, currFeatures.size(), CV_64F);
@@ -190,11 +168,10 @@ int main(int argc, char** argv) {
 
 			currPts.at<double>(0, i) = currFeatures.at(i).x;
 			currPts.at<double>(1, i) = currFeatures.at(i).y;
-
-			line(currImage_c, prevFeatures.at(i), currFeatures.at(i), Scalar(255, 10, 255), 1);
 		}
 
 		//scale = getAbsoluteScale(numFrame, 0, t.at<double>(2));
+
 		//cout << "Scale is " << scale << endl;
 
 		if ((scale>0.1) && (t.at<double>(2) > t.at<double>(0)) && (t.at<double>(2) > t.at<double>(1))) {
@@ -219,12 +196,12 @@ int main(int argc, char** argv) {
 			featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
 
 		}
-	
+
 		prevImage = currImage.clone();
 		prevFeatures = currFeatures;
 
 		int x = int(t_f.at<double>(0)) + 300;
-		int y = int(t_f.at<double>(2)) + 100;
+		int y = -int(t_f.at<double>(2)) + 350;
 		circle(traj, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
 
 		rectangle(traj, Point(10, 30), Point(550, 50), CV_RGB(0, 0, 0), CV_FILLED);
