@@ -69,7 +69,7 @@ void decodeEncoders() {
 	enc_left_old = (enc_left<0) ? -enc_left: enc_left;
 	enc_right_old = (enc_right<0) ? -enc_right : enc_right;
 }
-void updateMap(Point position)
+void updateMap(Point2d position)
 {
 	int x = position.x + 300;
 	int y = position.y + 350;
@@ -81,6 +81,7 @@ void updateCoordinates(int left,int right) {
 	azimuth += (left-right)*angle_step;
 	position.x += -(left+right*move_step)*sin(azimuth);
 	position.y += -(left+right*move_step)*cos(azimuth);
+	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth << endl;
 }
 
 //End of odometry module
