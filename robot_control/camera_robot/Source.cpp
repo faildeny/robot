@@ -66,8 +66,8 @@ double move_step = 0.5;
 void decodeEncoders() {
 	enc_diff_left = (enc_left < 0) ? -enc_left - enc_left_old : enc_left - enc_left_old;
 	enc_diff_right = (enc_right < 0) ? -enc_right - enc_right_old : enc_right - enc_right_old;
-	enc_left_old = enc_left;
-	enc_right_old = enc_right;
+	enc_left_old = (enc_left<0) ? -enc_left: enc_left;
+	enc_right_old = (enc_right<0) ? -enc_right : enc_right;
 }
 void updateMap(Point position)
 {
