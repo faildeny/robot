@@ -40,7 +40,7 @@ void RobotControl::move() {
 	{
 	case 'w':
 
-		printf("mozna jechac: ");
+		//printf("mozna jechac: ");
 		switch (cmd[1])
 		{
 		case 'w':
@@ -61,7 +61,7 @@ void RobotControl::move() {
 				left_rot();
 				break;
 			case 'w':
-				printf("jade");
+				//printf("jade");
 				led_off(0);
 				led_off(1);
 				set_speed(speed.forward);
@@ -192,7 +192,7 @@ int RobotControl::turn() {
 
 int RobotControl::forward() {
 	if (!busy) {
-		enc_tgt(1, 1, 16);
+		enc_tgt(1, 1, 40);
 		busy = true;
 	}
 

@@ -341,7 +341,7 @@ while (true) {
 	}
 	if (iKey>0 && iKey<255)
 	cKey = (char)iKey;
-	cout << iKey;
+	//cout << iKey;
 
 // robot control
 
