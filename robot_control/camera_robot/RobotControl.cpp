@@ -288,8 +288,16 @@ void RobotControl::showStatus() {
 void RobotControl::readEncoders(int &left,int &right) {
 	left = enc_read(1);
 	right = enc_read(0);
-
-	if (cmd[2] == 'a') left = -left;
-	if (cmd[2] == 'd') right = -right;
+	switch (cmd[0]) {
+	case 'w':
+		if (cmd[2] == 'a') left = -left;
+		if (cmd[2] == 'd') right = -right;
+		break;
+	case 'j':
+		left = -left;
+		break;
+	case 'l':
+		right = -right;
+	}
 	
 }
