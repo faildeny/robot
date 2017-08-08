@@ -79,7 +79,7 @@ void updateMap(Point position)
 void updateCoordinates(int left,int right) {
 
 	azimuth += (left-right)*angle_step;
-	position.x += (left+right*move_step)*sin(azimuth);
+	position.x += -(left+right*move_step)*sin(azimuth);
 	position.y += -(left+right*move_step)*cos(azimuth);
 }
 
