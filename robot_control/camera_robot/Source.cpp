@@ -59,7 +59,7 @@ int enc_diff_left = 0;
 int enc_diff_right = 0;
 
 double azimuth = 0;;
-double angleDeg = 5;
+double angleDeg = 11.25;
 double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
 
