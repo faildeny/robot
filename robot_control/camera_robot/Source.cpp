@@ -53,11 +53,22 @@ Mat map = Mat::zeros(600, 600, CV_8UC3);
 Point2d position(0, 0);
 int enc_left = 0;
 int enc_right = 0;
+int enc_left_old = 0;
+int enc_right_old = 0;
+int enc_diff_left = 0;
+int enc_diff_right = 0;
+
 double azimuth = 0;;
 double angleDeg = 5;
 double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
 
+void decodeEncoders() {
+	enc_diff_left = (enc_left < 0) ? -enc_left - enc_left_old : enc_left - enc_left_old;
+	enc_diff_right = (enc_right < 0) ? -enc_right - enc_right_old : enc_right - enc_right_old;
+	enc_left_old = enc_left;
+	enc_right_old = enc_right;
+}
 void updateMap(Point position)
 {
 	int x = position.x + 300;
@@ -66,6 +77,7 @@ void updateMap(Point position)
 }
 
 void updateCoordinates(int left,int right) {
+
 	azimuth += (left-right)*angle_step;
 	position.x += (left+right*move_step)*sin(azimuth);
 	position.y += -(left+right*move_step)*cos(azimuth);
@@ -339,7 +351,8 @@ while (true) {
 
 // Odometry
 	robot.readEncoders(enc_left, enc_right);
-	updateCoordinates(enc_left, enc_right);
+	decodeEncoders();
+	updateCoordinates(enc_diff_left, enc_diff_right);
 	updateMap(position);
 	imshow("map", map);
 
