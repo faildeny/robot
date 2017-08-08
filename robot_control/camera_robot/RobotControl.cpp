@@ -298,6 +298,7 @@ void RobotControl::readEncoders(int &left,int &right) {
 		break;
 	case 'l':
 		right = -right;
+		break;
 	}
 	
 }
