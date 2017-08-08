@@ -158,7 +158,7 @@ void RobotControl::decide(char key, double direction, double distance, int turn,
 
 	case 'r':
 		cmd[2] = (turn < 0) ? 'a' : 'd';
-		printf("roznica wyboru kierunku: %d", turn);
+		printf("roznica wyboru kierunku: %d \n", turn);
 		break;
 	}
 	//print current command and distance
@@ -178,13 +178,13 @@ int RobotControl::turn() {
 	}
 
 	cmd[2] = 'd';
-	printf("skrecac w prawo");
+	printf("skrecac w prawo \n");
 
 	if (!read_enc_status())
 	{
 		busy = false;
 		return 1;
-		printf("skrecilem w prawo");
+		printf("skrecilem w prawo \n");
 
 	}
 	return 0;
