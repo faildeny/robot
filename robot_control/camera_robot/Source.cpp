@@ -50,13 +50,13 @@ bool detectAndDisplay(Mat frame, Rect &target)
 // Odometry module
 
 Mat map = Mat::zeros(600, 600, CV_8UC3);
-Point position(0, 0);
+Point2d position(0, 0);
 int enc_left = 0;
 int enc_right = 0;
 double azimuth = 0;;
 double angleDeg = 5;
 double angle_step = angleDeg*3.14159265 / 180;
-double move_step = 1.14;
+double move_step = 0.5;
 
 void updateMap(Point position)
 {
