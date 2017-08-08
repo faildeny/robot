@@ -254,7 +254,7 @@ while (true) {
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
 
-	target_found=detectAndDisplay(frame_detect, target);
+	//target_found=detectAndDisplay(frame_detect, target);
 
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
