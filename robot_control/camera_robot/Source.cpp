@@ -68,7 +68,7 @@ void updateMap(Point position)
 void updateCoordinates(int left,int right) {
 	azimuth += (left-right)*angle_step;
 	position.x += (left+right*move_step)*sin(azimuth);
-	position.y += (left+right*move_step)*cos(azimuth);
+	position.y += -(left+right*move_step)*cos(azimuth);
 }
 
 //End of odometry module
@@ -198,7 +198,7 @@ printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x
 printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
 
 //Initialize robot
-RobotControl robot(40);
+RobotControl robot(60);
 
 Rect target(frame_size.width*0.5*0.2,frame_size.height*0.5,10,10);
 int i = 0;
