@@ -62,7 +62,7 @@ double azimuth = 0;;
 double angleDeg = 5;
 double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
-int max_step;
+int max_step=8;
 
 void decodeEncoders() {
 	cout << "enc_left: " << enc_left << " enc_right: " << enc_right << endl;
