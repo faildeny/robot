@@ -20,7 +20,10 @@ public:
 		int forward;
 	};
 	RobotSpeed speed;
-
+	int enc_left;
+	int enc_right;
+	int enc_begin_left;
+	int enc_begin_right;
 
 	
 public:
@@ -31,7 +34,7 @@ public:
 	void square();
 	void headTo(double direction);
 	void showStatus();
-	void readEncoders(int &left,int &right);
+	void readEncoders(int &left,int &right, int &l_dir, int &r_dir);
 
 	RobotControl(int speed_value);
 	~RobotControl();

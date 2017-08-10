@@ -14,7 +14,9 @@ RobotControl::RobotControl(int speed_value)
 	speed.forward = speed_value;
 	speed.rotate = speed_value-10;
 	set_speed(speed.forward);
-	enc_tgt(1, 1, 10);
+	//enc_tgt(1, 1, 10);
+	enc_left = 0;
+	enc_right = 0;
 	i = 0;
 	step = 0;
 	dist = 0;
@@ -52,7 +54,7 @@ void RobotControl::move() {
 				led_on(0);
 				led_off(1);
 				set_speed(speed.rotate);
-				fwd();
+				right_rot();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
@@ -173,7 +175,8 @@ void RobotControl::decide(char key, double direction, double distance, int turn,
 
 int RobotControl::turn() {
 	if (!busy) {
-		enc_tgt(1, 1, 8);
+		enc_begin_left = enc_left;
+		//enc_tgt(1, 1, 8);
 		busy = true;
 		
 	}
@@ -181,7 +184,7 @@ int RobotControl::turn() {
 	cmd[2] = 'd';
 	printf("skrecac w prawo \n");
 
-	if (!read_enc_status())
+	if (enc_left-enc_begin_left>7)
 	{
 		busy = false;
 		return 1;
@@ -193,13 +196,15 @@ int RobotControl::turn() {
 
 int RobotControl::forward() {
 	if (!busy) {
-		enc_tgt(1, 1, 40);
+		enc_begin_left = enc_left;
+		enc_begin_right = enc_right;
+		//enc_tgt(1, 1, 40);
 		busy = true;
 	}
 
 	cmd[2] = 'w';
 
-	if (!read_enc_status())
+	if (enc_left - enc_begin_left>40 && enc_right - enc_begin_right>40)
 	{
 		busy = false;
 		return 1;
@@ -286,19 +291,21 @@ void RobotControl::showStatus() {
 	printf("distance: %f direction: %f \n \n", dist, dir);
 }
 
-void RobotControl::readEncoders(int &left,int &right) {
-	left = enc_read(1);
-	right = enc_read(0);
+void RobotControl::readEncoders(int &left,int &right,int &l_dir, int &r_dir) {
+	enc_left= enc_read(1);
+	enc_right = enc_read(0);
+	left = enc_left;
+	right = enc_right;
 	switch (cmd[0]) {
 	case 'w':
-		if (cmd[2] == 'a') left = -left;
-		if (cmd[2] == 'd') right = -right;
+		if (cmd[2] == 'a') l_dir = -1;
+		if (cmd[2] == 'd') r_dir= -1;
 		break;
 	case 'j':
-		left = -left;
+		l_dir = -1;
 		break;
 	case 'l':
-		right = -right;
+		r_dir = -1;
 		break;
 	}
 	

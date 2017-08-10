@@ -57,6 +57,8 @@ int enc_left_old = 0;
 int enc_right_old = 0;
 int enc_diff_left = 0;
 int enc_diff_right = 0;
+int enc_l_dir = 1;
+int enc_r_dir = 1;
 
 double azimuth = 0;
 double angleDeg = 3.5;
@@ -67,14 +69,14 @@ int max_step=8;
 void decodeEncoders() {
 	cout << "enc_left: " << enc_left << " enc_right: " << enc_right << endl;
 	
-	enc_diff_left = (enc_left < 0) ? enc_left + enc_left_old : enc_left - enc_left_old;
-	enc_diff_right = (enc_right < 0) ? enc_right + enc_right_old : enc_right - enc_right_old;
-	if (!(enc_diff_left<max_step && enc_diff_left >-max_step && enc_diff_right<max_step && enc_diff_right>-max_step)) {
-		enc_diff_left = enc_left;
-		enc_diff_right = enc_right;
-	}
-	enc_left_old = (enc_left<0) ? -enc_left: enc_left;
-	enc_right_old = (enc_right<0) ? -enc_right : enc_right;
+	enc_diff_left = (enc_l_dir < 0) ? -enc_left + enc_left_old : enc_left - enc_left_old;
+	enc_diff_right = (enc_r_dir < 0) ? -enc_right + enc_right_old : enc_right - enc_right_old;
+	//if (!(enc_diff_left<max_step && enc_diff_left >-max_step && enc_diff_right<max_step && enc_diff_right>-max_step)) {
+	//	enc_diff_left = enc_left;
+	//	enc_diff_right = enc_right;
+//	}
+	enc_left_old = enc_left;
+	enc_right_old = enc_right;
 }
 void updateMap(Point2d position)
 {
@@ -358,7 +360,7 @@ while (true) {
 	robot.showStatus();
 
 // Odometry
-	robot.readEncoders(enc_left, enc_right);
+	robot.readEncoders(enc_left, enc_right,enc_l_dir,enc_r_dir);
 	decodeEncoders();
 	updateCoordinates(enc_diff_left, enc_diff_right);
 	updateMap(position);
