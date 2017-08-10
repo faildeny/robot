@@ -296,11 +296,14 @@ void RobotControl::readEncoders(int &left,int &right,int &l_dir, int &r_dir) {
 	enc_right = enc_read(0);
 	left = enc_left;
 	right = enc_right;
+	l_dir = 1;
+	r_dir = 1;
 	switch (cmd[0]) {
 	case 'w':
 		if (cmd[2] == 'a') l_dir = -1;
 		if (cmd[2] == 'd') r_dir= -1;
 		break;
+
 	case 'j':
 		l_dir = -1;
 		break;
