@@ -344,7 +344,7 @@ while (true) {
 	//cout << iKey;
 
 // robot control
-
+	distance = 0.9;
 	robot.decide(cKey, direction, distance, turn, target_size);
 	//robot.headTo(direction);
 	if(!target_found) robot.square();
@@ -352,7 +352,7 @@ while (true) {
 	robot.showStatus();
 
 // Odometry
-	//robot.readEncoders(enc_left, enc_right);
+	robot.readEncoders(enc_left, enc_right);
 	decodeEncoders();
 	updateCoordinates(enc_diff_left, enc_diff_right);
 	updateMap(position);
