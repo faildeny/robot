@@ -13,6 +13,7 @@ RobotControl::RobotControl(int speed_value)
 	cmd[2] = 'd';
 	speed.forward = speed_value;
 	speed.rotate = speed_value-10;
+	set_speed(speed.forward);
 	enc_tgt(1, 1, 10);
 	i = 0;
 	step = 0;
@@ -50,7 +51,7 @@ void RobotControl::move() {
 				printf("skrecam w prawo");
 				led_on(0);
 				led_off(1);
-				set_speed(speed.rotate);
+				//set_speed(speed.rotate);
 				right_rot();
 				break;
 			case 'a':
@@ -64,7 +65,7 @@ void RobotControl::move() {
 				//printf("jade");
 				led_off(0);
 				led_off(1);
-				set_speed(speed.forward);
+				//set_speed(speed.forward);
 				fwd();
 				break;
 			}
