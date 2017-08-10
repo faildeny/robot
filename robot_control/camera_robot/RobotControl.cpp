@@ -14,7 +14,7 @@ RobotControl::RobotControl(int speed_value)
 	speed.forward = speed_value;
 	speed.rotate = speed_value-10;
 	set_speed(speed.forward);
-	//enc_tgt(1, 1, 10);
+	enc_tgt(1, 1, 1);
 	enc_left = 0;
 	enc_right = 0;
 	i = 0;
