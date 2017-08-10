@@ -52,7 +52,7 @@ void RobotControl::move() {
 				led_on(0);
 				led_off(1);
 				set_speed(speed.rotate);
-				right_rot();
+				fwd();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
