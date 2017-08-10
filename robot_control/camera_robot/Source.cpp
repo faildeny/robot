@@ -347,7 +347,7 @@ while (true) {
 	distance = 0.9;
 	robot.decide(cKey, direction, distance, turn, target_size);
 	//robot.headTo(direction);
-	//if(!target_found) robot.square();
+	if(!target_found) robot.square();
 	robot.move();
 	robot.showStatus();
 
