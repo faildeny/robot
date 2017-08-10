@@ -51,7 +51,7 @@ void RobotControl::move() {
 				printf("skrecam w prawo");
 				led_on(0);
 				led_off(1);
-				//set_speed(speed.rotate);
+				set_speed(speed.rotate);
 				right_rot();
 				break;
 			case 'a':
@@ -65,7 +65,7 @@ void RobotControl::move() {
 				//printf("jade");
 				led_off(0);
 				led_off(1);
-				//set_speed(speed.forward);
+				set_speed(speed.forward);
 				fwd();
 				break;
 			}

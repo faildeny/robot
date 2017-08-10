@@ -71,7 +71,7 @@ void decodeEncoders() {
 	enc_diff_right = (enc_right < 0) ? enc_right + enc_right_old : enc_right - enc_right_old;
 	if (!(enc_diff_left<max_step && enc_diff_left >-max_step && enc_diff_right<max_step && enc_diff_right>-max_step)) {
 		enc_diff_left = enc_left;
-		enc_diff_right =enc_right
+		enc_diff_right = enc_right;
 	}
 	enc_left_old = (enc_left<0) ? -enc_left: enc_left;
 	enc_right_old = (enc_right<0) ? -enc_right : enc_right;
