@@ -91,14 +91,7 @@ void decodeEncoders() {
 	enc_left_old = enc_left;
 	enc_right_old = enc_right;
 }
-void updateMap(Point2d position)
-{
-	int x = position.x + 300;
-	int y = position.y + 350;
-	circle(map, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
-	drawRobot(robot_shape, Point(x, y), Size(15, 10), azimuth*180/3.14);
-	drawCurrentArea(background, Point(x,y), azimuth);
-}
+
 
 void updateCoordinates(int left,int right) {
 
@@ -138,6 +131,15 @@ void drawCurrentArea(Mat& background, Point center, double azimuth) {
 		vertices[3] = center;
 
 		fillConvexPoly(background, vertices, 4, color);
+}
+
+void updateMap(Point2d position)
+{
+	int x = position.x + 300;
+	int y = position.y + 350;
+	circle(map, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
+	drawRobot(robot_shape, Point(x, y), Size(15, 10), azimuth * 180 / 3.14);
+	drawCurrentArea(background, Point(x, y), azimuth);
 }
 
 //End of odometry module
