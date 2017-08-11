@@ -59,8 +59,10 @@ bool detectAndDisplay(Mat frame, Rect &target)
 
 
 // Odometry module
-
-Mat map = Mat::zeros(600, 600, CV_8UC3);
+Size map_size(600, 600);
+Mat background= Mat::zeros(map_size.width, map_size.height, CV_8UC3);
+Mat robot_shape = Mat::zeros(map_size.width, map_size.height, CV_8UC3);
+Mat map = Mat::zeros(map_size.width, map_size.height, CV_8UC3);
 Point2d position(0, 0);
 int enc_left = 0;
 int enc_right = 0;
@@ -76,6 +78,11 @@ double angleDeg = 3.5;
 double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
 int max_step=8;
+int view_dist;
+int view_angleDeg = 20;
+double view_angle=view_angleDeg*3.14159265 / 180;
+int view_res = 3;
+
 
 void decodeEncoders() {
 	cout << "enc_left: " << enc_left << " enc_right: " << enc_right << endl;
@@ -89,6 +96,8 @@ void updateMap(Point2d position)
 	int x = position.x + 300;
 	int y = position.y + 350;
 	circle(map, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
+	drawRobot(robot_shape, Point(x, y), Size(15, 10), azimuth*180/3.14);
+	drawCurrentArea(background, Point(x,y), azimuth);
 }
 
 void updateCoordinates(int left,int right) {
@@ -97,6 +106,38 @@ void updateCoordinates(int left,int right) {
 	position.x += (left+right*move_step)*sin(azimuth);
 	position.y += -(left+right*move_step)*cos(azimuth);
 	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth << endl;
+}
+
+void drawRobot(cv::Mat& image, cv::Point centerPoint, cv::Size rectangleSize, double rotationDegrees) {
+	Scalar color = cv::Scalar(100,255,0); 
+    // Create the rotated rectangle
+	RotatedRect rotatedRectangle(centerPoint, rectangleSize, rotationDegrees);
+	// We take the edges that OpenCV calculated for us
+	Point2f vertices2f[4];
+	rotatedRectangle.points(vertices2f);
+	// Convert them so we can use them in a fillConvexPoly
+	Point vertices[4];
+	for (int i = 0; i < 4; ++i) {
+		vertices[i] = vertices2f[i];
+	}
+	// Now we can fill the rotated rectangle with our specified color
+	cv::fillConvexPoly(image,
+		vertices,
+		4,
+		color);
+}
+
+void drawCurrentArea(Mat& background, Point center, double azimuth) {
+		Scalar color = Scalar(70, 70, 100);
+		
+		Point vertices[4];
+		for (int i = -1; i < 2; i++) {
+			vertices[i+1].x = center.x + view_dist*sin(azimuth) + cos(azimuth)*sin(view_angle*i)*view_dist;
+			vertices[i+1].y = center.y + view_dist*cos(azimuth) + sin(azimuth)*sin(view_angle*i)*view_dist;
+		}
+		vertices[3] = center;
+
+		fillConvexPoly(background, vertices, 4, color);
 }
 
 //End of odometry module
@@ -372,7 +413,7 @@ while (true) {
 	decodeEncoders();
 	updateCoordinates(enc_diff_left, enc_diff_right);
 	updateMap(position);
-	imshow("map", map);
+	imshow("map", background+map+robot_shape);
 
 }
 return 0;
