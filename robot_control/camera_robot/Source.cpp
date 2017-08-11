@@ -21,6 +21,17 @@ String object_cascade_name = "cascade.xml";
 CascadeClassifier object_cascade;
 RNG rng(12345);
 
+int speed=60;
+
+//Parser
+void parseArguments(int argc, char** argv) {
+	for (int i = 0; i < argc; i++) {
+		if (string(argv[i]) == "-v" && i + 1<argc) {
+			speed = atoi(argv[i + 1]);
+			cout << "set speed: " << speed << endl;
+		}
+	}
+}
 bool detectAndDisplay(Mat frame, Rect &target)
 {
 	std::vector<Rect> faces;
@@ -68,13 +79,8 @@ int max_step=8;
 
 void decodeEncoders() {
 	cout << "enc_left: " << enc_left << " enc_right: " << enc_right << endl;
-	
 	enc_diff_left = (enc_l_dir < 0) ? -enc_left + enc_left_old : enc_left - enc_left_old;
 	enc_diff_right = (enc_r_dir < 0) ? -enc_right + enc_right_old : enc_right - enc_right_old;
-	//if (!(enc_diff_left<max_step && enc_diff_left >-max_step && enc_diff_right<max_step && enc_diff_right>-max_step)) {
-	//	enc_diff_left = enc_left;
-	//	enc_diff_right = enc_right;
-//	}
 	enc_left_old = enc_left;
 	enc_right_old = enc_right;
 }
@@ -95,7 +101,9 @@ void updateCoordinates(int left,int right) {
 
 //End of odometry module
 
-int main (void) {
+int main (int argc, char** argv) {
+
+parseArguments(argc, argv);
 
 VideoCapture cap(0);
 VideoCapture cap2(1);
@@ -220,7 +228,7 @@ printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x
 printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
 
 //Initialize robot
-RobotControl robot(110);
+RobotControl robot(speed);
 
 Rect target(frame_size.width*0.5*0.2,frame_size.height*0.5,10,10);
 int i = 0;

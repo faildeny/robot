@@ -7,6 +7,7 @@
 using namespace std;
 using namespace cv;
 
+int speed = 60;
 
 void saveImage(Mat frame, int n) {
 	String filename("frame/image_");
@@ -16,7 +17,16 @@ void saveImage(Mat frame, int n) {
 }
 
 
-int main() {
+int main(int argc, char** argv) {
+
+	cout << argc << endl;
+	for (int i = 0; i < argc; i++) {
+		cout << "argv[i]= " << argv[i] << endl;
+		if (string(argv[i]) == "-v" && i+1<argc) {
+			speed = atoi(argv[i + 1]);
+			cout << "speed: " << speed << endl;
+		}
+	}
 
 	VideoCapture cap(0);
 
@@ -28,7 +38,7 @@ int main() {
 
 	while (true) {
 		cap.read(frame);
-		saveImage(frame, n++);
+		//saveImage(frame, n++);
 		imshow("frame", frame);
 
 		int key = waitKey(1);
