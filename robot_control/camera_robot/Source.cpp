@@ -78,7 +78,7 @@ double angleDeg = 3.5;
 double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
 int max_step=8;
-int view_dist;
+int view_dist=60;
 int view_angleDeg = 20;
 double view_angle=view_angleDeg*3.14159265 / 180;
 int view_res = 3;
