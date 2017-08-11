@@ -20,6 +20,7 @@ public:
 		int forward;
 	};
 	RobotSpeed speed;
+	int line_dist;
 	int enc_left;
 	int enc_right;
 	int enc_begin_left;

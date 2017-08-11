@@ -17,6 +17,7 @@ RobotControl::RobotControl(int speed_value)
 	enc_tgt(1, 1, 1);
 	enc_left = 0;
 	enc_right = 0;
+	line_dist = 40;
 	i = 0;
 	step = 0;
 	dist = 0;
@@ -204,7 +205,7 @@ int RobotControl::forward() {
 
 	cmd[2] = 'w';
 
-	if (enc_left - enc_begin_left>40 && enc_right - enc_begin_right>40)
+	if (enc_left - enc_begin_left>line_dist && enc_right - enc_begin_right>line_dist)
 	{
 		busy = false;
 		return 1;
