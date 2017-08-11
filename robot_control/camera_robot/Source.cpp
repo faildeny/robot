@@ -101,7 +101,8 @@ void updateCoordinates(int left,int right) {
 	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth << endl;
 }
 
-void drawRobot(cv::Mat& image, cv::Point centerPoint, cv::Size rectangleSize, double rotationDegrees) {
+void drawRobot(Mat& image, Point centerPoint, Size rectangleSize, double rotationDegrees) {
+	image = Mat::zeros(image.cols,image.rows,image.type());
 	Scalar color = cv::Scalar(100,255,0); 
     // Create the rotated rectangle
 	RotatedRect rotatedRectangle(centerPoint, rectangleSize, rotationDegrees);
