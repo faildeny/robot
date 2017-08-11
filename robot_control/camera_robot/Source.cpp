@@ -74,7 +74,7 @@ int enc_l_dir = 1;
 int enc_r_dir = 1;
 
 double azimuth = 0;
-double angleDeg = 3.5;
+double angleDeg = 4.5;
 double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
 int max_step=8;

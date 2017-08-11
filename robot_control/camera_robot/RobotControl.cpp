@@ -17,7 +17,7 @@ RobotControl::RobotControl(int speed_value)
 	enc_tgt(1, 1, 1);
 	enc_left = 0;
 	enc_right = 0;
-	line_dist = 40;
+	line_dist = 30;
 	i = 0;
 	step = 0;
 	dist = 0;
