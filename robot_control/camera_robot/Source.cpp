@@ -126,7 +126,7 @@ void drawCurrentArea(Mat& background, Point center, double azimuth) {
 		Point vertices[4];
 		for (int i = -1; i < 2; i++) {
 			vertices[i+1].x = center.x + view_dist*sin(azimuth) + cos(azimuth)*sin(view_angle*i)*view_dist;
-			vertices[i+1].y = center.y + view_dist*cos(azimuth) + sin(azimuth)*sin(view_angle*i)*view_dist;
+			vertices[i+1].y = center.y - view_dist*cos(azimuth) + sin(azimuth)*sin(view_angle*i)*view_dist;
 		}
 		vertices[3] = center;
 
