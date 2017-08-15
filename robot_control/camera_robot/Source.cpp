@@ -26,8 +26,11 @@ RNG rng(12345);
 int speed=60;
 
 //Position Coordinates
-double posx = 52.4296548;
-double posy = 13.5382382;
+static double posx_base = 52.4296548;
+static double posy_base = 13.5382382;
+
+double posx;
+double posy;
 
 //Parser
 void parseArguments(int argc, char** argv) {
@@ -105,6 +108,9 @@ void updateCoordinates(int left,int right) {
 	position.x += (left+right*move_step)*sin(azimuth);
 	position.y += -(left+right*move_step)*cos(azimuth);
 	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth << endl;
+
+	posx = posx_base - position.y*0.00000001;
+	posy = posy_base + position.x*0.00000001;
 }
 
 void drawRobot(Mat& image, Point centerPoint, Size rectangleSize, double rotationDegrees) {
@@ -426,8 +432,7 @@ while (true) {
 	updateMap(position);
 	imshow("map", background+map+robot_shape);
 //Streaming
-	posx += position.y*0.000001;
-	posy += position.x*0.000001;
+
 	if (i%10 == 0) stream.send(posx, posy);
 }
 return 0;
