@@ -11,8 +11,7 @@ extern "C" {
 #include "gopigo.h"
 }
 
-#include "initial-state.h"
-
+#include "Streamer.h"
 #include "RobotControl.h"
 
 using namespace cv;
@@ -24,6 +23,10 @@ CascadeClassifier object_cascade;
 RNG rng(12345);
 
 int speed=60;
+
+//Position Coordinates
+double posx = 52.4296548;
+double posy = 13.5382382;
 
 //Parser
 void parseArguments(int argc, char** argv) {

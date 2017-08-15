@@ -24,12 +24,18 @@
     <ClCompile Include="initial-state.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Streamer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RobotControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="initial-state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

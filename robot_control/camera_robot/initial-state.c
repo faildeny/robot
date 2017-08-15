@@ -82,7 +82,10 @@ int stream_event(char *access_key, char *bucket_key, char *json) {
 
   curl = curl_easy_init();
   if (curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, EVENT_API);
+    char event[256];
+	sprintf(event,"https://groker.initialstate.com/api/events?accessKey=%s&bucketKey=%s",access_key,bucket_key);
+
+	curl_easy_setopt(curl, CURLOPT_URL, event);
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     /* Add a custom header */
     sprintf(tmp, "HaloX-IS-AccessKey: %s", access_key);

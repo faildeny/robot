@@ -22,10 +22,12 @@
     <ClCompile Include="initial-state.c" />
     <ClCompile Include="RobotControl.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Streamer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initial-state.h" />
     <ClInclude Include="RobotControl.h" />
+    <ClInclude Include="Streamer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{10598b0d-beff-416f-810f-290a88801a6b}</ProjectGuid>
