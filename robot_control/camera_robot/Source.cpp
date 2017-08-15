@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <stdio.h>
+
 extern "C" {
 #include "gopigo.h"
 }
@@ -153,6 +154,8 @@ void updateMap(Point2d position)
 int main (int argc, char** argv) {
 
 parseArguments(argc, argv);
+
+Streamer stream(1);
 
 VideoCapture cap(0);
 VideoCapture cap2(1);
@@ -422,7 +425,10 @@ while (true) {
 	updateCoordinates(enc_diff_left, enc_diff_right);
 	updateMap(position);
 	imshow("map", background+map+robot_shape);
-
+//Streaming
+	posx += position.y*0.000001;
+	posy += position.x*0.000001;
+	if (i%10 == 0) stream.send(posx, posy);
 }
 return 0;
 }
