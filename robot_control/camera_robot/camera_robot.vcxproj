@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="initial-state.c" />
     <ClCompile Include="RobotControl.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="initial-state.h" />
     <ClInclude Include="RobotControl.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

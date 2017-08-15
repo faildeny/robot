@@ -11,6 +11,8 @@ extern "C" {
 #include "gopigo.h"
 }
 
+#include "initial-state.h"
+
 #include "RobotControl.h"
 
 using namespace cv;
