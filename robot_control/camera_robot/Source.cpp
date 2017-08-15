@@ -101,7 +101,6 @@ void decodeEncoders() {
 	enc_right_old = enc_right;
 }
 
-
 void updateCoordinates(int left,int right) {
 
 	azimuth += (left-right)*angle_step;
@@ -109,8 +108,8 @@ void updateCoordinates(int left,int right) {
 	position.y += -(left+right*move_step)*cos(azimuth);
 	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth << endl;
 
-	posx = posx_base - position.y*0.00000001;
-	posy = posy_base + position.x*0.00000001;
+	posx = posx_base - position.y*0.00000005;
+	posy = posy_base + position.x*0.00000005;
 }
 
 void drawRobot(Mat& image, Point centerPoint, Size rectangleSize, double rotationDegrees) {
@@ -162,6 +161,7 @@ int main (int argc, char** argv) {
 parseArguments(argc, argv);
 
 Streamer stream(1);
+stream.sendVoltage(volt());
 
 VideoCapture cap(0);
 VideoCapture cap2(1);
@@ -432,8 +432,8 @@ while (true) {
 	updateMap(position);
 	imshow("map", background+map+robot_shape);
 //Streaming
-
 	if (i%10 == 0) stream.send(posx, posy);
+
 }
 return 0;
 }

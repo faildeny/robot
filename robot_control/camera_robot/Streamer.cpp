@@ -11,12 +11,16 @@ Streamer::Streamer(int n) {
 
 void Streamer::send(double posx,double posy) {
 		char json[1024];
-		//int a = a * 3;
-		//posx += a*0.000003 + 0.000001;
-		//posy += 0.000001;
 		sprintf(json, "{\"key\":\"robot position map\", \"value\":\"%f,%f\"}", posx, posy);
 		//sprintf(json, "{\"key\":\"voltage\", \"value\":\"%.2f V\"}",voltage);
 		//sprintf(json, "[{\"key\":\"kot\",\"value\":\"czarny\"}]");
 		printf("Sending: %s \n", json);
 		stream_event(access_key, bucket_key, json);
 	}
+
+void Streamer::sendVoltage(float voltage) {
+	char json[1024];
+	sprintf(json, "{\"key\":\"voltage\", \"value\":\"%.2f V\"}",voltage);
+	printf("Sending: %s \n", json);
+	stream_event(access_key, bucket_key, json);
+}
