@@ -12,4 +12,5 @@ public:
 	Streamer(int n);
 	void send(double posx, double posy);
 	void sendVoltage(float voltage);
+	void sendStatus(int n);
 };

@@ -412,6 +412,7 @@ while (true) {
 	int iKey = waitKey(1);
 	if (iKey == 27)
 	{
+		stream.sendStatus(0);
 		break;
 	}
 	if (iKey>0 && iKey<255)
