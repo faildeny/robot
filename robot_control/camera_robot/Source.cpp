@@ -161,7 +161,6 @@ int main (int argc, char** argv) {
 parseArguments(argc, argv);
 
 Streamer stream(1);
-//stream.sendVoltage(volt());
 
 VideoCapture cap(0);
 VideoCapture cap2(1);
@@ -287,7 +286,9 @@ printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y
 
 //Initialize robot
 RobotControl robot(speed);
-
+//Stream battery voltage
+stream.sendVoltage(volt());
+//Define default target
 Rect target(frame_size.width*0.5*0.2,frame_size.height*0.5,10,10);
 int i = 0;
 char cKey = 'w';
