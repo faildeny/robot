@@ -161,7 +161,7 @@ int main (int argc, char** argv) {
 parseArguments(argc, argv);
 
 Streamer stream(1);
-stream.sendVoltage(volt());
+//stream.sendVoltage(volt());
 
 VideoCapture cap(0);
 VideoCapture cap2(1);
