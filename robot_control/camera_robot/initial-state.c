@@ -21,11 +21,11 @@ int create_bucket(char *access_key, char *bucket_key, char *bucket_name) {
     curl_easy_setopt(curl, CURLOPT_URL, BUCKET_API);
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     /* Add a custom header */
-    sprintf_s(tmp, "X-IS-AccessKey: %s", access_key);
+    sprintf(tmp, "X-IS-AccessKey: %s", access_key);
     chunk = curl_slist_append(chunk, tmp);
     chunk = curl_slist_append(chunk, "Content-Type: application/json");
     res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
-    sprintf_s(json, "{\"bucketKey\" : \"%s\", \"bucketName\" : \"%s\"}",
+    sprintf(json, "{\"bucketKey\" : \"%s\", \"bucketName\" : \"%s\"}",
             bucket_key, bucket_name);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json);
 
@@ -85,9 +85,9 @@ int stream_event(char *access_key, char *bucket_key, char *json) {
     curl_easy_setopt(curl, CURLOPT_URL, EVENT_API);
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     /* Add a custom header */
-    sprintf_s(tmp, "HaloX-IS-AccessKey: %s", access_key);
+    sprintf(tmp, "HaloX-IS-AccessKey: %s", access_key);
     chunk = curl_slist_append(chunk, tmp);
-    sprintf_s(tmp, "X-IS-BucketKey: %s", bucket_key);
+    sprintf(tmp, "X-IS-BucketKey: %s", bucket_key);
     chunk = curl_slist_append(chunk, tmp);
     chunk = curl_slist_append(chunk, "Content-Type: application/json");
     res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
