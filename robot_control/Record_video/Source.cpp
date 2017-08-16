@@ -29,20 +29,30 @@ int main(int argc, char** argv) {
 	}
 
 	VideoCapture cap(0);
+	VideoCapture cap1(1);
 
 	Mat frame;
+	Mat frame1;
 
 	cap.set(CAP_PROP_FRAME_HEIGHT, 720);
 	cap.set(CAP_PROP_FRAME_WIDTH, 1280);
+	cap1.set(CAP_PROP_FRAME_HEIGHT, 720);
+	cap1.set(CAP_PROP_FRAME_WIDTH, 1280);
 	int n = 1;
 
 	while (true) {
-		cap.read(frame);
+		cap.grab();
+		cap1.grab();
+		cap.retrieve(frame);
+		cap1.retrieve(frame1);
 		//saveImage(frame, n++);
 		imshow("frame", frame);
+		imshow("frame1", frame1);
 
 		int key = waitKey(1);
 		if (key == 27) {
+			saveImage(frame, n);
+			saveImage(frame1, n + 1);
 			break;
 		}
 	}
