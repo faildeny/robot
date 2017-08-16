@@ -42,7 +42,7 @@ int main(void)
 	//Mat img2 = imread("s2.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 
 	VideoCapture cap1(1);
-	VideoCapture cap2(2);
+	VideoCapture cap2(0);
 
 	Size frameSize(1280, 720);
 
