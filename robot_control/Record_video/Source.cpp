@@ -33,6 +33,7 @@ int main(int argc, char** argv) {
 
 	Mat frame;
 	Mat frame1;
+	Mat diff;
 
 	cap.set(CAP_PROP_FRAME_HEIGHT, 720);
 	cap.set(CAP_PROP_FRAME_WIDTH, 1280);
@@ -55,9 +56,11 @@ int main(int argc, char** argv) {
 		cap1.retrieve(frame1);
 		resize(frame, frame, Size(), 0.3, 0.3);
 		resize(frame1, frame1, Size(), 0.3, 0.3);
+		diff = frame - frame1;
 		//saveImage(frame, n++);
 		imshow("frame", frame);
 		imshow("frame1", frame1);
+		imshow("diff", diff);
 
 		int key = waitKey(1);
 		if (key == 27) {
