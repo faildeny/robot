@@ -43,8 +43,18 @@ int main(int argc, char** argv) {
 	while (true) {
 		cap.grab();
 		cap1.grab();
+		cap.grab();
+		cap1.grab();
+		cap.grab();
+		cap1.grab();
+		cap.grab();
+		cap1.grab();
+		cap.grab();
+		cap1.grab();
 		cap.retrieve(frame);
 		cap1.retrieve(frame1);
+		resize(frame, frame, Size(), 0.3, 0.3);
+		resize(frame1, frame1, Size(), 0.3, 0.3);
 		//saveImage(frame, n++);
 		imshow("frame", frame);
 		imshow("frame1", frame1);
