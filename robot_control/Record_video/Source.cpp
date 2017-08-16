@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 		cap1.retrieve(frame1);
 		resize(frame, frame, Size(), 0.3, 0.3);
 		resize(frame1, frame1, Size(), 0.3, 0.3);
-		diff = frame + frame1;
+		diff = frame*0.5 + frame1*0.5;
 		//saveImage(frame, n++);
 		imshow("frame", frame);
 		imshow("frame1", frame1);
