@@ -151,7 +151,7 @@ int main(void)
 	namedWindow("Trajectory", WINDOW_NORMAL);// Create a window for display.
 	Mat cropped1, cropped2;
 	Range crop_width_range(0, frame.cols);
-	Range crop_height_range(frame.rows*0.5 - 40, frame.rows*0.5);
+	Range crop_height_range(frame.rows*0.5 - 240, frame.rows*0.5);
 	Mat image3d;
 	Mat traj;
 
