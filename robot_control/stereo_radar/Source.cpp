@@ -38,8 +38,8 @@ void map3d(Mat &map, Mat image3d) {
 
 int main(void)
 {
-	Mat img1 = imread("s1.jpg", CV_LOAD_IMAGE_GRAYSCALE);
-	Mat img2 = imread("s2.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	//Mat img1 = imread("s1.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	//Mat img2 = imread("s2.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 
 	VideoCapture cap1(1);
 	VideoCapture cap2(2);
