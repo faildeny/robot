@@ -178,12 +178,11 @@ cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
 if (!cap.isOpened()) {
-	cout << "nie moge otworzyc kamery 1" << endl;
+	cout << "Couldn't open camera 1 \n" << endl;
 	return -1;
 }
-
 if (!cap2.isOpened()) {
-	cout << "nie moge otworzyc kamery 2" << endl;
+	cout << "Couldn't open camera 2 \n" << endl;
 	return -1;
 }
 
@@ -207,27 +206,21 @@ Mat disp = Mat::zeros(frame.size(), frame.type());
 Mat disp8;
 Point2i punkt(300, 300);
 
-// Camera transformation matrices
-//Mat R, T, E, F, Q;
-
+// Loading camera settings
 cap.setIntrinsics("extrinsics.yml", 1);
 cap2.setIntrinsics("extrinsics.yml", 2);
 stereo.setExtrinsics("extrinsics.yml");
 
-//FileStorage fs1("extrinsics.yml", FileStorage::READ);
-//if (!fs1.isOpened())
-//{
-//	cout << "Failed to open " << endl;
-//	return 1;
-//}
-//
-//fs1["R"] >> R;
-//fs1["T"] >> T;
-//fs1["E"] >> E;
-//fs1["F"] >> F;
-//fs1["Q"] >> Q;
+if(cap.setIntrinsics("extrinsics.yml", 1) 
+	&& cap2.setIntrinsics("extrinsics.yml", 2) 
+	&&stereo.setExtrinsics("extrinsics.yml"))
 
 printf("Camera setting have been read properly.\n");
+else {
+	printf("Problem in reading camera settings. \n");
+	return -1;
+}
+
 printf("frame size: %d x %d \n",frame.cols, frame.rows);
 
 cap.setUndistortRectifyMap(frameSize);

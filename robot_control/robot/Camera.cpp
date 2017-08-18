@@ -33,7 +33,7 @@ bool Camera::setIntrinsics(String filename, int n) {
 	if (!fs1.isOpened())
 	{
 		cout << "Failed to open " << endl;
-		return -1;
+		return 0;
 	}
 	if (n == 1) {
 		fs1["M1"] >> params.CM;
