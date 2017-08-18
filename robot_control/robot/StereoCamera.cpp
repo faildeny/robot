@@ -33,9 +33,22 @@ void StereoCamera::setParams() {
 	bm->setDisp12MaxDiff(12);
 };
 
-bool StereoCamera::setExtrinsics() {
-	return 0;
+bool StereoCamera::setExtrinsics(String filename) {
+
+		FileStorage fs1(filename, FileStorage::READ);
+		if (!fs1.isOpened())
+		{
+			cout << "Failed to open " << endl;
+			return 0;
+		}
+		fs1["R"] >> R;
+		fs1["T"] >> T;
+		fs1["E"] >> E;
+		fs1["F"] >> F;
+		fs1["Q"] >> Q;
+		return 1;
 };
+
 
 void StereoCamera::match(Mat frame1, Mat frame2,Mat &disp) {
 	bm->compute(frame1,frame2, disp);

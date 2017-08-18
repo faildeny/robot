@@ -18,11 +18,14 @@ public:
 	int ratio = 90; 
 	int offset = 125;
 	int exposure = 5;
+
+	Mat R, T, E, F, Q;
+
 public:
 	StereoCamera();
 	~StereoCamera();
 	void showMenu();
 	void setParams();
-	bool setExtrinsics();
+	bool setExtrinsics(String filename);
 	void match(Mat frame1, Mat frame2, Mat &disp);
 };

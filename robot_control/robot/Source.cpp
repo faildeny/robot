@@ -202,44 +202,30 @@ cap2.retrieve(frame2);
 previous = frame;
 
 stereo.showMenu();
-//StereoBM::StereoMatcher;
-namedWindow("okno");
-int numdis = 3; //7
-int wsize = 5; //6
-int unique = 5;
-int ratio = 60; //90
-int offset = 135; //125
-int exposure = 5;
-createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
-createTrackbar("Rozmiar okna", "okno", &wsize, 40);
-createTrackbar("Uniqueness ratio", "okno", &unique, 100);
-createTrackbar("Skala", "okno", &ratio, 500);
-createTrackbar("Przesuniecie", "okno", &offset, 400);
-createTrackbar("Exposure", "okno", &exposure, 15);
 
 Mat disp = Mat::zeros(frame.size(), frame.type());
 Mat disp8;
 Point2i punkt(300, 300);
 
 // Camera transformation matrices
-Mat R, T, E, F;
-Mat R1, R2, P1, P2, Q;
+//Mat R, T, E, F, Q;
 
 cap.setIntrinsics("extrinsics.yml", 1);
 cap2.setIntrinsics("extrinsics.yml", 2);
+stereo.setExtrinsics("extrinsics.yml");
 
-FileStorage fs1("extrinsics.yml", FileStorage::READ);
-if (!fs1.isOpened())
-{
-	cout << "Failed to open " << endl;
-	return 1;
-}
-
-fs1["R"] >> R;
-fs1["T"] >> T;
-fs1["E"] >> E;
-fs1["F"] >> F;
-fs1["Q"] >> Q;
+//FileStorage fs1("extrinsics.yml", FileStorage::READ);
+//if (!fs1.isOpened())
+//{
+//	cout << "Failed to open " << endl;
+//	return 1;
+//}
+//
+//fs1["R"] >> R;
+//fs1["T"] >> T;
+//fs1["E"] >> E;
+//fs1["F"] >> F;
+//fs1["Q"] >> Q;
 
 printf("Camera setting have been read properly.\n");
 printf("frame size: %d x %d \n",frame.cols, frame.rows);
@@ -287,10 +273,6 @@ while (true) {
 	
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	//imshow("kamera 1", frame);
-	//imshow("kamera 2", frame2);
-	Mat difference = frame - frame2;
-	//imshow("Diff", difference);
 
 //	object searching
 	//target_found=detectAndDisplay(frame_detect, target);
@@ -317,7 +299,7 @@ while (true) {
 	disp.convertTo(disp, CV_32FC1);
 	minMaxLoc(disp(area_h, area_w), &min, &max);
 	//float d = disp.at<float>(punkt);
-	double distance =0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / max*16.f;
+	double distance =0.2 * 0.001 / stereo.Q.at<double>(3, 2)*stereo.Q.at<double>(2, 3) / max*16.f;
 	max = distance;
 	ss << max;
 	String text = ss.str();
