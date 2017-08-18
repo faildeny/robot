@@ -163,8 +163,8 @@ parseArguments(argc, argv);
 
 Streamer stream(1);
 
-Camera cap(1);
-Camera cap2(2);
+Camera cap(0);
+Camera cap2(1);
 
 StereoCamera stereo;
 
@@ -202,7 +202,6 @@ double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 
-cap.grab();
 cap.grab();
 cap.retrieve(frame);
 cap2.grab();
