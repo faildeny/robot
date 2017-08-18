@@ -49,7 +49,6 @@ bool StereoCamera::setExtrinsics(String filename) {
 		return 1;
 };
 
-
-void StereoCamera::match(Mat frame1, Mat frame2,Mat &disp) {
+void StereoCamera::match(Mat frame1, Mat frame2, Mat &disp) {
 	bm->compute(frame1,frame2, disp);
 };

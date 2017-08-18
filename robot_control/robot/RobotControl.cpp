@@ -34,10 +34,7 @@ void RobotControl::move() {
 	if (i > 1000)
 	{
 		cmd[0] = 'x';
-		stop();
-		led_off(0);
-		led_off(1);
-		exit(0);
+		quit();
 	}
 
 	switch (cmd[0])
@@ -133,6 +130,12 @@ void RobotControl::move() {
 
 	}
 
+}
+void RobotControl::quit() {
+	stop();
+	led_off(0);
+	led_off(1);
+	exit(0);
 }
 
 void RobotControl::decide(char key, double direction, double distance, int turn, double target_size) {

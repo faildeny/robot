@@ -157,6 +157,68 @@ void updateMap(Point2d position)
 
 //End of odometry module
 
+//Depth map processing
+
+double farthest_dist, nearest_dist;
+ostringstream ss;
+Size disp_size;
+Rect area_rect;
+Range area_h;
+Range area_w;
+double centdistance;
+String text;
+
+int sum_l, sum_r;
+int turn;
+int border;
+Range dir_area_l;
+Range dir_area_r;
+Range dir_area_h;
+Scalar sum_l_scalar;
+Scalar sum_r_scalar;
+
+Rect left_area;
+Rect right_area;
+
+double distCentralArea(Mat disp, StereoCamera stereo) {
+	
+	disp_size = disp.size();
+
+	area_rect=Rect(disp_size.width / 2 - disp_size.width / 4, disp_size.height / 2 - disp_size.height / 4, disp_size.width / 2, disp_size.height / 2);
+
+	area_h=Range(disp_size.height / 2 - disp_size.height / 4, disp_size.height / 2 + disp_size.height / 4);
+	area_w=Range(disp_size.width / 2 - disp_size.width / 4, disp_size.width / 2 + disp_size.width / 4);
+	disp.convertTo(disp, CV_32FC1);
+	minMaxLoc(disp(area_h, area_w), &farthest_dist, &nearest_dist);
+	//float d = disp.at<float>(punkt);
+	centdistance = 0.2 * 0.001 / stereo.Q.at<double>(3, 2)*stereo.Q.at<double>(2, 3) / nearest_dist*16.f;
+	nearest_dist = centdistance;
+	ss << nearest_dist;
+	String text = ss.str();
+
+	return centdistance;
+
+}
+
+double avoidDirection(Mat disp) {
+	disp_size = disp.size();
+	border = 50;
+	dir_area_l=Range (border, disp_size.width*0.5);
+	dir_area_r=Range (disp_size.width*0.5, disp_size.width - border);
+	dir_area_h=Range (disp_size.height*0.3, disp_size.height*0.9);
+	sum_l_scalar = sum(disp(dir_area_h, dir_area_l));
+	sum_l = sum_l_scalar[0] / countNonZero(disp(dir_area_h, dir_area_l));
+	sum_r_scalar = sum(disp(dir_area_h, dir_area_r));
+	sum_r = sum_r_scalar[0] / countNonZero(disp(dir_area_h, dir_area_r));
+	turn = sum_l - sum_r;
+
+	left_area=Rect (border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
+	right_area=Rect (disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
+	return turn;
+}
+
+//End of depthmap processing
+
 int main (int argc, char** argv) {
 
 parseArguments(argc, argv);
@@ -238,6 +300,7 @@ Rect target(frameSize.width*0.5*0.2,frameSize.height*0.5,10,10);
 int i = 0;
 //Default starting key for controlling robot
 char cKey = 'w';
+double dist = 1.0;
 
 while (true) {
 
@@ -280,56 +343,26 @@ while (true) {
 	//resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
 	Mat preview;
 
-//distance from central area
-
-	double min, max;
-	ostringstream ss;
 	disp8.convertTo(preview, -1, double(stereo.ratio) / 50., stereo.offset - 200);
-	Size disp_size = disp.size();
-
-	Rect area_rect(disp_size.width / 2 - disp_size.width / 4, disp_size.height / 2 - disp_size.height / 4, disp_size.width / 2, disp_size.height / 2);
+//distance from central area
 	
-	Range area_h(disp_size.height/2-disp_size.height / 4, disp_size.height/2+disp_size.height/4);
-	Range area_w(disp_size.width / 2 - disp_size.width / 4, disp_size.width / 2 + disp_size.width / 4);
-	disp.convertTo(disp, CV_32FC1);
-	minMaxLoc(disp(area_h, area_w), &min, &max);
-	//float d = disp.at<float>(punkt);
-	double distance =0.2 * 0.001 / stereo.Q.at<double>(3, 2)*stereo.Q.at<double>(2, 3) / max*16.f;
-	max = distance;
-	ss << max;
-	String text = ss.str();
+	dist = distCentralArea(disp, stereo);
 
 //choosing direction to turn by sides comparison
-	int sum_l, sum_r;
-	int turn;
-	int border=50;
-	Range dir_area_l(border, disp_size.width*0.5);
-	Range dir_area_r(disp_size.width*0.5, disp_size.width - border);
-	Range dir_area_h(disp_size.height*0.3, disp_size.height*0.9);
-	Scalar sum_l_scalar = sum(preview(dir_area_h, dir_area_l));
-	sum_l = sum_l_scalar[0]/countNonZero(preview(dir_area_h, dir_area_l));
-	Scalar sum_r_scalar = sum(preview(dir_area_h, dir_area_r));
-	sum_r = sum_r_scalar[0] /countNonZero(preview(dir_area_h, dir_area_r));
-	turn = sum_l - sum_r;
-
-	Rect left(border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
-	Rect right(disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
-
+	turn= avoidDirection(disp);
 //showing interface on the disparity image
 
 	applyColorMap(preview, preview, COLORMAP_JET);
 	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
 
-	rectangle(preview, left, Scalar(255, 50, 50), 2, 8);
-	rectangle(preview, right, Scalar(0, 100, 255), 2, 8);
+	rectangle(preview, left_area, Scalar(255, 50, 50), 2, 8);
+	rectangle(preview, right_area, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
 	imshow("disparity", preview);
 	
-
 // end of camera setup
 
 	i++;
-	//dst = us_dist(15);
 	direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
 	target_size = target.width / frame_detect.cols;
 
@@ -339,15 +372,15 @@ while (true) {
 	if (iKey == 27)
 	{
 		stream.sendStatus(0);
+		robot.quit();
 		break;
 	}
 	if (iKey>0 && iKey<255)
 	cKey = (char)iKey;
-	//cout << iKey;
 
 // robot control
-	distance = 0.9;
-	robot.decide(cKey, direction, distance, turn, target_size);
+	dist = 0.9;
+	robot.decide(cKey, direction, dist, turn, target_size);
 	//robot.headTo(direction);
 	if(!target_found) robot.square();
 	robot.move();
@@ -359,6 +392,7 @@ while (true) {
 	updateCoordinates(enc_diff_left, enc_diff_right);
 	updateMap(position);
 	imshow("map", background+map+robot_shape);
+
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 

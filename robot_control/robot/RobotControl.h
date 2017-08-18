@@ -29,6 +29,7 @@ public:
 	
 public:
 	void move();
+	void quit();
 	void decide(char key, double direction, double distance, int turn, double target_size);
 	int turn();
 	int forward();
