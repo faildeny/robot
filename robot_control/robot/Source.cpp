@@ -168,22 +168,14 @@ Camera cap2(1);
 
 StereoCamera stereo;
 
-//VideoCapture cap(0);
-//VideoCapture cap2(1);
-
 Mat frame;
 Mat frame2;
 Mat previous;
-//bool success;
-//bool success2;
 
 Size frameSize(1280, 720);
 
-//cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
-//cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
-//cap2.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
-//cap2.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
-
+cap.setSize(frameSize.width, frameSize.height);
+cap2.setSize(frameSize.width, frameSize.height);
 
 if (!cap.isOpened()) {
 	cout << "nie moge otworzyc kamery 1" << endl;
@@ -213,25 +205,13 @@ previous = frame;
 namedWindow("okno");
 int numdis = 3; //7
 int wsize = 5; //6
-int prefilter = 31;
-int texturet = 10;
-int speckleSize = 200;
 int unique = 5;
-int dispmax = 1;
-int roiw1 = 100;
-int roiw2 = 200;
 int ratio = 60; //90
 int offset = 135; //125
 int exposure = 5;
 createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
 createTrackbar("Rozmiar okna", "okno", &wsize, 40);
-//createTrackbar("Prefilter", "okno", &prefilter, 100);
-//createTrackbar("Texture threshold", "okno", &texturet, 50);
-//createTrackbar("Speckle Window", "okno", &speckleSize, 500);
 createTrackbar("Uniqueness ratio", "okno", &unique, 100);
-//createTrackbar("MinDisp", "okno", &dispmax, 10);
-//createTrackbar("ROI 1", "okno", &roiw1, 4000);
-//createTrackbar("ROI 2", "okno", &roiw2, 500);
 createTrackbar("Skala", "okno", &ratio, 500);
 createTrackbar("Przesuniecie", "okno", &offset, 400);
 createTrackbar("Exposure", "okno", &exposure, 15);
@@ -239,20 +219,10 @@ createTrackbar("Exposure", "okno", &exposure, 15);
 Mat disp = Mat::zeros(frame.size(), frame.type());
 Mat disp8;
 Point2i punkt(300, 300);
-Ptr<StereoBM> bm = StereoBM::create(16, 9);
-
-int SADWindowSize = 15;
-int numberOfDisparities = 64;
 
 // Camera transformation matrices
-
-//Mat CM1 = Mat(3, 3, CV_64FC1);
-//Mat CM2 = Mat(3, 3, CV_64FC1);
-//Mat D1, D2;
 Mat R, T, E, F;
 Mat R1, R2, P1, P2, Q;
-//Mat map1x, map1y, map2x, map2y;
-//Mat imgU1, imgU2;
 
 cap.setIntrinsics("extrinsics.yml", 1);
 cap2.setIntrinsics("extrinsics.yml", 2);
@@ -264,38 +234,17 @@ if (!fs1.isOpened())
 	return 1;
 }
 
-//fs1["M1"] >> CM1;
-//fs1["M2"] >> CM2;
-//fs1["D1"] >> D1;
-//fs1["D2"] >> D2;
 fs1["R"] >> R;
 fs1["T"] >> T;
 fs1["E"] >> E;
 fs1["F"] >> F;
-//fs1["R1"] >> R1;
-//fs1["R2"] >> R2;
-//fs1["P1"] >> P1;
-//fs1["P2"] >> P2;
 fs1["Q"] >> Q;
 
-printf("Done Calibration\n");
-//printf("D1: %d", D1.cols);
-printf("Starting Rectification\n");
-
+printf("Camera setting have been read properly.\n");
 printf("frame size: %d x %d \n",frame.cols, frame.rows);
-//printf("CM1: %d x %d \n", CM1.data[0], D1.data[0]);
-
 
 cap.setUndistortRectifyMap(frameSize);
 cap2.setUndistortRectifyMap(frameSize);
-
-//initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
-//initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
-
-//printf("map1x size: %d x %d dims: %d area: %d \n", map1x.cols, map1x.rows, map1x.dims, map1x.size().area());
-//printf("map1y size: %d x %d dims: %d area: %d \n", map1y.cols, map1y.rows, map1y.dims, map1y.size().area());
-//printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x.dims, map2x.size().area());
-//printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
 
 //Initialize robot
 RobotControl robot(speed);
@@ -308,8 +257,8 @@ char cKey = 'w';
 
 while (true) {
 
-	//cap.set(CV_CAP_PROP_EXPOSURE, -exposure);
-	//cap2.set(CV_CAP_PROP_EXPOSURE, -exposure);
+	//cap.setExp(-9);
+	//cap.setExp(-9);
 
 	cap.grab();
 	cap2.grab();
@@ -331,10 +280,6 @@ while (true) {
 
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
-	
-	//remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-	//remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-	//change
 
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
@@ -346,30 +291,15 @@ while (true) {
 	Mat difference = frame - frame2;
 	//imshow("Diff", difference);
 
+//	object searching
 	//target_found=detectAndDisplay(frame_detect, target);
 
-	//numberOfDisparities = numdis * 16;
-	//SADWindowSize = wsize * 2 + 1;
-
-//	
-//	bm->setPreFilterCap(prefilter); //31
-//	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-//	bm->setMinDisparity(0);
-//	bm->setNumDisparities(numberOfDisparities);
-//	bm->setTextureThreshold(texturet); //10
-//	bm->setUniquenessRatio(unique); //15
-//	bm->setSpeckleWindowSize(speckleSize); //200
-//	bm->setSpeckleRange(32); //32
-//	bm->setDisp12MaxDiff(dispmax); //1
-
-//	bm->compute(frame, frame2, disp);
 	stereo.match(frame, frame2, disp);
 
-	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
+	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
 
 	//resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
 	Mat preview;
-
 
 //distance from central area
 
@@ -379,7 +309,6 @@ while (true) {
 	Size disp_size = disp.size();
 
 	Rect area_rect(disp_size.width / 2 - disp_size.width / 4, disp_size.height / 2 - disp_size.height / 4, disp_size.width / 2, disp_size.height / 2);
-	
 	
 	Range area_h(disp_size.height/2-disp_size.height / 4, disp_size.height/2+disp_size.height/4);
 	Range area_w(disp_size.width / 2 - disp_size.width / 4, disp_size.width / 2 + disp_size.width / 4);
@@ -452,7 +381,7 @@ while (true) {
 	updateMap(position);
 	imshow("map", background+map+robot_shape);
 //Streaming
-	if (i%10 == 0) stream.send(posx, posy);
+	//if (i%10 == 0) stream.send(posx, posy);
 
 }
 return 0;
