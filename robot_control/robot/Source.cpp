@@ -163,21 +163,26 @@ parseArguments(argc, argv);
 
 Streamer stream(1);
 
-VideoCapture cap(0);
-VideoCapture cap2(1);
+Camera cap(1);
+Camera cap2(2);
+
+StereoCamera stereo;
+
+//VideoCapture cap(0);
+//VideoCapture cap2(1);
 
 Mat frame;
 Mat frame2;
 Mat previous;
-bool success;
-bool success2;
+//bool success;
+//bool success2;
 
-Size frame_size(1280, 720);
+Size frameSize(1280, 720);
 
-cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
-cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
-cap2.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
-cap2.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
+//cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
+//cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
+//cap2.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
+//cap2.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
 
 
 if (!cap.isOpened()) {
@@ -220,13 +225,13 @@ int offset = 135; //125
 int exposure = 5;
 createTrackbar("Liczba dysparycji", "okno", &numdis, 16);
 createTrackbar("Rozmiar okna", "okno", &wsize, 40);
-createTrackbar("Prefilter", "okno", &prefilter, 100);
-createTrackbar("Texture threshold", "okno", &texturet, 50);
-createTrackbar("Speckle Window", "okno", &speckleSize, 500);
+//createTrackbar("Prefilter", "okno", &prefilter, 100);
+//createTrackbar("Texture threshold", "okno", &texturet, 50);
+//createTrackbar("Speckle Window", "okno", &speckleSize, 500);
 createTrackbar("Uniqueness ratio", "okno", &unique, 100);
-createTrackbar("MinDisp", "okno", &dispmax, 10);
-createTrackbar("ROI 1", "okno", &roiw1, 4000);
-createTrackbar("ROI 2", "okno", &roiw2, 500);
+//createTrackbar("MinDisp", "okno", &dispmax, 10);
+//createTrackbar("ROI 1", "okno", &roiw1, 4000);
+//createTrackbar("ROI 2", "okno", &roiw2, 500);
 createTrackbar("Skala", "okno", &ratio, 500);
 createTrackbar("Przesuniecie", "okno", &offset, 400);
 createTrackbar("Exposure", "okno", &exposure, 15);
@@ -241,13 +246,16 @@ int numberOfDisparities = 64;
 
 // Camera transformation matrices
 
-Mat CM1 = Mat(3, 3, CV_64FC1);
-Mat CM2 = Mat(3, 3, CV_64FC1);
-Mat D1, D2;
+//Mat CM1 = Mat(3, 3, CV_64FC1);
+//Mat CM2 = Mat(3, 3, CV_64FC1);
+//Mat D1, D2;
 Mat R, T, E, F;
 Mat R1, R2, P1, P2, Q;
-Mat map1x, map1y, map2x, map2y;
-Mat imgU1, imgU2;
+//Mat map1x, map1y, map2x, map2y;
+//Mat imgU1, imgU2;
+
+cap.setIntrinsics("extrinsics.yml", 1);
+cap2.setIntrinsics("extrinsics.yml", 2);
 
 FileStorage fs1("extrinsics.yml", FileStorage::READ);
 if (!fs1.isOpened())
@@ -256,41 +264,45 @@ if (!fs1.isOpened())
 	return 1;
 }
 
-fs1["M1"] >> CM1;
-fs1["M2"] >> CM2;
-fs1["D1"] >> D1;
-fs1["D2"] >> D2;
+//fs1["M1"] >> CM1;
+//fs1["M2"] >> CM2;
+//fs1["D1"] >> D1;
+//fs1["D2"] >> D2;
 fs1["R"] >> R;
 fs1["T"] >> T;
 fs1["E"] >> E;
 fs1["F"] >> F;
-fs1["R1"] >> R1;
-fs1["R2"] >> R2;
-fs1["P1"] >> P1;
-fs1["P2"] >> P2;
+//fs1["R1"] >> R1;
+//fs1["R2"] >> R2;
+//fs1["P1"] >> P1;
+//fs1["P2"] >> P2;
 fs1["Q"] >> Q;
 
 printf("Done Calibration\n");
-printf("D1: %d", D1.cols);
+//printf("D1: %d", D1.cols);
 printf("Starting Rectification\n");
 
 printf("frame size: %d x %d \n",frame.cols, frame.rows);
-printf("CM1: %d x %d \n", CM1.data[0], D1.data[0]);
+//printf("CM1: %d x %d \n", CM1.data[0], D1.data[0]);
 
-initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
-initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
 
-printf("map1x size: %d x %d dims: %d area: %d \n", map1x.cols, map1x.rows, map1x.dims, map1x.size().area());
-printf("map1y size: %d x %d dims: %d area: %d \n", map1y.cols, map1y.rows, map1y.dims, map1y.size().area());
-printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x.dims, map2x.size().area());
-printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
+cap.setUndistortRectifyMap(frameSize);
+cap2.setUndistortRectifyMap(frameSize);
+
+//initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
+//initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
+
+//printf("map1x size: %d x %d dims: %d area: %d \n", map1x.cols, map1x.rows, map1x.dims, map1x.size().area());
+//printf("map1y size: %d x %d dims: %d area: %d \n", map1y.cols, map1y.rows, map1y.dims, map1y.size().area());
+//printf("map2x size: %d x %d dims: %d area: %d \n", map2x.cols, map2x.rows, map2x.dims, map2x.size().area());
+//printf("map2y size: %d x %d dims: %d area: %d \n", map2y.cols, map2y.rows, map2y.dims, map2y.size().area());
 
 //Initialize robot
 RobotControl robot(speed);
 //Stream battery voltage
 stream.sendVoltage(volt());
 //Define default target
-Rect target(frame_size.width*0.5*0.2,frame_size.height*0.5,10,10);
+Rect target(frameSize.width*0.5*0.2,frameSize.height*0.5,10,10);
 int i = 0;
 char cKey = 'w';
 
@@ -299,19 +311,19 @@ while (true) {
 	//cap.set(CV_CAP_PROP_EXPOSURE, -exposure);
 	//cap2.set(CV_CAP_PROP_EXPOSURE, -exposure);
 
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-	success = cap.grab();
-	success2 = cap2.grab();
-
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
+
 	frame_detect = frame;
 	previous = frame;
 	printf("nowe obrazy \n");
@@ -320,9 +332,12 @@ while (true) {
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 	
-	remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-	remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-
+	//remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+	//remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+	
+	cap.remapFrame(frame);
+	cap2.remapFrame(frame2);
+	
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	//imshow("kamera 1", frame);
@@ -332,21 +347,22 @@ while (true) {
 
 	//target_found=detectAndDisplay(frame_detect, target);
 
-	numberOfDisparities = numdis * 16;
-	SADWindowSize = wsize * 2 + 1;
+	//numberOfDisparities = numdis * 16;
+	//SADWindowSize = wsize * 2 + 1;
 
-	
-	bm->setPreFilterCap(prefilter); //31
-	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-	bm->setMinDisparity(0);
-	bm->setNumDisparities(numberOfDisparities);
-	bm->setTextureThreshold(texturet); //10
-	bm->setUniquenessRatio(unique); //15
-	bm->setSpeckleWindowSize(speckleSize); //200
-	bm->setSpeckleRange(32); //32
-	bm->setDisp12MaxDiff(dispmax); //1
+//	
+//	bm->setPreFilterCap(prefilter); //31
+//	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
+//	bm->setMinDisparity(0);
+//	bm->setNumDisparities(numberOfDisparities);
+//	bm->setTextureThreshold(texturet); //10
+//	bm->setUniquenessRatio(unique); //15
+//	bm->setSpeckleWindowSize(speckleSize); //200
+//	bm->setSpeckleRange(32); //32
+//	bm->setDisp12MaxDiff(dispmax); //1
 
-	bm->compute(frame, frame2, disp);
+//	bm->compute(frame, frame2, disp);
+	stereo.match(frame, frame2, disp);
 
 	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
 
