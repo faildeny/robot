@@ -3,6 +3,8 @@
 #include "opencv2/calib3d.hpp"
 #include <iostream>
 
+
+#include "StereoCamera.h"
 using namespace std;
 using namespace cv;
 
@@ -16,6 +18,8 @@ void klik(int event, int wx, int wy, int flags, void* userdata)
 		punktKlik->y = wy;
 	}
 }
+
+
 
 void map3d(Mat &map, Mat image3d) {
 	int center_x = 600;
@@ -40,16 +44,20 @@ int main(void)
 {
 	//Mat img1 = imread("s1.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 	//Mat img2 = imread("s2.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	Camera cam1(1);
+	Camera cam2(2);
 
-	VideoCapture cap1(1);
-	VideoCapture cap2(0);
+	StereoCamera stereo;
+
+	//VideoCapture cap1(1);
+	//VideoCapture cap2(0);
 
 	Size frameSize(1280, 720);
 
-	cap1.set(CAP_PROP_FRAME_WIDTH, frameSize.width);
-	cap1.set(CAP_PROP_FRAME_HEIGHT, frameSize.height);
-	cap2.set(CAP_PROP_FRAME_WIDTH, frameSize.width);
-	cap2.set(CAP_PROP_FRAME_HEIGHT, frameSize.height);
+	//cap1.set(CAP_PROP_FRAME_WIDTH, frameSize.width);
+	//cap1.set(CAP_PROP_FRAME_HEIGHT, frameSize.height);
+	//cap2.set(CAP_PROP_FRAME_WIDTH, frameSize.width);
+	//cap2.set(CAP_PROP_FRAME_HEIGHT, frameSize.height);
 
 	Size originalframeSize(1280, 720);
 
@@ -59,8 +67,11 @@ int main(void)
 	Mat frame3(320, 180, CV_8U);
 	Mat frame2(frame.size(), frame.type());
 
-	cap1.grab();
-	cap1.retrieve(temp1);
+	cam1.grab();
+	cam1.retrieve(temp1);
+
+	//cap1.grab();
+	//cap1.retrieve(temp1);
 
 	Size tempSize = temp1.size();
 	Rect area(0, tempSize.height - frameSize.height, frameSize.width, frameSize.height);
@@ -82,17 +93,17 @@ int main(void)
 	int ratio = 90; //90
 	int offset = 125; //125
 	int exposure = 5;
-	createTrackbar("Num Disparities", "okno", &numdis, 16);
-	createTrackbar("Window Size", "okno", &wsize, 40);
-	createTrackbar("Prefilter", "okno", &prefilter, 100);
-	createTrackbar("Texture threshold", "okno", &texturet, 50);
-	createTrackbar("Speckle Window", "okno", &speckleSize, 500);
-	createTrackbar("Uniqueness ratio", "okno", &unique, 100);
-	createTrackbar("MinDisp", "okno", &dispmax, 10);
-	createTrackbar("ROI 1", "okno", &roiw1, 4000);
-	createTrackbar("ROI 2", "okno", &roiw2, 500);
-	createTrackbar("Scale", "okno", &ratio, 500);
-	createTrackbar("Offset", "okno", &offset, 400);
+	//createTrackbar("Num Disparities", "okno", &numdis, 16);
+	//createTrackbar("Window Size", "okno", &wsize, 40);
+	//createTrackbar("Prefilter", "okno", &prefilter, 100);
+	//createTrackbar("Texture threshold", "okno", &texturet, 50);
+	//createTrackbar("Speckle Window", "okno", &speckleSize, 500);
+	//createTrackbar("Uniqueness ratio", "okno", &unique, 100);
+	//reateTrackbar("MinDisp", "okno", &dispmax, 10);
+	//createTrackbar("ROI 1", "okno", &roiw1, 4000);
+	//createTrackbar("ROI 2", "okno", &roiw2, 500);
+	//createTrackbar("Scale", "okno", &ratio, 500);
+	//createTrackbar("Offset", "okno", &offset, 400);
 
 	Mat disp = Mat::zeros(frame3.size(), CV_32FC1);
 	Mat disp2(frame3.size(), CV_32FC1);
@@ -108,15 +119,18 @@ int main(void)
 	Rect roi2(1, 1, roiw2, roiw2);
 
 	////////////////////////////////////
-	Mat CM1 = Mat(3, 3, CV_64FC1);
-	Mat CM2 = Mat(3, 3, CV_64FC1);
-	Mat D1, D2;
+	//Mat CM1 = Mat(3, 3, CV_64FC1);
+	//Mat CM2 = Mat(3, 3, CV_64FC1);
+	//Mat D1, D2;
 	Mat R, T, E, F;
 	//Mat img1, img2;
 	Mat R1, R2, P1, P2, Q;
-	Mat map1x, map1y, map2x, map2y;
-	Mat imgU1, imgU2;
+	//Mat map1x, map1y, map2x, map2y;
+	//Mat imgU1, imgU2;
 
+	cam1.setIntrinsics("extrinsics.yml", 1);
+	cam2.setIntrinsics("extrinsics.yml", 2);
+	
 	FileStorage fs1("extrinsics.yml", FileStorage::READ);
 	if (!fs1.isOpened())
 	{
@@ -124,28 +138,29 @@ int main(void)
 		return 1;
 	}
 
-	fs1["M1"] >> CM1;
-	fs1["M2"] >> CM2;
-	fs1["D1"] >> D1;
-	fs1["D2"] >> D2;
+	//fs1["M1"] >> CM1;
+	//fs1["M2"] >> CM2;
+	//fs1["D1"] >> D1;
+	//fs1["D2"] >> D2;
 	fs1["R"] >> R;
 	fs1["T"] >> T;
 	fs1["E"] >> E;
 	fs1["F"] >> F;
-	fs1["R1"] >> R1;
-	fs1["R2"] >> R2;
-	fs1["P1"] >> P1;
-	fs1["P2"] >> P2;
+	//fs1["R1"] >> R1;
+	//fs1["R2"] >> R2;
+	//fs1["P1"] >> P1;
+	//fs1["P2"] >> P2;
 	fs1["Q"] >> Q;
 
 	printf("Done Calibration\n");
-	printf("D1: %d", D1.cols);
+//	printf("D1: %d", D1.cols);
 	printf("Starting Rectification\n");
 
+	cam1.setUndistortRectifyMap(frameSize);
+	cam2.setUndistortRectifyMap(frameSize);
 
-
-	initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
-	initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
+	//initUndistortRectifyMap(CM1, D1, R1, P1, frame.size(), CV_32FC1, map1x, map1y);
+	//initUndistortRectifyMap(CM2, D2, R2, P2, frame2.size(), CV_32FC1, map2x, map2y);
 
 
 	namedWindow("Trajectory", WINDOW_NORMAL);// Create a window for display.
@@ -157,7 +172,20 @@ int main(void)
 
 	while (true) {
 
-		cap1.grab();
+		cam1.grab();
+		cam2.grab();
+		cam1.grab();
+		cam2.grab();
+		cam1.grab();
+		cam2.grab();
+		cam1.grab();
+		cam2.grab();
+		cam1.grab();
+		cam2.grab();
+		cam1.retrieve(temp1);
+		cam2.retrieve(temp2);
+
+		/*cap1.grab();
 		cap2.grab();
 		cap1.grab();
 		cap2.grab();
@@ -168,7 +196,7 @@ int main(void)
 		cap1.grab();
 		cap2.grab();
 		cap1.retrieve(temp1);
-		cap2.retrieve(temp2);
+		cap2.retrieve(temp2);*/
 
 		frame = temp1(area);
 		frame2 = temp2(area);
@@ -176,8 +204,11 @@ int main(void)
 		cvtColor(frame, frame, COLOR_BGR2GRAY);
 		cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 
-		remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-		remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+		cam1.remapFrame(frame);
+		cam2.remapFrame(frame2);
+
+		//remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+		//remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 		cropped1 = frame(crop_height_range, crop_width_range);
 		cropped2 = frame2(crop_height_range, crop_width_range);
 
@@ -186,24 +217,26 @@ int main(void)
 
 		//imshow("lewa", temp1);
 		//imshow("prawa", temp1 - temp2);
-		numberOfDisparities = numdis * 16;
-		SADWindowSize = wsize * 2 + 1;
+		//numberOfDisparities = numdis * 16;
+		//SADWindowSize = wsize * 2 + 1;
 
-		bm->setROI1(roi1);
-		bm->setROI2(roi2);
-		bm->setPreFilterCap(prefilter); //31
-		bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-		bm->setMinDisparity(0);
-		bm->setNumDisparities(numberOfDisparities);
-		bm->setTextureThreshold(texturet); //10
-		bm->setUniquenessRatio(unique); //15
-		bm->setSpeckleWindowSize(speckleSize); //200
-		bm->setSpeckleRange(32); //32
-		bm->setDisp12MaxDiff(12); //1
+		//bm->setROI1(roi1);
+		//bm->setROI2(roi2);
+		//bm->setPreFilterCap(prefilter); //31
+		//bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
+		//bm->setMinDisparity(0);
+		//bm->setNumDisparities(numberOfDisparities);
+		//bm->setTextureThreshold(texturet); //10
+		//bm->setUniquenessRatio(unique); //15
+		//bm->setSpeckleWindowSize(speckleSize); //200
+		//bm->setSpeckleRange(32); //32
+		//bm->setDisp12MaxDiff(12); //1
 
 
-								  //bm->compute(frame, frame2, disp);
-		bm->compute(cropped1, cropped2, disp_scan);
+		//bm->compute(frame, frame2, disp);
+		//bm->compute(cropped1, cropped2, disp_scan);
+
+		stereo.match(cropped1, cropped2, disp_scan);
 
 		//resize(disp8, disp8, Size(), 3, 3, INTER_LINEAR);
 		Mat preview;

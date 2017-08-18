@@ -28,8 +28,8 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	VideoCapture cap(0);
-	VideoCapture cap1(1);
+	VideoCapture cap(1);
+	VideoCapture cap1(2);
 
 	Mat frame;
 	Mat frame1;
@@ -39,6 +39,9 @@ int main(int argc, char** argv) {
 	cap.set(CAP_PROP_FRAME_WIDTH, 1280);
 	cap1.set(CAP_PROP_FRAME_HEIGHT, 720);
 	cap1.set(CAP_PROP_FRAME_WIDTH, 1280);
+	cap.set(CAP_PROP_EXPOSURE, -11);
+	cap1.set(CAP_PROP_EXPOSURE,-11);
+
 	int n = 1;
 
 	while (true) {

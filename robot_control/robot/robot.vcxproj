@@ -20,17 +20,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="gopigo.c" />
+    <ClCompile Include="initial-state.c" />
+    <ClCompile Include="RobotControl.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StereoCamera.cpp" />
+    <ClCompile Include="Streamer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="gopigo.h" />
+    <ClInclude Include="initial-state.h" />
+    <ClInclude Include="RobotControl.h" />
     <ClInclude Include="StereoCamera.h" />
+    <ClInclude Include="Streamer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{d22641a9-82ac-40fb-8d8f-855a5bc3be21}</ProjectGuid>
+    <ProjectGuid>{ffbc5137-426c-402a-b41e-2251823556ed}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>stereo_radar</RootNamespace>
+    <RootNamespace>robot</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

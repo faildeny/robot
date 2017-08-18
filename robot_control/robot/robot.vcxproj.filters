@@ -18,6 +18,18 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gopigo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="initial-state.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RobotControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -26,6 +38,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gopigo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="initial-state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
