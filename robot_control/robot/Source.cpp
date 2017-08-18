@@ -150,9 +150,28 @@ void updateMap(Point2d position)
 {
 	int x = position.x + 300;
 	int y = position.y + 350;
-	circle(map, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
+	circle(map, Point(x, y), 1, CV_RGB(0, 0, 255), 2);
 	drawRobot(robot_shape, Point(x, y), Size(10, 15), azimuth * 180 / 3.14);
 	drawCurrentArea(background, Point(x, y), azimuth);
+}
+
+Mat image3d;
+Mat scan_line1, scan_line2;
+void map3d(Mat &map, Mat image3d) {
+	int center_x = 300;
+	int center_y = 350;
+	int j = 20;
+	//map = Mat::zeros(600, 1280, CV_8UC3);
+	//Rect robot_rect(center_x - 10, center_y - 10, 20, 30);
+	//rectangle(map, robot_rect, Scalar(30, 255, 60), 2);
+	for (int j = 20; j < 21; j++) {
+		for (int i = 0; i < image3d.cols; i++) {
+
+			int x = int(5 * image3d.at<Vec3f>(j, i)[0]) + center_x;
+			int y = int(-5 * image3d.at<Vec3f>(j, i)[2]) + center_y;
+			circle(map, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
+		}
+	}
 }
 
 //End of odometry module
@@ -233,6 +252,8 @@ Camera cap2(1);
 //Load stereomodule
 StereoCamera stereo;
 
+
+
 //Create frames for both cameras
 Mat frame;
 Mat frame2;
@@ -243,6 +264,8 @@ Size frameSize(1280, 720);
 cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
+//Setting ROI of depthmap
+Rect area(0, 50, frameSize.width, frameSize.height);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -303,12 +326,7 @@ char cKey = 'w';
 double dist = 1.0;
 
 while (true) {
-	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
-	decodeEncoders();
-	updateCoordinates(enc_diff_left, enc_diff_right);
-	//thread t1(updateMap, position);
-	updateMap(position);
-	imshow("map", background + map + robot_shape);
+	
 	//cap.setExp(-9);
 	//cap.setExp(-9);
 
@@ -337,11 +355,16 @@ while (true) {
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
+	scan_line1 = frame(area);
+	scan_line2 = frame(area);
+
 //	object searching
 	//target_found=detectAndDisplay(frame_detect, target);
-	stereo.setParams();
 
-	stereo.match(frame, frame2, disp);
+	//compute depthmap
+	stereo.setParams();
+	//stereo.match(frame, frame2, disp);
+	stereo.match(scan_line1, scan_line2, disp);
 
 	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
 
@@ -392,6 +415,15 @@ while (true) {
 	robot.showStatus();
 
 // Odometry
+	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
+	decodeEncoders();
+	updateCoordinates(enc_diff_left, enc_diff_right);
+	//thread t1(updateMap, position);
+	updateMap(position);
+
+	reprojectImageTo3D(disp, image3d, stereo.Q);
+	map3d(map, image3d);
+	imshow("map", background + map + robot_shape);
 
 	//t1.join();
 //Streaming
