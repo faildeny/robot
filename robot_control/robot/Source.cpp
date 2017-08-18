@@ -387,11 +387,11 @@ while (true) {
 	robot.showStatus();
 
 // Odometry
-	robot.readEncoders(enc_left, enc_right,enc_l_dir,enc_r_dir);
-	decodeEncoders();
-	updateCoordinates(enc_diff_left, enc_diff_right);
-	updateMap(position);
-	imshow("map", background+map+robot_shape);
+	//robot.readEncoders(enc_left, enc_right,enc_l_dir,enc_r_dir);
+	//decodeEncoders();
+	//updateCoordinates(enc_diff_left, enc_diff_right);
+	//updateMap(position);
+	//imshow("map", background+map+robot_shape);
 
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
