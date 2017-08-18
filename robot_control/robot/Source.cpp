@@ -161,22 +161,27 @@ int main (int argc, char** argv) {
 
 parseArguments(argc, argv);
 
+//Load streamer
 Streamer stream(1);
 
+//Open cameras
 Camera cap(0);
 Camera cap2(1);
 
+//Load stereomodule
 StereoCamera stereo;
 
+//Create frames for both cameras
 Mat frame;
 Mat frame2;
-Mat previous;
 
 Size frameSize(1280, 720);
 
+//Setting camera resolution
 cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
+//Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
 	return -1;
@@ -186,43 +191,40 @@ if (!cap2.isOpened()) {
 	return -1;
 }
 
+//Object detector module init
 Mat frame_detect;
 bool target_found = false;
 double direction;
 double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
-
+//Grabbing first frame for further image settings
 cap.grab();
 cap.retrieve(frame);
-cap2.grab();
-cap2.retrieve(frame2);
 
-previous = frame;
-
+//Sliders for camera parameters control
 stereo.showMenu();
 
-Mat disp = Mat::zeros(frame.size(), frame.type());
+//Images for depth maps
+//Mat disp = Mat::zeros(frame.size(), frame.type());
+Mat disp;
 Mat disp8;
+//Default point for distance measurement
 Point2i punkt(300, 300);
 
-// Loading camera settings
-cap.setIntrinsics("extrinsics.yml", 1);
-cap2.setIntrinsics("extrinsics.yml", 2);
-stereo.setExtrinsics("extrinsics.yml");
-
+// Loading and checking camera settings
 if(cap.setIntrinsics("extrinsics.yml", 1) 
 	&& cap2.setIntrinsics("extrinsics.yml", 2) 
 	&&stereo.setExtrinsics("extrinsics.yml"))
 
-printf("Camera setting have been read properly.\n");
+printf("Camera settings have been read properly.\n");
 else {
 	printf("Problem in reading camera settings. \n");
 	return -1;
 }
 
 printf("frame size: %d x %d \n",frame.cols, frame.rows);
-
+//Preparing undistortion maps for further frame transformations
 cap.setUndistortRectifyMap(frameSize);
 cap2.setUndistortRectifyMap(frameSize);
 
@@ -232,7 +234,9 @@ RobotControl robot(speed);
 stream.sendVoltage(volt());
 //Define default target
 Rect target(frameSize.width*0.5*0.2,frameSize.height*0.5,10,10);
+//Creating loop counter
 int i = 0;
+//Default starting key for controlling robot
 char cKey = 'w';
 
 while (true) {
@@ -254,8 +258,6 @@ while (true) {
 	cap2.retrieve(frame2);
 
 	frame_detect = frame;
-	previous = frame;
-	printf("nowe obrazy \n");
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
