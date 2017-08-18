@@ -306,7 +306,8 @@ while (true) {
 	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
 	decodeEncoders();
 	updateCoordinates(enc_diff_left, enc_diff_right);
-	thread t1(updateMap, position);
+	//thread t1(updateMap, position);
+	updateMap(position);
 	imshow("map", background + map + robot_shape);
 	//cap.setExp(-9);
 	//cap.setExp(-9);
@@ -392,7 +393,7 @@ while (true) {
 
 // Odometry
 
-	t1.join();
+	//t1.join();
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 
