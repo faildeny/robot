@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 #include <stdio.h>
-
+#include <thread>
 extern "C" {
 #include "gopigo.h"
 }
@@ -303,7 +303,11 @@ char cKey = 'w';
 double dist = 1.0;
 
 while (true) {
-
+	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
+	decodeEncoders();
+	updateCoordinates(enc_diff_left, enc_diff_right);
+	thread t1(updateMap, position);
+	imshow("map", background + map + robot_shape);
 	//cap.setExp(-9);
 	//cap.setExp(-9);
 
@@ -387,12 +391,8 @@ while (true) {
 	robot.showStatus();
 
 // Odometry
-	//robot.readEncoders(enc_left, enc_right,enc_l_dir,enc_r_dir);
-	//decodeEncoders();
-	//updateCoordinates(enc_diff_left, enc_diff_right);
-	//updateMap(position);
-	//imshow("map", background+map+robot_shape);
 
+	t1.join();
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 
