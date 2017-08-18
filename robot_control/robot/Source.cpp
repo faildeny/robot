@@ -201,6 +201,7 @@ cap2.retrieve(frame2);
 
 previous = frame;
 
+stereo.showMenu();
 //StereoBM::StereoMatcher;
 namedWindow("okno");
 int numdis = 3; //7
@@ -293,6 +294,7 @@ while (true) {
 
 //	object searching
 	//target_found=detectAndDisplay(frame_detect, target);
+	stereo.setParams();
 
 	stereo.match(frame, frame2, disp);
 
@@ -305,7 +307,7 @@ while (true) {
 
 	double min, max;
 	ostringstream ss;
-	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
+	disp8.convertTo(preview, -1, double(stereo.ratio) / 50., stereo.offset - 200);
 	Size disp_size = disp.size();
 
 	Rect area_rect(disp_size.width / 2 - disp_size.width / 4, disp_size.height / 2 - disp_size.height / 4, disp_size.width / 2, disp_size.height / 2);

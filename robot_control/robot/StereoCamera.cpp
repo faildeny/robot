@@ -8,6 +8,17 @@ setParams();
 
 StereoCamera::~StereoCamera() {};
 
+void StereoCamera::showMenu() {
+	namedWindow("Camera and stereo settings");
+	
+	createTrackbar("Number of disparities", "Camera and stereo settings", &numdis, 16);
+	createTrackbar("Window size", "Camera and stereo settings", &wsize, 40);
+	createTrackbar("Uniqueness ratio", "Camera and stereo settings", &unique, 100);
+	createTrackbar("Scale", "Camera and stereo settings", &ratio, 500);
+	createTrackbar("Offset", "Camera and stereo settings", &offset, 400);
+	createTrackbar("Exposure", "Camera and stereo settings", &exposure, 15);
+};
+
 void StereoCamera::setParams() {
 	numberOfDisparities = numdis * 16;
 	SADWindowSize = wsize * 2 + 1;
