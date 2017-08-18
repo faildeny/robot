@@ -203,6 +203,7 @@ if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be lo
 
 
 cap.grab();
+cap.grab();
 cap.retrieve(frame);
 cap2.grab();
 cap2.retrieve(frame2);
@@ -334,7 +335,8 @@ while (true) {
 	
 	//remap(frame, frame, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 	//remap(frame2, frame2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-	
+	//change
+
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
 	
