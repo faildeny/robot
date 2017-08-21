@@ -274,7 +274,7 @@ cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
 //Setting ROI of depthmap
-Rect area(0, 300, frameSize.width, 200);
+Rect area(0, 300, frameSize.width, 300);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
