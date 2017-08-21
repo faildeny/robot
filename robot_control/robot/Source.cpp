@@ -274,7 +274,7 @@ cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
 //Setting ROI of depthmap
-Rect area(0, 300, frameSize.width, 300);
+Rect area(0, 0, frameSize.width, 300);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -353,7 +353,7 @@ while (true) {
 	cap2.retrieve(frame2);
 
 	frame_detect = frame;
-	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
