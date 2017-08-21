@@ -376,6 +376,8 @@ while (true) {
 	//compute depthmap
 	stereo.setParams();
 	stereo.match(scan_line1, scan_line2, disp);
+
+	resize(disp, disp, Size(), 5, 5, INTER_AREA);
 	//stereo.match(scan_line1, scan_line2, disp);
 
 	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
@@ -435,7 +437,7 @@ while (true) {
 	
 	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
 	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
-	reprojectImageTo3D(disp*20, image3d, stereo.Q);
+	reprojectImageTo3D(disp, image3d, stereo.Q);
 	map3d(map, image3d);
 	imshow("map", background + map + robot_shape);
 
