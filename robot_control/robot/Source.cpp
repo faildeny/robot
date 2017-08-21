@@ -365,7 +365,7 @@ while (true) {
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	scan_line1 = frame(area);
-	scan_line2 = frame(area);
+	scan_line2 = frame2(area);
 
 //	object searching
 	//target_found=detectAndDisplay(frame_detect, target);
