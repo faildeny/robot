@@ -372,7 +372,7 @@ while (true) {
 
 	//compute depthmap
 	stereo.setParams();
-	stereo.match(scan_line1, scan_line2, disp);
+	stereo.match(frame, frame2, disp);
 	//stereo.match(scan_line1, scan_line2, disp);
 
 	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
