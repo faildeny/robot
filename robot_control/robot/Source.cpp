@@ -378,7 +378,7 @@ while (true) {
 	stereo.match(scan_line1, scan_line2, disp);
 
 	resize(disp, disp, Size(), 5, 5, INTER_AREA);
-	disp*= 5;
+	disp*= 50;
 	//stereo.match(scan_line1, scan_line2, disp);
 
 	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
