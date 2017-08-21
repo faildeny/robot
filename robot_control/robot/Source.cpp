@@ -173,7 +173,7 @@ void map3d(Mat &map, Mat image3d) {
 
 			int x1 = ((3 * image3d.at<Vec3f>(j, i)[0]));
 			int y1 = int(-3 * image3d.at<Vec3f>(j, i)[2]);
-			//cout << "zaraz dodam " <<y1<<" "<<x1<< endl;
+			cout << "zaraz dodam " <<y1<<" "<<x1<< endl;
 			if (x1!= 0.0&& cos(atan(y1 / x1))!= 0.0) {
 				int x2 = x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
 				int y2 = x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
