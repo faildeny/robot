@@ -6,7 +6,7 @@ private:
 public:
 	int SADWindowSize = 15;
 	int numberOfDisparities = 32;
-	int numdis = 7;
+	int numdis = 3;
 	int wsize = 9;
 	int prefilter = 31;
 	int texturet = 10;
