@@ -167,9 +167,15 @@ void map3d(Mat &map, Mat image3d) {
 	for (int j = 20; j < 21; j++) {
 		for (int i = 0; i < image3d.cols; i++) {
 
-			int x = int(5 * image3d.at<Vec3f>(j, i)[0]) + center_x;
-			int y = int(-5 * image3d.at<Vec3f>(j, i)[2]) + center_y;
-			circle(map, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
+			/*int x = int(5 * image3d.at<Vec3f>(j, i)[0]) + center_x);
+			int y = int(-5 * image3d.at<Vec3f>(j, i)[2]) + center_y;*/
+
+			int x1 = (5 * image3d.at<Vec3f>(j, i)[0]);
+			int y1 = int(-5 * image3d.at<Vec3f>(j, i)[2]);
+
+			int x2 = x1*(1 - azimuth / cos(atan(y1 / x1)))+position.x+center_x;
+			int y2 = y1*(1 - azimuth / sin(atan(y1 / x1)))+position.y+center_y;
+			circle(map, Point(x2, y2), 1, CV_RGB(255, 0, 0), 2);
 		}
 	}
 }
