@@ -433,9 +433,9 @@ while (true) {
 	//thread t1(updateMap, position);
 	updateMap(position);
 	
-	cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
-	cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
-	reprojectImageTo3D(disp, image3d, stereo.Q);
+	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
+	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
+	reprojectImageTo3D(disp*0.2, image3d, stereo.Q);
 	map3d(map, image3d);
 	imshow("map", background + map + robot_shape);
 
