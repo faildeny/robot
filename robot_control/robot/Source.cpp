@@ -277,7 +277,7 @@ cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
 //Setting ROI of depthmap
-Rect area(0, 350, frameSize.width, 40);
+Rect area(0, 20, frameSize.width*0.2, 100);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -364,8 +364,8 @@ while (true) {
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
 	
-	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
@@ -433,7 +433,7 @@ while (true) {
 	//thread t1(updateMap, position);
 	updateMap(position);
 
-	reprojectImageTo3D(disp, image3d, stereo.Q);
+	reprojectImageTo3D(disp, image3d, 0.2*stereo.Q);
 	map3d(map, image3d);
 	imshow("map", background + map + robot_shape);
 
