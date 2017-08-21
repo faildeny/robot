@@ -170,7 +170,7 @@ void map3d(Mat &map, Mat image3d) {
 			/*int x = int(5 * image3d.at<Vec3f>(j, i)[0]) + center_x);
 			int y = int(-5 * image3d.at<Vec3f>(j, i)[2]) + center_y;*/
 
-			int x1 = (-0.2 * image3d.at<Vec3f>(j, i)[0]);
+			int x1 = (0.2 * image3d.at<Vec3f>(j, i)[0]);
 			int y1 = int(-0.2 * image3d.at<Vec3f>(j, i)[2]);
 
 			int x2 = x1*(1 - azimuth / cos(atan(y1 / x1)))+position.x+center_x;
