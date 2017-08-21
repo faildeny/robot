@@ -433,7 +433,7 @@ while (true) {
 	//thread t1(updateMap, position);
 	updateMap(position);
 
-	reprojectImageTo3D(disp, image3d, 0.2*stereo.Q);
+	reprojectImageTo3D(disp, image3d, 0.001*stereo.Q);
 	map3d(map, image3d);
 	imshow("map", background + map + robot_shape);
 
