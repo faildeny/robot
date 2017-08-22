@@ -161,7 +161,7 @@ Mat scan_line1, scan_line2;
 void map3d(Mat &map, Mat image3d) {
 	int center_x = 300;
 	int center_y = 350;
-	int j = 20;
+	int j = 120;
 	//map = Mat::zeros(600, 1280, CV_8UC3);
 	//Rect robot_rect(center_x - 10, center_y - 10, 20, 30);
 	//rectangle(map, robot_rect, Scalar(30, 255, 60), 2);
