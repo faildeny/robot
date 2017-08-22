@@ -382,7 +382,7 @@ while (true) {
 	//disp*= 5;
 	if (i == 15) {
 		FileStorage map("depthfull.xml", FileStorage::WRITE);
-		map << disp;
+		map<<"Depth"<< disp;
 		cout << "saved" << endl;
 	}
 	//imwrite("depth_full.bmp", disp);
