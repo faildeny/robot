@@ -73,4 +73,5 @@ void StereoCamera::calculateQs(float scale) {
 	Qs.at<double>(3, 1) = 0.0;
 	Qs.at<double>(3, 2) *= 1.0;    //1.0/BaseLine
 	Qs.at<double>(3, 3) = 0.0;
+	Qs.convertTo(Qs, CV_32F);
 };
