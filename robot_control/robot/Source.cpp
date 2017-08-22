@@ -402,6 +402,7 @@ while (true) {
 	rectangle(preview, left_area, Scalar(255, 50, 50), 2, 8);
 	rectangle(preview, right_area, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
+	resize(preview, preview, Size(), 0.3, 0.3, INTER_AREA);
 	imshow("disparity", preview);
 	
 // end of camera setup
@@ -426,7 +427,7 @@ while (true) {
 
 // keyboard button press
 
-	int iKey = waitKey(1);
+	int iKey = waitKey(20);
 	if (iKey == 27)
 	{
 		stream.sendStatus(0);
