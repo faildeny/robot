@@ -166,7 +166,7 @@ void map3d(Mat &map, Mat image3d) {
 	//Rect robot_rect(center_x - 10, center_y - 10, 20, 30);
 	//rectangle(map, robot_rect, Scalar(30, 255, 60), 2);
 	for (int j = 50; j < 51; j++) {
-		for (int i = 10; i < image3d.cols-10; i++) {
+		for (int i = 20; i < image3d.cols-20; i++) {
 
 			/*int x = int(5 * image3d.at<Vec3f>(j, i)[0]) + center_x);
 			int y = int(-5 * image3d.at<Vec3f>(j, i)[2]) + center_y;*/
@@ -177,7 +177,7 @@ void map3d(Mat &map, Mat image3d) {
 			if (x1!= 0.0&& cos(atan(y1 / x1))!= 0.0) {
 				int x2 = x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
 				int y2 = x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
-				//int x2 = x1 +position.x+ center_x;
+				//int x2 = x1 + position.x + center_x;
 				//int y2 = y1 + position.y + center_y;
 				circle(map, Point(x2, y2), 0.5, CV_RGB(255, 0, 0), 0.5);
 			}
