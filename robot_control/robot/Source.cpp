@@ -380,8 +380,10 @@ while (true) {
 
 	resize(disp, disp, Size(), 5, 5, INTER_AREA);
 	disp*= 5;
-    if(i==10)
-	imwrite("depth_lowres.bmp", disp);
+	if (i == 15) {
+		imwrite("depth_lowres.bmp", disp);
+		cout << "saved" << endl;
+	}
 	//imwrite("depth_full.bmp", disp);
 	//stereo.match(scan_line1, scan_line2, disp);
 
