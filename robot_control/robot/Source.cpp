@@ -375,8 +375,11 @@ while (true) {
 	
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(stereo.exposure);
-	cap.set(CAP_PROP_EXPOSURE, -4);
+	
 	cap2.set(CV_CAP_PROP_EXPOSURE, -3);
+
+	cout << "current exposure: " << cap.get(CAP_PROP_EXPOSURE) << endl;
+	cout << "current height: " << cap.get(CAP_PROP_FRAME_HEIGHT) << endl;
 	cap.grab();
 	cap2.grab();
 	cap.grab();
