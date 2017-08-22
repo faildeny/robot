@@ -165,8 +165,8 @@ void map3d(Mat &map, Mat image3d) {
 	//map = Mat::zeros(600, 1280, CV_8UC3);
 	//Rect robot_rect(center_x - 10, center_y - 10, 20, 30);
 	//rectangle(map, robot_rect, Scalar(30, 255, 60), 2);
-	for (int j = 50; j < 21; j++) {
-		for (int i = 10; i < image3d.cols; i++) {
+	for (int j = 50; j < 51; j++) {
+		for (int i = 10; i < image3d.cols-10; i++) {
 
 			/*int x = int(5 * image3d.at<Vec3f>(j, i)[0]) + center_x);
 			int y = int(-5 * image3d.at<Vec3f>(j, i)[2]) + center_y;*/
