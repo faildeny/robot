@@ -373,9 +373,10 @@ double dist = 1.0;
 
 while (true) {
 	
-	cap.setExp(stereo.exposure);
-	cap2.setExp(stereo.exposure);
-
+	//cap.setExp(stereo.exposure);
+	//cap2.setExp(stereo.exposure);
+	cap.set(CAP_PROP_EXPOSURE, -4);
+	cap2.set(CV_CAP_PROP_EXPOSURE, -3);
 	cap.grab();
 	cap2.grab();
 	cap.grab();
@@ -455,9 +456,10 @@ while (true) {
 
 	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
 	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
-	//reprojectImageTo3D(disp, image3d, stereo.Qs);
+	
 	disp.convertTo(disp, CV_32F);
-	customReproject(disp, stereo.Qs, image3d);
+	reprojectImageTo3D(disp, image3d, stereo.Qs);
+	//customReproject(disp, stereo.Qs, image3d);
 	map3d(map, image3d);
 	imshow("map", background + map + robot_shape);
 ////
