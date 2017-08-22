@@ -19,13 +19,14 @@ public:
 	int offset = 125;
 	int exposure = 5;
 
-	Mat R, T, E, F, Q;
+	Mat R, T, E, F, Q,Qs;
 
 public:
 	StereoCamera();
 	~StereoCamera();
 	void showMenu();
 	void setParams();
-	bool setExtrinsics(String filename);
+	bool setExtrinsics(String filename,float scale);
+	void calculateQs(float scale);
 	void match(Mat frame1, Mat frame2, Mat &disp);
 };

@@ -378,8 +378,8 @@ while (true) {
 	//stereo.match(scan_line1, scan_line2, disp);
 	stereo.match(frame, frame2, disp);
 
-	resize(disp, disp, Size(), 5, 5, INTER_AREA);
-	disp*= 5;
+	//resize(disp, disp, Size(), 5, 5, INTER_AREA);
+	//disp*= 5;
 	if (i == 15) {
 		FileStorage map("depth_low.xml", FileStorage::WRITE);
 		map<<"Depth"<< disp;
@@ -422,7 +422,7 @@ while (true) {
 
 	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
 	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
-	reprojectImageTo3D(disp, image3d, stereo.Q);
+	reprojectImageTo3D(disp, image3d, stereo.Qs);
 	map3d(map, image3d);
 	imshow("map", background + map + robot_shape);
 ////
