@@ -11,7 +11,7 @@ public:
 	int prefilter = 31;
 	int texturet = 10;
 	int speckleSize = 100;
-	int unique = 9;
+	int unique = 15;
 	int dispmax = 1;
 	int roiw1 = 100;
 	int roiw2 = 200;

@@ -277,7 +277,7 @@ cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
 //Setting ROI of depthmap
-Rect area(0, 300, frameSize.width, 100);
+Rect area(0, 10, frameSize.width, 100);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -364,8 +364,8 @@ while (true) {
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
 	
-	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
@@ -377,8 +377,8 @@ while (true) {
 	stereo.setParams();
 	stereo.match(scan_line1, scan_line2, disp);
 
-	//resize(disp, disp, Size(), 5, 5, INTER_AREA);
-	//disp*= 5;
+	resize(disp, disp, Size(), 5, 5, INTER_AREA);
+	disp*= 5;
 	//stereo.match(scan_line1, scan_line2, disp);
 
 	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
