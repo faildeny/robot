@@ -25,7 +25,7 @@ void Camera::setSize(int width, int height) {
 void Camera::setExp(int e)
 {
 	exposure = -e;
-	set(CAP_PROP_EXPOSURE, exposure);
+	set(CAP_PROP_EXPOSURE, -7);
 };
 
 bool Camera::setIntrinsics(String filename, int n) {
