@@ -364,8 +364,8 @@ while (true) {
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
 	
-	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
@@ -378,10 +378,10 @@ while (true) {
 	//stereo.match(scan_line1, scan_line2, disp);
 	stereo.match(frame, frame2, disp);
 
-	//resize(disp, disp, Size(), 5, 5, INTER_AREA);
-	//disp*= 5;
+	resize(disp, disp, Size(), 5, 5, INTER_AREA);
+	disp*= 5;
 	if (i == 15) {
-		FileStorage map("depthfull.xml", FileStorage::WRITE);
+		FileStorage map("depth_low.xml", FileStorage::WRITE);
 		map<<"Depth"<< disp;
 		cout << "saved" << endl;
 	}
