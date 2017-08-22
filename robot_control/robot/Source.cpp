@@ -148,6 +148,7 @@ void drawCurrentArea(Mat& background, Point center, double azimuth) {
 
 void updateMap(Point2d position)
 {
+	map = Mat::zeros(map.cols, map.rows, map.type());
 	int x = position.x + 300;
 	int y = position.y + 350;
 	circle(map, Point(x, y), 1, CV_RGB(0, 0, 255), 2);
