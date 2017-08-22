@@ -292,7 +292,10 @@ Streamer stream(1);
 
 //Open cameras
 Camera cap(0);
-Camera cap2(1);
+Camera cap2 = cap;
+
+VideoCapture cam(1);
+//Camera cap2(1);
 
 //Load stereomodule
 StereoCamera stereo;
@@ -375,14 +378,14 @@ while (true) {
 	
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(stereo.exposure);
-	cap2.set(CAP_PROP_AUTO_EXPOSURE, 0);
-	cap2.set(CAP_PROP_EXPOSURE, -3);
-	cap2.set(CAP_PROP_EXPOSURE, 3);
-	cap2.set(CAP_PROP_EXPOSURE, 1);
+	cam.set(CAP_PROP_AUTO_EXPOSURE, 1);
+	cam.set(CAP_PROP_EXPOSURE, -3);
+	cam.set(CAP_PROP_EXPOSURE, 3);
+	cam.set(CAP_PROP_EXPOSURE, 0.5);
 
 	double a = cap.get(CAP_PROP_EXPOSURE);
-	cout << "current exposure: " << a/1000  << endl;
-	cout << "current height: " << cap.get(CAP_PROP_FRAME_HEIGHT) << endl;
+	cout << "current exposure: " << a/10000000  << endl;
+	cout << "current height: " << cam.get(CAP_PROP_FRAME_HEIGHT) << endl;
 	cap.grab();
 	cap2.grab();
 	cap.grab();
