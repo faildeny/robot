@@ -175,8 +175,8 @@ void map3d(Mat &map, Mat image3d) {
 			int y1 = (-3 * image3d.at<Vec3f>(j, i)[2]);
 			cout << "zaraz dodam " <<y1<<" "<<x1<< endl;
 			if (x1!= 0.0&& cos(atan(y1 / x1))!= 0.0) {
-				int x2 = 0.01*x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
-				int y2 = 0.01*x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
+				int x2 = 0.1*x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
+				int y2 = 0.1*x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
 				//int x2 = x1 +position.x+ center_x;
 				//int y2 = y1 + position.y + center_y;
 				circle(map, Point(x2, y2), 1, CV_RGB(255, 0, 0), 2);
@@ -406,6 +406,20 @@ while (true) {
 	
 // end of camera setup
 
+// Odometry
+	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
+	decodeEncoders();
+	updateCoordinates(enc_diff_left, enc_diff_right);
+	//thread t1(updateMap, position);
+	updateMap(position);
+
+	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
+	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
+	reprojectImageTo3D(disp, image3d, stereo.Q);
+	map3d(map, image3d);
+	imshow("map", background + map + robot_shape);
+////
+
 	i++;
 	direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
 	target_size = target.width / frame_detect.cols;
@@ -430,18 +444,7 @@ while (true) {
 	robot.move();
 	robot.showStatus();
 
-// Odometry
-	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
-	decodeEncoders();
-	updateCoordinates(enc_diff_left, enc_diff_right);
-	//thread t1(updateMap, position);
-	updateMap(position);
-	
-	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
-	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
-	reprojectImageTo3D(disp, image3d, stereo.Q);
-	map3d(map, image3d);
-	imshow("map", background + map + robot_shape);
+
 
 	//t1.join();
 //Streaming
