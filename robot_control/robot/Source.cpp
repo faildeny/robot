@@ -379,9 +379,7 @@ while (true) {
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(stereo.exposure);
 	cam.set(CAP_PROP_AUTO_EXPOSURE, 1);
-	cam.set(CAP_PROP_EXPOSURE, -3);
-	cam.set(CAP_PROP_EXPOSURE, 3);
-	cam.set(CAP_PROP_EXPOSURE, 0.5);
+	cam.set(CAP_PROP_EXPOSURE, 1000);
 
 	double a = cap.get(CAP_PROP_EXPOSURE);
 	cout << "current exposure: " << a/10000000  << endl;
