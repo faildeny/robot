@@ -375,7 +375,8 @@ while (true) {
 
 	//compute depthmap
 	stereo.setParams();
-	stereo.match(scan_line1, scan_line2, disp);
+	//stereo.match(scan_line1, scan_line2, disp);
+	stereo.match(frame, frame2, disp);
 
 	resize(disp, disp, Size(), 5, 5, INTER_AREA);
 	disp*= 5;
