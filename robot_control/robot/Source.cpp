@@ -381,7 +381,8 @@ while (true) {
 	//resize(disp, disp, Size(), 5, 5, INTER_AREA);
 	//disp*= 5;
 	if (i == 15) {
-		imwrite("depthfull.bmp", disp);
+		FileStorage map("depthfull.xml", FileStorage::WRITE);
+		map << disp;
 		cout << "saved" << endl;
 	}
 	//imwrite("depth_full.bmp", disp);
