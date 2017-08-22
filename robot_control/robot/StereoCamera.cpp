@@ -68,7 +68,7 @@ void StereoCamera::calculateQs(float scale) {
 	Qs.at<double>(2, 0) = 0.0;
 	Qs.at<double>(2, 1) = 0.0;
 	Qs.at<double>(2, 2) = 0.0;
-	Qs.at<double>(2, 3) *= 1/scale;  //Focal
+	Qs.at<double>(2, 3) *= 1;  //Focal
 	Qs.at<double>(3, 0) = 0.0;
 	Qs.at<double>(3, 1) = 0.0;
 	Qs.at<double>(3, 2) *= 1;    //1.0/BaseLine
