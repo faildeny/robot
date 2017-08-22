@@ -455,6 +455,7 @@ while (true) {
 	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
 	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
 	//reprojectImageTo3D(disp, image3d, stereo.Qs);
+	disp.convertTo(disp, CV_32F);
 	customReproject(disp, stereo.Qs, image3d);
 	map3d(map, image3d);
 	imshow("map", background + map + robot_shape);
