@@ -312,7 +312,7 @@ Point2i punkt(300, 300);
 // Loading and checking camera settings
 if(cap.setIntrinsics("extrinsics.yml", 1) 
 	&& cap2.setIntrinsics("extrinsics.yml", 2) 
-	&&stereo.setExtrinsics("extrinsics.yml"))
+	&&stereo.setExtrinsics("extrinsics.yml",0.2))
 
 printf("Camera settings have been read properly.\n");
 else {
