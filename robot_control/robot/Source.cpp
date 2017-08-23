@@ -349,6 +349,8 @@ if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be lo
 //Grabbing first frame for further image settings
 cap.grab();
 cap.retrieve(frame);
+Mat image_odo;
+resize(frame, image_odo, Size(), 0.2, 0.2, INTER_AREA);
 
 VisualOdometry vis_odo(frame, 2);
 
