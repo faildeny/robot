@@ -283,6 +283,27 @@ double avoidDirection(Mat disp) {
 
 //End of depthmap processing
 
+//threading
+
+void task1(int a) {
+	cout << "threading 1: " << a << endl;
+}
+void task2(int a) {
+	cout << "threading 2: " << a << endl;
+}
+void task3(int a) {
+	cout << "threading 3: " << a << endl;
+}
+void task4(int a) {
+	cout << "threading 4: " << a << endl;
+}
+void task5(int a) {
+	cout << "threading 5: " << a << endl;
+}
+void task6(int a) {
+	cout << "threading 6: " << a << endl;
+}
+
 int main (int argc, char** argv) {
 
 parseArguments(argc, argv);
@@ -377,6 +398,12 @@ double dist = 1.0;
 
 while (true) {
 	
+	thread t1(task1, 1);
+	thread t2(task2, 2);
+	thread t3(task3, 3);
+	thread t4(task4, 4);
+	thread t5(task5, 5);
+	thread t6(task6, 6);
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 
@@ -462,9 +489,6 @@ while (true) {
 	updateCoordinates(enc_diff_left, enc_diff_right);
 	//thread t1(updateMap, position);
 	updateMap(position);
-
-	//cout <<"Q value: "<< stereo.Q.at<double>(2, 3) << endl;
-	//cout << "Q multiplied: " << 0.001*stereo.Q.at<double>(2, 3) << endl;
 	
 	disp.convertTo(disp, CV_32F);
 	reprojectImageTo3D(disp, image3d, stereo.Qs);
@@ -499,7 +523,12 @@ while (true) {
 
 
 
-	//t1.join();
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
+	t5.join();
+	t6.join();
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 
