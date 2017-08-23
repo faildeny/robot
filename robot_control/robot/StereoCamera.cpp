@@ -16,7 +16,7 @@ void StereoCamera::showMenu() {
 	createTrackbar("Uniqueness ratio", "Camera and stereo settings", &unique, 100);
 	createTrackbar("Scale", "Camera and stereo settings", &ratio, 500);
 	createTrackbar("Offset", "Camera and stereo settings", &offset, 400);
-	createTrackbar("Exposure", "Camera and stereo settings", &exposure, 1000000);
+	createTrackbar("Exposure", "Camera and stereo settings", &exposure, 1000000000);
 };
 
 void StereoCamera::setParams() {

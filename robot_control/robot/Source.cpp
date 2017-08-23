@@ -379,7 +379,7 @@ double dist = 1.0;
 while (true) {
 	
 	cap.setExp(stereo.exposure);
-	cap2.setExp(stereo.exposure);
+	cap2.setExp(-stereo.exposure);
 	//cap.set(CAP_PROP_EXPOSURE, 1000);
 	//cap2.set(CAP_PROP_EXPOSURE, 1000);
 
