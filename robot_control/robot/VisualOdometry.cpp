@@ -8,16 +8,16 @@ VisualOdometry::VisualOdometry(Mat image, double scale_param) {
 	fontFace = FONT_HERSHEY_PLAIN;
 	fontScale = 1;
 	thickness = 1;
-	textOrg=Point(10, 50);
+	textOrg = Point(10, 50);
 	double k = image.cols / 1280;
 	focal = 1080.375*k;
 	//cv::Point2d pp(644.09296, 348.5013);
-	pp=Point(644.09296*k, 348.5013*k);
+	pp = Point(644.09296*k, 348.5013*k);
 	traj = Mat::zeros(600, 600, CV_8UC3);
 	initOdometry(image);
 }
 
-VisualOdometry::~VisualOdometry(){}
+VisualOdometry::~VisualOdometry() {}
 
 void VisualOdometry::featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Point2f>& points2, vector<uchar>& status) {
 

@@ -12,6 +12,7 @@ extern "C" {
 #include "gopigo.h"
 }
 
+#include "VisualOdometry.h"
 #include "StereoCamera.h"
 #include "Streamer.h"
 #include "RobotControl.h"
@@ -294,7 +295,9 @@ void parallelGrab(VideoCapture cap) {
 	cap.grab();
 }
 
-
+void parallelOdometry(Mat image, VisualOdometry vis_odo) {
+	vis_odo.update(image);
+}
 
 int main (int argc, char** argv) {
 
@@ -324,8 +327,6 @@ cap2.setSize(frameSize.width, frameSize.height);
 //cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
 //cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
-
-
 //Setting ROI of depthmap
 Rect area(0, 10, frameSize.width*0.2, 100);
 //Checking cameras
@@ -348,6 +349,8 @@ if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be lo
 //Grabbing first frame for further image settings
 cap.grab();
 cap.retrieve(frame);
+
+VisualOdometry vis_odo(frame, 2);
 
 //Sliders for camera parameters control
 stereo.showMenu();
@@ -394,22 +397,7 @@ while (true) {
 
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
-
-	//double a = cap.get(CAP_PROP_EXPOSURE);
-	cout << "setting: " << stereo.exposure << endl;
-	//cout << "current exposure: " <<a<< endl;
 	
-	/*cap.grab();
-	cap2.grab();
-	cap.grab();
-	cap2.grab();
-	cap.grab();
-	cap2.grab();
-	cap.grab();
-	cap2.grab();
-	cap.grab();
-	cap2.grab();*/
-
 	thread t1(parallelGrab, cap);
 	thread t2(parallelGrab, cap2);
 	t1.join();
@@ -418,6 +406,8 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 
+	//Visual odometry
+	
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
@@ -429,6 +419,8 @@ while (true) {
 	
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	
+	thread visual_odometry(parallelOdometry, frame,vis_odo);
 
 	Mat diff=frame-frame2;
 	imshow("camera 0", frame);
@@ -479,7 +471,7 @@ while (true) {
 	imshow("Depth map", preview);
 	
 // end of camera setup
-
+	visual_odometry.join();
 // Odometry
 	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
 	decodeEncoders();
@@ -517,6 +509,7 @@ while (true) {
 	if(!target_found) robot.square();
 	robot.move();
 	robot.showStatus();
+
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 

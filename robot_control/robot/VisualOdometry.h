@@ -50,7 +50,7 @@ private:
 	Mat traj;
 
 public:
-	VisualOdometry(Mat image,double scale_param);
+	VisualOdometry(Mat image, double scale_param);
 
 	~VisualOdometry();
 
