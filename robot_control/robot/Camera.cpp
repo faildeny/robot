@@ -26,6 +26,8 @@ void Camera::setExp(int e)
 {
 	exposure = e;
 	set(CAP_PROP_EXPOSURE, exposure);
+	int a = get(CAP_PROP_EXPOSURE);
+	printf("get exposure: %d \n");
 	
 };
 
