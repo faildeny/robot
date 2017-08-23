@@ -59,8 +59,8 @@ void VisualOdometry::initOdometry(Mat image) {
 	img_1_c = image;
 	img_2_c = image;
 	// we work with grayscale images
-	cvtColor(img_1_c, img_1, COLOR_BGR2GRAY);
-	cvtColor(img_2_c, img_2, COLOR_BGR2GRAY);
+	//cvtColor(img_1_c, img_1, COLOR_BGR2GRAY);
+	//cvtColor(img_2_c, img_2, COLOR_BGR2GRAY);
 	// feature detection, tracking
 	featureDetection(img_1, points1);        //detect features in img_1
 	featureTracking(img_1, img_2, points1, points2, status); //track those features to img_2

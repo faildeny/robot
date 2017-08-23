@@ -352,6 +352,7 @@ cap.retrieve(frame);
 Mat image_odo;
 frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
+cvtColor(image_odo, image_odo, COLOR_BGR2GRAY);
 
 VisualOdometry vis_odo(frame, 2);
 
