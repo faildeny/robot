@@ -311,8 +311,8 @@ cap2.setSize(frameSize.width, frameSize.height);
 //cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
 //cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
-cap.setExp(200);
-cap2.setExp(200);
+cap.setExp(156);
+cap2.setExp(156);
 
 //Setting ROI of depthmap
 Rect area(0, 10, frameSize.width*0.2, 100);
@@ -378,13 +378,14 @@ double dist = 1.0;
 
 while (true) {
 	
-	
+	cap.setExp(stereo.exposure);
+	cap2.setExp(stereo.exposure);
 	//cap.set(CAP_PROP_EXPOSURE, 1000);
 	//cap2.set(CAP_PROP_EXPOSURE, 1000);
 
-	double a = cap.get(CAP_PROP_EXPOSURE);
+	//double a = cap.get(CAP_PROP_EXPOSURE);
 	cout << "setting: " << stereo.exposure << endl;
-	cout << "current exposure: " <<a<< endl;
+	//cout << "current exposure: " <<a<< endl;
 	
 	cap.grab();
 	cap2.grab();
@@ -410,7 +411,8 @@ while (true) {
 	
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	imshow("camera", frame);
+	imshow("camera 0", frame);
+	imshow("camera 1", frame2);
 
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);

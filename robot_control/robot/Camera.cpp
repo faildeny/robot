@@ -24,8 +24,8 @@ void Camera::setSize(int width, int height) {
 
 void Camera::setExp(int e)
 {
-	exposure = -e;
-	set(CV_CAP_PROP_EXPOSURE, 0.5);
+	exposure = e;
+	set(CV_CAP_PROP_EXPOSURE, exposure);
 	
 };
 
