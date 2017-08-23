@@ -424,12 +424,13 @@ while (true) {
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
-	if (i>10) vis_odo.update(frame);
+	if(i==14) vis_odo.initOdometry(frame);
+	if (i>14) vis_odo.update(frame);
 
 	Mat diff=frame-frame2;
-	imshow("camera 0", frame);
+	//imshow("camera 0", frame);
 	imshow("camera 1", frame2);
-	imshow("Diff", diff);
+	//imshow("Diff", diff);
 
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
