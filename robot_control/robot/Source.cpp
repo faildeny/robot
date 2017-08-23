@@ -286,22 +286,35 @@ double avoidDirection(Mat disp) {
 //threading
 
 void task1(int a) {
-	cout << "threading 1: " << a << endl;
+	for (int i = 1; i < 10000000; i++) {
+		cout << "threading 1: " << a/i << endl;
+	}
 }
 void task2(int a) {
-	cout << "threading 2: " << a << endl;
+
+	for (int i = 1; i < 10000000; i++) {
+		cout << "threading 1: " << a / i << endl;
+	}
 }
 void task3(int a) {
-	cout << "threading 3: " << a << endl;
+	for (int i = 1; i < 10000000; i++) {
+		cout << "threading 1: " << a / i << endl;
+	}
 }
 void task4(int a) {
-	cout << "threading 4: " << a << endl;
+	for (int i = 1; i < 10000000; i++) {
+		cout << "threading 1: " << a / i << endl;
+	}
 }
 void task5(int a) {
-	cout << "threading 5: " << a << endl;
+	for (int i = 1; i < 10000000; i++) {
+		cout << "threading 1: " << a / i << endl;
+	}
 }
 void task6(int a) {
-	cout << "threading 6: " << a << endl;
+	for (int i = 1; i < 10000000; i++) {
+		cout << "threading 1: " << a / i << endl;
+	}
 }
 
 int main (int argc, char** argv) {
