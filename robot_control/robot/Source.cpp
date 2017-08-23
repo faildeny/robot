@@ -308,8 +308,8 @@ cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
 //Turning off auto exposure
-//cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
-//cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
+cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
+cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
 cap.setExp(156);
 cap2.setExp(156);
