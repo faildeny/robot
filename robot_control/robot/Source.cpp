@@ -404,6 +404,9 @@ while (true) {
 	thread t4(task4, 4);
 	thread t5(task5, 5);
 	thread t6(task6, 6);
+	thread t7(task6, 7);
+	thread t8(task6, 8);
+	thread t9(task6, 9);
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 
@@ -528,7 +531,11 @@ while (true) {
 	t3.join();
 	t4.join();
 	t5.join();
+	
 	t6.join();
+	t7.join();
+	t8.join();
+	t9.join();
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 
