@@ -423,7 +423,8 @@ while (true) {
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	
-	thread visual_odometry(parallelOdometry, frame,vis_odo);
+	//thread visual_odometry(parallelOdometry, frame,vis_odo);
+	vis_odo.update(frame);
 
 	Mat diff=frame-frame2;
 	imshow("camera 0", frame);
