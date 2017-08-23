@@ -408,6 +408,7 @@ while (true) {
 	
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	imshow("camera", frame);
 
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
