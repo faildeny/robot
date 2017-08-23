@@ -475,7 +475,7 @@ while (true) {
 	imshow("Depth map", preview);
 	
 // end of camera setup
-	visual_odometry.join();
+	//visual_odometry.join();
 // Odometry
 	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
 	decodeEncoders();
