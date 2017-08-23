@@ -16,7 +16,7 @@ void StereoCamera::showMenu() {
 	createTrackbar("Uniqueness ratio", "Camera and stereo settings", &unique, 100);
 	createTrackbar("Scale", "Camera and stereo settings", &ratio, 500);
 	createTrackbar("Offset", "Camera and stereo settings", &offset, 400);
-	createTrackbar("Exposure", "Camera and stereo settings", &exposure, 15);
+	createTrackbar("Exposure", "Camera and stereo settings", &exposure, 2000);
 };
 
 void StereoCamera::setParams() {
@@ -53,7 +53,6 @@ bool StereoCamera::setExtrinsics(String filename,float scale) {
 void StereoCamera::match(Mat frame1, Mat frame2, Mat &disp) {
 	bm->compute(frame1,frame2, disp);
 };
-
 
 void StereoCamera::calculateQs(float scale) {
 	Qs = Q.clone();

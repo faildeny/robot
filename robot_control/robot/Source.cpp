@@ -292,15 +292,10 @@ Streamer stream(1);
 
 //Open cameras
 Camera cap(0);
-Camera cap2 = cap;
-
-VideoCapture cam(1);
-//Camera cap2(1);
+Camera cap2(1);
 
 //Load stereomodule
 StereoCamera stereo;
-
-
 
 //Create frames for both cameras
 Mat frame;
@@ -311,6 +306,10 @@ Size frameSize(1280, 720);
 //Setting camera resolution
 cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
+
+//Turning off auto exposure
+cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
+cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
 //Setting ROI of depthmap
 Rect area(0, 10, frameSize.width*0.2, 100);
@@ -376,14 +375,14 @@ double dist = 1.0;
 
 while (true) {
 	
-	//cap.setExp(stereo.exposure);
-	//cap2.setExp(stereo.exposure);
-	cam.set(CAP_PROP_AUTO_EXPOSURE, 1);
-	cam.set(CAP_PROP_EXPOSURE, 1000);
+	cap.setExp(stereo.exposure);
+	cap2.setExp(stereo.exposure);
+	//cap.set(CAP_PROP_EXPOSURE, 1000);
+	//cap2.set(CAP_PROP_EXPOSURE, 1000);
 
 	double a = cap.get(CAP_PROP_EXPOSURE);
-	cout << "current exposure: " << a/10000000  << endl;
-	cout << "current height: " << cam.get(CAP_PROP_FRAME_HEIGHT) << endl;
+	cout << "current exposure: " <<a<< endl;
+	
 	cap.grab();
 	cap2.grab();
 	cap.grab();
