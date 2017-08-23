@@ -381,6 +381,7 @@ while (true) {
 	//cap2.set(CAP_PROP_EXPOSURE, 1000);
 
 	double a = cap.get(CAP_PROP_EXPOSURE);
+	cout << "setting: " << stereo.exposure << endl;
 	cout << "current exposure: " <<a<< endl;
 	
 	cap.grab();

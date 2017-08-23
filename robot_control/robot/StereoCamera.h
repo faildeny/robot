@@ -17,7 +17,7 @@ public:
 	int roiw2 = 200;
 	int ratio = 90; 
 	int offset = 125;
-	int exposure = 5;
+	int exposure = 200;
 
 	Mat R, T, E, F, Q,Qs;
 
