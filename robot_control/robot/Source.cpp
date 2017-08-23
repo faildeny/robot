@@ -311,6 +311,9 @@ cap2.setSize(frameSize.width, frameSize.height);
 cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
 cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
+cap.setExp(200);
+cap2.setExp(200);
+
 //Setting ROI of depthmap
 Rect area(0, 10, frameSize.width*0.2, 100);
 //Checking cameras
@@ -375,8 +378,7 @@ double dist = 1.0;
 
 while (true) {
 	
-	cap.setExp(stereo.exposure);
-	cap2.setExp(stereo.exposure);
+	
 	//cap.set(CAP_PROP_EXPOSURE, 1000);
 	//cap2.set(CAP_PROP_EXPOSURE, 1000);
 
