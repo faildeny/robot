@@ -82,7 +82,7 @@ void VisualOdometry::initOdometry(Mat image) {
 
 void VisualOdometry::update(Mat image) {
 	Mat currImage_c = image;
-	cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
+	//cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
 	vector<uchar> status;
 	featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
 
