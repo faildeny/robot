@@ -517,19 +517,6 @@ while (true) {
 	if(!target_found) robot.square();
 	robot.move();
 	robot.showStatus();
-
-
-
-	t1.join();
-	t2.join();
-	t3.join();
-	t4.join();
-	t5.join();
-	
-	t6.join();
-	t7.join();
-	t8.join();
-	t9.join();
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 
