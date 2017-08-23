@@ -308,11 +308,10 @@ cap.setSize(frameSize.width, frameSize.height);
 cap2.setSize(frameSize.width, frameSize.height);
 
 //Turning off auto exposure
-cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
-cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
+//cap.set(CAP_PROP_AUTO_EXPOSURE, 1);
+//cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
-cap.setExp(156);
-cap2.setExp(156);
+
 
 //Setting ROI of depthmap
 Rect area(0, 10, frameSize.width*0.2, 100);
@@ -378,10 +377,8 @@ double dist = 1.0;
 
 while (true) {
 	
-	cap.setExp(stereo.exposure);
-	cap2.setExp(-stereo.exposure);
-	//cap.set(CAP_PROP_EXPOSURE, 1000);
-	//cap2.set(CAP_PROP_EXPOSURE, 1000);
+	//cap.setExp(stereo.exposure);
+	//cap2.setExp(-stereo.exposure);
 
 	//double a = cap.get(CAP_PROP_EXPOSURE);
 	cout << "setting: " << stereo.exposure << endl;
