@@ -285,37 +285,16 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void task1(int a) {
-	for (int i = 1; i < 10000000; i++) {
-		cout << "threading 1: " << a/i << endl;
-	}
+void parallelGrab(VideoCapture cap) {
+	cap.grab();
+	cap.grab();
+	cap.grab();
+	cap.grab();
+	cap.grab();
+	cap.grab();
 }
-void task2(int a) {
 
-	for (int i = 1; i < 10000000; i++) {
-		cout << "threading 1: " << a / i << endl;
-	}
-}
-void task3(int a) {
-	for (int i = 1; i < 10000000; i++) {
-		cout << "threading 1: " << a / i << endl;
-	}
-}
-void task4(int a) {
-	for (int i = 1; i < 10000000; i++) {
-		cout << "threading 1: " << a / i << endl;
-	}
-}
-void task5(int a) {
-	for (int i = 1; i < 10000000; i++) {
-		cout << "threading 1: " << a / i << endl;
-	}
-}
-void task6(int a) {
-	for (int i = 1; i < 10000000; i++) {
-		cout << "threading 1: " << a / i << endl;
-	}
-}
+
 
 int main (int argc, char** argv) {
 
@@ -411,15 +390,8 @@ double dist = 1.0;
 
 while (true) {
 	
-	thread t1(task1, 1);
-	thread t2(task2, 2);
-	thread t3(task3, 3);
-	thread t4(task4, 4);
-	thread t5(task5, 5);
-	thread t6(task6, 6);
-	thread t7(task6, 7);
-	thread t8(task6, 8);
-	thread t9(task6, 9);
+	
+
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 
@@ -427,7 +399,7 @@ while (true) {
 	cout << "setting: " << stereo.exposure << endl;
 	//cout << "current exposure: " <<a<< endl;
 	
-	cap.grab();
+	/*cap.grab();
 	cap2.grab();
 	cap.grab();
 	cap2.grab();
@@ -436,7 +408,13 @@ while (true) {
 	cap.grab();
 	cap2.grab();
 	cap.grab();
-	cap2.grab();
+	cap2.grab();*/
+
+	thread t1(parallelGrab, cap);
+	thread t2(parallelGrab, cap2);
+	t1.join();
+	t2.join();
+
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
 
@@ -451,8 +429,11 @@ while (true) {
 	
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+
+	Mat diff=frame-frame2;
 	imshow("camera 0", frame);
 	imshow("camera 1", frame2);
+	imshow("Diff", diff);
 
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
