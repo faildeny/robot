@@ -399,14 +399,14 @@ double dist = 1.0;
 while (true) {
 	
 	thread t1(task1, 1);
-	thread t2(task2, 2);
+	/*thread t2(task2, 2);
 	thread t3(task3, 3);
 	thread t4(task4, 4);
 	thread t5(task5, 5);
 	thread t6(task6, 6);
 	thread t7(task6, 7);
 	thread t8(task6, 8);
-	thread t9(task6, 9);
+	thread t9(task6, 9);*/
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 
@@ -527,15 +527,15 @@ while (true) {
 
 
 	t1.join();
-	t2.join();
-	t3.join();
-	t4.join();
-	t5.join();
-	
-	t6.join();
-	t7.join();
-	t8.join();
-	t9.join();
+	//t2.join();
+	//t3.join();
+	//t4.join();
+	//t5.join();
+	//
+	//t6.join();
+	//t7.join();
+	//t8.join();
+	//t9.join();
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
 
