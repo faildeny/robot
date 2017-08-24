@@ -84,38 +84,40 @@ void VisualOdometry::update(Mat image) {
 	Mat currImage_c = image;
 	cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
 	vector<uchar> status;
-	featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
+	
+	if (currFeatures.size() > 6 && prevFeatures.size() > 6)
+		featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
 
-	E = findEssentialMat(currFeatures, prevFeatures, focal, pp, RANSAC, 0.999, 10.0, mask);
-	recoverPose(E, currFeatures, prevFeatures, R, t, focal, pp, mask);
+		if (currFeatures.size() > 6 && prevFeatures.size() > 6) {
+		E = findEssentialMat(currFeatures, prevFeatures, focal, pp, RANSAC, 0.999, 10.0, mask);
+		recoverPose(E, currFeatures, prevFeatures, R, t, focal, pp, mask);
+		Mat prevPts(2, prevFeatures.size(), CV_64F), currPts(2, currFeatures.size(), CV_64F);
 
-	Mat prevPts(2, prevFeatures.size(), CV_64F), currPts(2, currFeatures.size(), CV_64F);
 
+		for (int i = 0; i < prevFeatures.size(); i++) {   //this (x,y) combination makes sense as observed from the source code of triangulatePoints on GitHub
+			prevPts.at<double>(0, i) = prevFeatures.at(i).x;
+			prevPts.at<double>(1, i) = prevFeatures.at(i).y;
 
-	for (int i = 0; i < prevFeatures.size(); i++) {   //this (x,y) combination makes sense as observed from the source code of triangulatePoints on GitHub
-		prevPts.at<double>(0, i) = prevFeatures.at(i).x;
-		prevPts.at<double>(1, i) = prevFeatures.at(i).y;
+			currPts.at<double>(0, i) = currFeatures.at(i).x;
+			currPts.at<double>(1, i) = currFeatures.at(i).y;
 
-		currPts.at<double>(0, i) = currFeatures.at(i).x;
-		currPts.at<double>(1, i) = currFeatures.at(i).y;
+			line(currImage_c, prevFeatures.at(i), currFeatures.at(i), Scalar(255, 10, 255), 1);
+		}
 
-		line(currImage_c, prevFeatures.at(i), currFeatures.at(i), Scalar(255, 10, 255), 1);
+		//scale = getAbsoluteScale(numFrame, 0, t.at<double>(2));
+		//cout << "Scale is " << scale << endl;
+
+		if ((scale > 0.1) && (t.at<double>(2) > t.at<double>(0)) && (t.at<double>(2) > t.at<double>(1))) {
+
+			t_f = t_f + scale*(R_f*t);
+			R_f = R*R_f;
+
+		}
+
+		else {
+			//cout << "scale below 0.1, or incorrect translation" << endl;
+		}
 	}
-
-	//scale = getAbsoluteScale(numFrame, 0, t.at<double>(2));
-	//cout << "Scale is " << scale << endl;
-
-	if ((scale > 0.1) && (t.at<double>(2) > t.at<double>(0)) && (t.at<double>(2) > t.at<double>(1))) {
-
-		t_f = t_f + scale*(R_f*t);
-		R_f = R*R_f;
-
-	}
-
-	else {
-		//cout << "scale below 0.1, or incorrect translation" << endl;
-	}
-
 	// lines for printing results
 	// myfile << t_f.at<double>(0) << " " << t_f.at<double>(1) << " " << t_f.at<double>(2) << endl;
 
@@ -123,6 +125,7 @@ void VisualOdometry::update(Mat image) {
 	if (prevFeatures.size() < MIN_NUM_FEAT) {
 
 		featureDetection(prevImage, prevFeatures);
+		if(prevFeatures.size()>6)
 		featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
 	}
 
