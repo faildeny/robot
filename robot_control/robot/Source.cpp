@@ -425,7 +425,7 @@ while (true) {
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
 	if(i==14) vis_odo.initOdometry(frame);
 	//if (i>14) vis_odo.update(frame);
-	imshow("frame", frame);
+	//imshow("frame", frame);
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 
