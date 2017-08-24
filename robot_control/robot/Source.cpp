@@ -353,9 +353,9 @@ Mat image_odo;
 frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
 cvtColor(image_odo, image_odo, COLOR_BGR2GRAY);
-
-VisualOdometry vis_odo(frame, 2);
-
+cout << "init Odometry" << endl;
+VisualOdometry vis_odo(image_odo, 2);
+cout << "odometry initiated" << endl;
 //Sliders for camera parameters control
 stereo.showMenu();
 namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
