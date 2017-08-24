@@ -18,6 +18,9 @@ public:
 	int ratio = 90; 
 	int offset = 125;
 	int exposure = 200;
+	int focalcenter = 10;
+	int focallength = 10;
+	int baseline = 10;
 
 	Mat R, T, E, F, Q,Qs;
 

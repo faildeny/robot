@@ -17,6 +17,10 @@ void StereoCamera::showMenu() {
 	createTrackbar("Scale", "Camera and stereo settings", &ratio, 500);
 	createTrackbar("Offset", "Camera and stereo settings", &offset, 400);
 	createTrackbar("Exposure", "Camera and stereo settings", &exposure,1000);
+	createTrackbar("Offset", "Camera and stereo settings", &offset, 400);
+	createTrackbar("focal center", "Camera and stereo settings", &focalcenter, 100);
+	createTrackbar("focal length", "Camera and stereo settings", &focallength, 100);
+	createTrackbar("baseline", "Camera and stereo settings", &baseline, 100);
 };
 
 void StereoCamera::setParams() {
@@ -51,6 +55,7 @@ bool StereoCamera::setExtrinsics(String filename,float scale) {
 };
 
 void StereoCamera::match(Mat frame1, Mat frame2, Mat &disp) {
+	calculateQs(0.2);
 	bm->compute(frame1,frame2, disp);
 };
 
@@ -59,18 +64,24 @@ void StereoCamera::calculateQs(float scale) {
 	Qs.at<double>(0, 0) = 1.0;
 	Qs.at<double>(0, 1) = 0.0;
 	Qs.at<double>(0, 2) = 0.0;
-	Qs.at<double>(0, 3) *= scale; //cx
+	Qs.at<double>(0, 3) *= scale*(double)focalcenter/10; //cx
 	Qs.at<double>(1, 0) = 0.0;
 	Qs.at<double>(1, 1) = 1.0;
 	Qs.at<double>(1, 2) = 0.0;
-	Qs.at<double>(1, 3) *= scale;  //cy
+	Qs.at<double>(1, 3) *= scale*(double)focalcenter / 10;  //cy
 	Qs.at<double>(2, 0) = 0.0;
 	Qs.at<double>(2, 1) = 0.0;
 	Qs.at<double>(2, 2) = 0.0;
-	Qs.at<double>(2, 3) *= scale;  //Focal
+	Qs.at<double>(2, 3) *= scale*(double)focallength / 10;  //Focal
 	Qs.at<double>(3, 0) = 0.0;
 	Qs.at<double>(3, 1) = 0.0;
-	Qs.at<double>(3, 2) *= 1;    //1.0/BaseLine
+	Qs.at<double>(3, 2) *= 1*(double)baseline / 10;    //1.0/BaseLine
 	Qs.at<double>(3, 3) = 0.0;
+
+	cout << "focalcenter" << scale*(double)focalcenter / 10 << endl;
+
+	cout << "focallength" << scale*(double)focallength / 10 << endl;
+
+	cout << "baseline" << (double)baseline / 10 << endl;
 	//Qs.convertTo(Qs, CV_32F);
 };

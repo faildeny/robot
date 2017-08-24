@@ -90,7 +90,7 @@ double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
 int max_step=8;
 int view_dist=60;
-int view_angleDeg = 20;
+int view_angleDeg = 30;
 double view_angle=view_angleDeg*3.14159265 / 180;
 int view_res = 3;
 
@@ -432,7 +432,7 @@ while (true) {
 
 	Mat diff=frame-frame2;
 	//imshow("camera 0", frame);
-	imshow("camera 1", frame2);
+	//imshow("camera 1", frame2);
 	//imshow("Diff", diff);
 
 	scan_line1 = frame(area);
