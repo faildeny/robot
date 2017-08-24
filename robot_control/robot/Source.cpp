@@ -442,7 +442,7 @@ while (true) {
 
 	//compute depthmap
 	stereo.setParams();
-	stereo.match(scan_line1, scan_line2, disp);
+	//stereo.match(scan_line1, scan_line2, disp);
 	//stereo.match(frame, frame2, disp);
 
 	//resize(disp, disp, Size(), 5, 5, INTER_AREA);
@@ -453,14 +453,14 @@ while (true) {
 		cout << "saved" << endl;
 	}
 	//imwrite("depth_full.bmp", disp);
-	//stereo.match(scan_line1, scan_line2, disp);
+	stereo.match(scan_line1, scan_line2, disp);
 
-	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
+	//disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
 
 	//resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
-	Mat preview;
+	//Mat preview;
 
-	disp8.convertTo(preview, -1, double(stereo.ratio) / 50., stereo.offset - 200);
+	//disp8.convertTo(preview, -1, double(stereo.ratio) / 50., stereo.offset - 200);
 //distance from central area
 	
 	dist = distCentralArea(disp, stereo);
@@ -469,13 +469,13 @@ while (true) {
 	turn= avoidDirection(disp);
 //showing interface on the disparity image
 
-	applyColorMap(preview, preview, COLORMAP_JET);
+	/*applyColorMap(preview, preview, COLORMAP_JET);
 	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
 
 	rectangle(preview, left_area, Scalar(255, 50, 50), 2, 8);
 	rectangle(preview, right_area, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
-	imshow("Depth map", preview);
+	imshow("Depth map", preview);*/
 	
 // end of camera setup
 	//visual_odometry.join();
@@ -499,7 +499,7 @@ while (true) {
 
 // keyboard button press
 
-	int iKey = waitKey(20);
+	int iKey = waitKey(1);
 	if (iKey == 27)
 	{
 		stream.sendStatus(0);

@@ -19,7 +19,7 @@
 using namespace cv;
 using namespace std;
 
-#define MAX_FRAME 1000
+#define MAX_FRAME 4000
 #define MIN_NUM_FEAT 400
 
 class VisualOdometry {
