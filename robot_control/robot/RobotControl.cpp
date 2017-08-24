@@ -128,11 +128,11 @@ void RobotControl::move() {
 		bwd();
 		break;
 	case 'd':
-		set_speed(80);
+		set_speed(speed.rotate);
 		right();
 		break;
 	case 'a':
-		set_speed(80);
+		set_speed(speed.rotate);
 		left();
 		break;
 
