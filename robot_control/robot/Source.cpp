@@ -328,7 +328,7 @@ cap2.setSize(frameSize.width, frameSize.height);
 //cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
 //Setting ROI of depthmap
-Rect area(0, 40, frameSize.width*0.2, 60);
+Rect area(0, 40, frameSize.width*0.2, 30);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -416,7 +416,6 @@ while (true) {
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	
-
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
 	
@@ -481,17 +480,17 @@ while (true) {
 // end of camera setup
 	//visual_odometry.join();
 // Odometry
-	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
-	decodeEncoders();
-	updateCoordinates(enc_diff_left, enc_diff_right);
-	//thread t1(updateMap, position);
-	updateMap(position);
-	
-	disp.convertTo(disp, CV_32F);
-	reprojectImageTo3D(disp, image3d, stereo.Qs);
-	//customReproject(disp, stereo.Qs, image3d);
-	map3d(map, image3d);
-	imshow("map", background + map + robot_shape);
+	//robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
+	//decodeEncoders();
+	//updateCoordinates(enc_diff_left, enc_diff_right);
+	////thread t1(updateMap, position);
+	//updateMap(position);
+	//
+	//disp.convertTo(disp, CV_32F);
+	//reprojectImageTo3D(disp, image3d, stereo.Qs);
+	////customReproject(disp, stereo.Qs, image3d);
+	//map3d(map, image3d);
+	//imshow("map", background + map + robot_shape);
 ////
 
 	i++;
