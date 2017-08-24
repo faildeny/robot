@@ -352,9 +352,9 @@ cap.retrieve(frame);
 Mat image_odo;
 frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
-cvtColor(image_odo, image_odo, COLOR_BGR2GRAY);
+//cvtColor(image_odo, image_odo, COLOR_BGR2GRAY);
 cout << "init Odometry" << endl;
-VisualOdometry vis_odo(image_odo, 2);
+VisualOdometry vis_odo(image_odo, 2.0);
 cout << "odometry initiated" << endl;
 //Sliders for camera parameters control
 stereo.showMenu();
@@ -415,8 +415,7 @@ while (true) {
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
-	cvtColor(frame, frame, COLOR_BGR2GRAY);
-	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
+	
 
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
@@ -427,6 +426,9 @@ while (true) {
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
 	if(i==14) vis_odo.initOdometry(frame);
 	if (i>14) vis_odo.update(frame);
+
+	cvtColor(frame, frame, COLOR_BGR2GRAY);
+	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
 
 	Mat diff=frame-frame2;
 	//imshow("camera 0", frame);

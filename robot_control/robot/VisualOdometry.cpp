@@ -8,16 +8,16 @@ VisualOdometry::VisualOdometry(Mat image, double scale_param) {
 	fontFace = FONT_HERSHEY_PLAIN;
 	fontScale = 1;
 	thickness = 1;
-	textOrg = Point(10, 50);
+	textOrg=Point(10, 50);
 	double k = (double)image.cols / 1280;
 	focal = 1080.375*k;
 	//cv::Point2d pp(644.09296, 348.5013);
-	pp = Point(644.09296*k, 348.5013*k);
+	pp=Point(644.09296*k, 348.5013*k);
 	traj = Mat::zeros(600, 600, CV_8UC3);
 	initOdometry(image);
 }
 
-VisualOdometry::~VisualOdometry() {}
+VisualOdometry::~VisualOdometry(){}
 
 void VisualOdometry::featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Point2f>& points2, vector<uchar>& status) {
 
@@ -59,8 +59,9 @@ void VisualOdometry::initOdometry(Mat image) {
 	img_1_c = image;
 	img_2_c = image;
 	// we work with grayscale images
-	//cvtColor(img_1_c, img_1, COLOR_BGR2GRAY);
-	//cvtColor(img_2_c, img_2, COLOR_BGR2GRAY);
+	cvtColor(img_1_c, img_1, COLOR_BGR2GRAY);
+	cvtColor(img_2_c, img_2, COLOR_BGR2GRAY);
+
 	// feature detection, tracking
 	featureDetection(img_1, points1);        //detect features in img_1
 	featureTracking(img_1, img_2, points1, points2, status); //track those features to img_2
@@ -81,14 +82,11 @@ void VisualOdometry::initOdometry(Mat image) {
 
 void VisualOdometry::update(Mat image) {
 	Mat currImage_c = image;
-	cout << "loaded image" << endl;
-	//cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
+	cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
 	vector<uchar> status;
-	cout << "feature tracking" << endl;
 	featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
-	cout << "finding essential" << endl;
+
 	E = findEssentialMat(currFeatures, prevFeatures, focal, pp, RANSAC, 0.999, 10.0, mask);
-	cout << "recover pose" << endl;
 	recoverPose(E, currFeatures, prevFeatures, R, t, focal, pp, mask);
 
 	Mat prevPts(2, prevFeatures.size(), CV_64F), currPts(2, currFeatures.size(), CV_64F);
