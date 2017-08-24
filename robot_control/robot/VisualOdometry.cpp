@@ -132,7 +132,7 @@ void VisualOdometry::update(Mat image) {
 	prevImage = currImage.clone();
 	prevFeatures = currFeatures;
 
-	int x = int(t_f.at<double>(0)) + 300;
+	int x = -int(t_f.at<double>(0)) + 300;
 	int y = int(t_f.at<double>(2)) + 100;
 	circle(traj, Point(x, y), 1, CV_RGB(255, 0, 0), 2);
 
