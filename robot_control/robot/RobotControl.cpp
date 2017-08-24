@@ -12,7 +12,7 @@ RobotControl::RobotControl(int speed_value)
 	cmd[1] = 'x';
 	cmd[2] = 'd';
 	speed.forward = speed_value;
-	speed.rotate = speed_value-10;
+	speed.rotate = speed_value+10;
 	set_speed(speed.forward);
 	enc_tgt(1, 1, 1);
 	enc_left = 0;
