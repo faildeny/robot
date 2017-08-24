@@ -328,7 +328,7 @@ cap2.setSize(frameSize.width, frameSize.height);
 //cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
 //Setting ROI of depthmap
-Rect area(0, 10, frameSize.width*0.2, 100);
+Rect area(0, 40, frameSize.width*0.2, 60);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -443,8 +443,8 @@ while (true) {
 
 	//compute depthmap
 	stereo.setParams();
-	//stereo.match(scan_line1, scan_line2, disp);
-	stereo.match(frame, frame2, disp);
+	stereo.match(scan_line1, scan_line2, disp);
+	//stereo.match(frame, frame2, disp);
 
 	//resize(disp, disp, Size(), 5, 5, INTER_AREA);
 	//disp*= 5;

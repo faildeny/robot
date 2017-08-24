@@ -28,7 +28,7 @@ private:
 	Mat img_1, img_2;
 	Mat R_f, t_f; //the final rotation and tranlation vectors containing the 
 	double scale = 2;
-
+	int scale_slider = 20;
 	char text[100];
 	int fontFace = FONT_HERSHEY_PLAIN;
 	double fontScale;

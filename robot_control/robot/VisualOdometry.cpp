@@ -139,5 +139,8 @@ void VisualOdometry::update(Mat image) {
 
 	imshow("Road facing camera", currImage_c);
 	imshow("Trajectory", traj);
+	
+	createTrackbar("Odo scale", "Camera and stereo settings", &scale_slider, 100);
+	scale = (double)scale_slider / 10;
 
 }
