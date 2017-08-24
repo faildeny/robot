@@ -20,12 +20,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="initial-state.c" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="VisualOdometry.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="initial-state.h" />
     <ClInclude Include="VisualOdometry.h" />
   </ItemGroup>
   <ItemGroup>

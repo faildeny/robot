@@ -9,7 +9,7 @@ VisualOdometry::VisualOdometry(Mat image, double scale_param) {
 	fontScale = 1;
 	thickness = 1;
 	textOrg=Point(10, 50);
-	double k = image.cols / 1280;
+	double k = (double)image.cols / 1280;
 	focal = 1080.375*k;
 	//cv::Point2d pp(644.09296, 348.5013);
 	pp=Point(644.09296*k, 348.5013*k);
