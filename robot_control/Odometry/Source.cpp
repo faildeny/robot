@@ -15,7 +15,7 @@ int main() {
 	cap.retrieve(image);
 	
 	
-	VisualOdometry vis_odo(image,2.0);
+	//VisualOdometry vis_odo(image,2.0);
 
 	printf("HEllo");
 
