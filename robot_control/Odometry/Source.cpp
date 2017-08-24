@@ -29,9 +29,9 @@ int main() {
 
 		cap.grab();
 		cap.retrieve(image);
-		vis_odo.update(image);
-
-		waitKey(10);
+		//vis_odo.update(image);
+		imshow("frame", image);
+		waitKey(1);
 	}
 	return 0;
 }
