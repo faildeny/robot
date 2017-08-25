@@ -430,7 +430,8 @@ while (true) {
 
 	cout << "frame size: " << frame.cols << "x" << frame.rows << " channels: " << frame.channels() << endl;
 	cout << "frame size: " << frame2.cols << "x" << frame2.rows << " channels: " << frame2.channels() << endl;
-	
+	imshow("what", frame);
+	waitKey(300);
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
