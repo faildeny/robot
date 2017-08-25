@@ -412,12 +412,12 @@ while (true) {
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	thread t1(parallelGrab, cap,temp1);
-	thread t2(parallelGrab, cap2,temp2);
+	thread t1(parallelGrab, cap,frame);
+	thread t2(parallelGrab, cap2,frame2);
 	t1.join();
 	t2.join();
-	temp1.copyTo(frame);
-	temp2.copyTo(frame2);
+	//temp1.copyTo(frame);
+	//temp2.copyTo(frame2);
 	//cap.retrieve(frame);
 	//cap2.retrieve(frame2);
 	
