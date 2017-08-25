@@ -480,8 +480,8 @@ while (true) {
 	t1.join();
 	t2.join();
 
-	frame_detect = frame;
-	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	//frame_detect = frame;
+	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	/*thread t3(parallelRemap, cap, framep, 0.2);
 	thread t4(parallelRemap, cap2, framep2, 0.2);
