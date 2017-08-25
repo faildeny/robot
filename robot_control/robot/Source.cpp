@@ -475,8 +475,8 @@ while (true) {
 	////framep->copyTo(frame);
 	////framep2->copyTo(frame2);
 
-	thread t1(parallelCam, cap, framep);
-	thread t2(parallelCam, cap2, framep2);
+	thread t1(parallelCam, cap, framep, 0.2);
+	thread t2(parallelCam, cap2, framep2, 0.2);
 	t1.join();
 	t2.join();
 
