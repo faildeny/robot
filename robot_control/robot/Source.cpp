@@ -8,10 +8,11 @@
 #include <sstream>
 #include <stdio.h>
 #include <thread>
+#include <chrono>
+
 extern "C" {
 #include "gopigo.h"
 }
-
 #include "VisualOdometry.h"
 #include "StereoCamera.h"
 #include "Streamer.h"
@@ -19,6 +20,7 @@ extern "C" {
 
 using namespace cv;
 using namespace std;
+using namespace std::chrono;
 
 
 String object_cascade_name = "cascade.xml";
@@ -398,7 +400,7 @@ double dist = 1.0;
 while (true) {
 	
 	
-
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
@@ -409,7 +411,10 @@ while (true) {
 
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);
-
+	
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(time2 - time1).count();
+	cout << "grab and retrieve: " << (double)duration / 1000 << " ms" << endl;
 	//Visual odometry
 	
 	frame_detect = frame;
@@ -422,6 +427,10 @@ while (true) {
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	
+	high_resolution_clock::time_point time3 = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(time3 - time2).count();
+	cout << "remap and resize: " << (double)duration / 1000 << " ms" << endl;
+
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
 	if(i==14) vis_odo.initOdometry(frame);
 	//if (i>14) vis_odo.update(frame);
@@ -453,6 +462,10 @@ while (true) {
 		cout << "saved" << endl;
 	}
 	//imwrite("depth_full.bmp", disp);
+
+	high_resolution_clock::time_point time4 = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(time4 - time3).count();
+	cout << "cropping and BGR to GRAY: " << (double)duration / 1000 << " ms" << endl;
 	stereo.match(scan_line1, scan_line2, disp);
 
 	//disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
@@ -467,6 +480,10 @@ while (true) {
 
 //choosing direction to turn by sides comparison
 	turn= avoidDirection(disp);
+
+	high_resolution_clock::time_point time5 = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(time5 - time4).count();
+	cout << "matching and depthmap processing: " << (double)duration / 1000 << " ms" << endl;
 //showing interface on the disparity image
 
 	/*applyColorMap(preview, preview, COLORMAP_JET);
@@ -519,6 +536,15 @@ while (true) {
 
 //Streaming
 	//if (i%10 == 0) stream.send(posx, posy);
+
+	high_resolution_clock::time_point time6 = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(time6 - time5).count();
+	cout << "robot functions: " << (double)duration / 1000 << " ms" << endl;
+
+	auto duration = duration_cast<microseconds>(time6 - time1).count();
+	cout << "TOTAL TIME: " << (double)duration / 1000 << " ms" << endl;
+
+
 
 }
 return 0;
