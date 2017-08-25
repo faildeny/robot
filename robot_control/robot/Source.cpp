@@ -416,7 +416,7 @@ while (true) {
 	//cap2.setExp(-stereo.exposure);
 	
 	thread t1(parallelGrab, cap,ref(frame));
-	thread t2(parallelGrab, cap2,ref(frame2));
+	thread t2(parallelGrab, cap2,frame2);
 	t1.join();
 	t2.join();
 
@@ -428,7 +428,8 @@ while (true) {
 	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
-	
+	cout << "frame size: " << frame.cols << "x" << frame.rows << " channels: " << frame.channels() << endl;
+	cout << "frame size: " << frame2.cols << "x" << frame2.rows << " channels: " << frame2.channels() << endl;
 	
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
