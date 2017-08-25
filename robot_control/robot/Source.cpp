@@ -288,20 +288,22 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void parallelGrab(VideoCapture cap, Mat frame) {
+void parallelGrab(VideoCapture cap, Mat *frame) {
 	//cap.grab();
 	cap.grab();
 	cap.grab();
 	cap.grab();
 	cap.grab();
 	cap.grab();
-	cap.retrieve(frame);
+	cap.retrieve(*frame);
 }
 
 void parallelRemap(Camera cap, Mat *frame, double scale) {
 	cap.remapFrame(*frame);
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
 }
+
+//void parallelCam(Camera cap, Mat )
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 	vis_odo.update(image);
@@ -456,12 +458,12 @@ while (true) {
 	auto duration2 = duration_cast<microseconds>(time3 - time1).count();
 	cout << "grab and remap and resize: " << (double)duration2 / 1000 << " ms" << endl;
 
-	thread t1(parallelGrab, cap, temp1);
-	thread t2(parallelGrab, cap2, temp2);
+	thread t1(parallelGrab, cap, framep);
+	thread t2(parallelGrab, cap2, framep2);
 	t1.join();
 	t2.join();
-	temp1.copyTo(frame);
-	temp2.copyTo(frame2);
+	framep->copyTo(frame);
+	framep2->copyTo(frame2);
 
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
