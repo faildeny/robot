@@ -40,7 +40,7 @@ int main() {
 
 		auto duration = duration_cast<microseconds>(t2 - t1).count();
 		cout << duration << endl;
-		cout << "elapsed time: " << (double)duration / 1000 << " ms" < , endl;
+		cout << "elapsed time: " << (double)duration / 1000 << " ms" <<endl;
 	}
 	return 0;
 }
