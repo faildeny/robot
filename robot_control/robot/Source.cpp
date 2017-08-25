@@ -288,13 +288,14 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void parallelGrab(VideoCapture cap) {
+void parallelGrab(VideoCapture cap,Mat frame) {
 	//cap.grab();
 	cap.grab();
 	cap.grab();
 	cap.grab();
 	cap.grab();
 	cap.grab();
+	cap.retrieve(frame);
 }
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
@@ -404,13 +405,13 @@ while (true) {
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	thread t1(parallelGrab, cap);
-	thread t2(parallelGrab, cap2);
+	thread t1(parallelGrab, cap,frame);
+	thread t2(parallelGrab, cap2,frame2);
 	t1.join();
 	t2.join();
 
-	cap.retrieve(frame);
-	cap2.retrieve(frame2);
+	//cap.retrieve(frame);
+	//cap2.retrieve(frame2);
 	
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
