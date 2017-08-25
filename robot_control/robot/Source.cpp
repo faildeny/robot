@@ -406,20 +406,18 @@ char cKey = 'w';
 double dist = 1.0;
 
 while (true) {
-	thread t1(parallelGrab, cap, temp1);
-	thread t2(parallelGrab, cap2, temp2);
-	t1.join();
-	t2.join();
+	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	
+	thread t1(parallelGrab, cap, temp1);
+	thread t2(parallelGrab, cap2, temp2);
+	t1.join();
+	t2.join();
 	temp1.copyTo(frame);
 	temp2.copyTo(frame2);
-	//cap.retrieve(frame);
-	//cap2.retrieve(frame2);
 	
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
@@ -428,8 +426,7 @@ while (true) {
 
 	cout << "frame size: " << frame.cols << "x" << frame.rows << " channels: " << frame.channels() << endl;
 	cout << "frame size: " << frame2.cols << "x" << frame2.rows << " channels: " << frame2.channels() << endl;
-	imshow("what", frame);
-	waitKey(300);
+
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
@@ -557,7 +554,8 @@ while (true) {
 	auto duration = duration_cast<microseconds>(time6 - time1).count();
 	cout << "TOTAL TIME: " << (double)duration / 1000 << " ms" << endl;
 
-
+	imshow("fr", frame);
+	waitKey(1);
 
 }
 return 0;
