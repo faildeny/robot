@@ -422,12 +422,18 @@ while (true) {
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	thread t1(parallelGrab, cap, temp1);
-	thread t2(parallelGrab, cap2, temp2);
-	t1.join();
-	t2.join();
-	temp1.copyTo(frame);
-	temp2.copyTo(frame2);
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.retrieve(frame);
+	cap2.retrieve(frame2);
 	
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
@@ -437,29 +443,39 @@ while (true) {
 	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
-	//cap.remapFrame(frame);
-	//cap2.remapFrame(frame2);
-	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	cap.remapFrame(frame);
+	cap2.remapFrame(frame2);
+	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
-	int r = 5;
-	int * a = new int;
-	*a = 10;
+	
+	
+	
+	
+	high_resolution_clock::time_point time3 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time3 - time1).count();
+	cout << "grab and remap and resize: " << (double)duration2 / 1000 << " ms" << endl;
 
-	cout << "r:" << r << endl;
+	thread t1(parallelGrab, cap, temp1);
+	thread t2(parallelGrab, cap2, temp2);
+	t1.join();
+	t2.join();
+	temp1.copyTo(frame);
+	temp2.copyTo(frame2);
+
+	frame_detect = frame;
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	thread t3(parallelRemap, cap, framep, 0.2);
 	thread t4(parallelRemap, cap2, framep2, 0.2);
 	t3.join();
 	t4.join();
-	cout << "after quitting thread size: " << frame.cols << endl;
-	cout << "after quitting thread size: " << frame2.cols << endl;
-	
-	
-	
+
+
+
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
-	cout << "pure remap and resize: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "grab and remap and resize threaded: " << (double)duration2 / 1000 << " ms" << endl;
 
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
 	if(i==14) vis_odo.initOdometry(frame);
