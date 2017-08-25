@@ -288,7 +288,7 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void parallelGrab(VideoCapture cap,Mat &frame) {
+void parallelGrab(VideoCapture cap, Mat frame) {
 	//cap.grab();
 	cap.grab();
 	cap.grab();
@@ -352,6 +352,8 @@ if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be lo
 //Grabbing first frame for further image settings
 cap.grab();
 cap.retrieve(frame);
+cap2.grab();
+cap2.retrieve(frame2);
 Mat image_odo;
 frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
