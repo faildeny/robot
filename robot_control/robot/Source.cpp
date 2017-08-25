@@ -462,8 +462,8 @@ while (true) {
 	thread t2(parallelGrab, cap2, framep2);
 	t1.join();
 	t2.join();
-	framep->copyTo(frame);
-	framep2->copyTo(frame2);
+	//framep->copyTo(frame);
+	//framep2->copyTo(frame2);
 
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
