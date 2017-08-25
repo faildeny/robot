@@ -292,8 +292,8 @@ void parallelGrab(VideoCapture cap) {
 	/*cap.grab();
 	cap.grab();
 	cap.grab();
-	cap.grab();
 	cap.grab();*/
+	cap.grab();
 	cap.grab();
 }
 
