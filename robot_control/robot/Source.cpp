@@ -409,13 +409,15 @@ while (true) {
 	t1.join();
 	t2.join();
 
-	cap.retrieve(frame);
-	cap2.retrieve(frame2);
+	
 	
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
+	cout << "grab: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
+
+	cap.retrieve(frame);
+	cap2.retrieve(frame2);
 	
 	frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
