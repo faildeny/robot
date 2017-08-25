@@ -480,7 +480,7 @@ while (true) {
 	t1.join();
 	t2.join();
 
-	frame_detect = frame;
+	frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	/*thread t3(parallelRemap, cap, framep, 0.2);
