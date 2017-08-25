@@ -298,7 +298,7 @@ void parallelGrab(VideoCapture cap, Mat frame) {
 	cap.retrieve(frame);
 }
 
-void parallelRemap(Camera cap, Mat frame, double scale, int r) {
+void parallelRemap(Camera cap, Mat frame, double scale, int &r) {
 	//cap.remapFrame(frame);
 	resize(frame, frame, Size(), scale, scale, INTER_AREA);
 	cout << "scaled size: " << frame.cols << endl;
