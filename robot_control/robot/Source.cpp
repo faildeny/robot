@@ -295,7 +295,7 @@ void parallelGrab(VideoCapture cap, Mat frame) {
 	cap.grab();
 	cap.grab();
 	cap.grab();
-	cap.retrieve(frame);
+	//cap.retrieve(frame);
 }
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
