@@ -298,11 +298,12 @@ void parallelGrab(VideoCapture cap, Mat frame) {
 	cap.retrieve(frame);
 }
 
-void parallelRemap(Camera cap, Mat frame, double scale) {
+void parallelRemap(Camera cap, Mat frame, double scale, int r) {
 	//cap.remapFrame(frame);
 	resize(frame, frame, Size(), scale, scale, INTER_AREA);
 	cout << "scaled size: " << frame.cols << endl;
-
+	r++;
+	cout << "r:" << r << endl;
 }
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
@@ -436,11 +437,13 @@ while (true) {
 
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
-
-	thread t3(parallelRemap, cap, frame, 0.2);
-	thread t4(parallelRemap, cap2, ref(frame2), 0.2);
+	int r = 5;
+	cout << "r:" << r << endl;
+	thread t3(parallelRemap, cap, frame, 0.2,r);
+	thread t4(parallelRemap, cap2, ref(frame2), 0.2,r);
 	t3.join();
 	t4.join();
+	cout << "r:" << r << endl;
 	cout << "after quitting thread size: " << frame.cols << endl;
 	cout << "after quitting thread size: " << frame2.cols << endl;
 	
