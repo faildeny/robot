@@ -434,8 +434,8 @@ while (true) {
 	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
-	cap.remapFrame(frame);
-	cap2.remapFrame(frame2);
+	//cap.remapFrame(frame);
+	//cap2.remapFrame(frame2);
 	int r = 5;
 	int * a = new int;
 	*a = 10;
