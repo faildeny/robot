@@ -434,26 +434,28 @@ while (true) {
 	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
-	//cap.remapFrame(frame);
-	//cap2.remapFrame(frame2);
+	cap.remapFrame(frame);
+	cap2.remapFrame(frame2);
+	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+
 	int r = 5;
 	int * a = new int;
 	*a = 10;
 
 	cout << "r:" << r << endl;
-	Mat *framep;
-	framep = &frame;
-	Mat *framep2;
-	framep2 = &frame2;
-	thread t3(parallelRemap, cap, framep, 0.2);
-	thread t4(parallelRemap, cap2, framep2, 0.2);
-	t3.join();
-	t4.join();
+	//Mat *framep;
+	//framep = &frame;
+	//Mat *framep2;
+	//framep2 = &frame2;
+	//thread t3(parallelRemap, cap, framep, 0.2);
+	//thread t4(parallelRemap, cap2, framep2, 0.2);
+	//t3.join();
+	//t4.join();
 	cout << "after quitting thread size: " << frame.cols << endl;
 	cout << "after quitting thread size: " << frame2.cols << endl;
 	
-	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
