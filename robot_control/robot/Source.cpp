@@ -298,6 +298,11 @@ void parallelGrab(VideoCapture cap, Mat frame) {
 	cap.retrieve(frame);
 }
 
+void parallelRemap(Camera cap, Mat frame, double scale) {
+	cap.remapFrame(frame);
+	resize(frame, frame, Size(), scale, scale, INTER_AREA);
+}
+
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 	vis_odo.update(image);
 }
@@ -428,12 +433,14 @@ while (true) {
 	//Visual odometry
 
 	
-	
-	cap.remapFrame(frame);
+	thread thread3(parallelRemap, cap, frame, 0.2);
+	thread thread4(parallelRemap, cap2, frame2, 0.2);
+
+	/*cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
 	
 	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);*/
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
