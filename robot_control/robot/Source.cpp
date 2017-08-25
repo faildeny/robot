@@ -419,17 +419,15 @@ while (true) {
 	temp1.copyTo(frame);
 	temp2.copyTo(frame2);
 	
+	frame_detect = frame;
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
 	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
-	cout << "frame size: " << frame.cols << "x" << frame.rows << " channels: " << frame.channels() << endl;
-	cout << "frame size: " << frame2.cols << "x" << frame2.rows << " channels: " << frame2.channels() << endl;
-
-	frame_detect = frame;
-	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
-
+	
 	
 	cap.remapFrame(frame);
 	cap2.remapFrame(frame2);
@@ -439,7 +437,7 @@ while (true) {
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
-	cout << "remap and resize: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "pure remap and resize: " << (double)duration2 / 1000 << " ms" << endl;
 
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
 	if(i==14) vis_odo.initOdometry(frame);
