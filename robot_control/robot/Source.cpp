@@ -288,7 +288,7 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void parallelGrab(VideoCapture cap,Mat frame) {
+void parallelGrab(VideoCapture cap,Mat &frame) {
 	//cap.grab();
 	cap.grab();
 	cap.grab();
