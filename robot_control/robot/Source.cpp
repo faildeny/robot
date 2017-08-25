@@ -434,7 +434,7 @@ while (true) {
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	cap.grab();
+	/*cap.grab();
 	cap2.grab();
 	cap.grab();
 	cap2.grab();
@@ -445,20 +445,20 @@ while (true) {
 	cap.grab();
 	cap2.grab();
 	cap.retrieve(frame);
-	cap2.retrieve(frame2);
+	cap2.retrieve(frame2);*/
 	
-	frame_detect = frame;
-	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	/*frame_detect = frame;
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
 	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
-	cap.remapFrame(frame);
-	cap2.remapFrame(frame2);
-	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	//cap.remapFrame(frame);
+	//cap2.remapFrame(frame2);
+	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	
 	
@@ -480,8 +480,8 @@ while (true) {
 	t1.join();
 	t2.join();
 
-	//frame_detect = frame;
-	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	frame_detect = frame;
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	/*thread t3(parallelRemap, cap, framep, 0.2);
 	thread t4(parallelRemap, cap2, framep2, 0.2);
