@@ -320,6 +320,9 @@ StereoCamera stereo;
 Mat frame;
 Mat frame2;
 
+Mat temp1;
+Mat temp2;
+
 Size frameSize(1280, 720);
 
 //Setting camera resolution
@@ -350,14 +353,6 @@ double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 //Grabbing first frame for further image settings
-cap.grab();
-cap2.grab();
-cap.grab();
-cap2.grab();
-cap.grab();
-cap2.grab();
-cap.grab();
-cap2.grab();
 cap.grab();
 cap2.grab();
 cap.retrieve(frame);
@@ -415,11 +410,12 @@ while (true) {
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	thread t1(parallelGrab, cap,ref(frame));
-	thread t2(parallelGrab, cap2,frame2);
+	thread t1(parallelGrab, cap,temp1);
+	thread t2(parallelGrab, cap2,temp2);
 	t1.join();
 	t2.join();
-
+	temp1.copyTo(frame);
+	temp2.copyTo(frame2);
 	//cap.retrieve(frame);
 	//cap2.retrieve(frame2);
 	
