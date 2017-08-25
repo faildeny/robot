@@ -474,7 +474,7 @@ while (true) {
 
 
 	high_resolution_clock::time_point time9 = high_resolution_clock::now();
-	auto duration2 = duration_cast<microseconds>(time9 - time3).count();
+	auto duration9 = duration_cast<microseconds>(time9 - time3).count();
 	cout << "grab and remap and resize threaded: " << (double)duration9 / 1000 << " ms" << endl;
 
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
