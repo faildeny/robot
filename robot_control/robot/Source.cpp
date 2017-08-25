@@ -298,12 +298,10 @@ void parallelGrab(VideoCapture cap, Mat frame) {
 	cap.retrieve(frame);
 }
 
-void parallelRemap(Camera cap, Mat *frame, double scale, int * a) {
-	//cap.remapFrame(frame);
+void parallelRemap(Camera cap, Mat *frame, double scale) {
+	cap.remapFrame(*frame);
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
 	cout << "scaled size: " << frame->cols << endl;
-	*a=20;
-	cout << "a:" << *a << endl;
 
 }
 
@@ -447,12 +445,10 @@ while (true) {
 	framep = &frame;
 	Mat *framep2;
 	framep2 = &frame2;
-	thread t3(parallelRemap, cap, framep, 0.2,a);
-	thread t4(parallelRemap, cap2, framep2, 0.2,a);
+	thread t3(parallelRemap, cap, framep, 0.2);
+	thread t4(parallelRemap, cap2, framep2, 0.2);
 	t3.join();
 	t4.join();
-	cout << "r:" << r << endl;
-	cout << "a:" << *a << endl;
 	cout << "after quitting thread size: " << frame.cols << endl;
 	cout << "after quitting thread size: " << frame2.cols << endl;
 	
