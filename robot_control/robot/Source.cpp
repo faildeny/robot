@@ -305,8 +305,8 @@ void parallelRemap(Camera cap, Mat frame, double scale, int const &r, int * a) {
 	int & y = const_cast<int &>(r);
 	y++;
 	cout << "r:" << r << endl;
-	*a++;
-	cout << "a:" << a << endl;
+	*a=20;
+	cout << "a:" << *a << endl;
 
 }
 
@@ -447,11 +447,11 @@ while (true) {
 
 	cout << "r:" << r << endl;
 	thread t3(parallelRemap, cap, frame, 0.2,r,a);
-	thread t4(parallelRemap, cap2, ref(frame2), 0.2,r,ref(a));
+	//thread t4(parallelRemap, cap2, ref(frame2), 0.2,r,ref(a));
 	t3.join();
-	t4.join();
+	//t4.join();
 	cout << "r:" << r << endl;
-	cout << "a:" << a << endl;
+	cout << "a:" << *a << endl;
 	cout << "after quitting thread size: " << frame.cols << endl;
 	cout << "after quitting thread size: " << frame2.cols << endl;
 	
