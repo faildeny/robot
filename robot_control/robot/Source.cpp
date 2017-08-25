@@ -412,8 +412,8 @@ while (true) {
 	t1.join();
 	t2.join();
 
-	//cap.retrieve(frame);
-	//cap2.retrieve(frame2);
+	cap.retrieve(frame);
+	cap2.retrieve(frame2);
 	
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
