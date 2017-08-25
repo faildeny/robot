@@ -357,6 +357,8 @@ cap.grab();
 cap2.grab();
 cap.retrieve(frame);
 cap2.retrieve(frame2);
+cap.retrieve(temp1);
+cap2.retrieve(temp2);
 Mat image_odo;
 frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
