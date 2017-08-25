@@ -415,8 +415,8 @@ while (true) {
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	thread t1(parallelGrab, cap,frame);
-	thread t2(parallelGrab, cap2,frame2);
+	thread t1(parallelGrab, cap,ref(frame));
+	thread t2(parallelGrab, cap2,ref(frame2));
 	t1.join();
 	t2.join();
 
