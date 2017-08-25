@@ -350,10 +350,18 @@ double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 //Grabbing first frame for further image settings
-thread t1(parallelGrab, cap, frame);
-thread t2(parallelGrab, cap2, frame2);
-t1.join();
-t2.join();
+cap.grab();
+cap2.grab();
+cap.grab();
+cap2.grab();
+cap.grab();
+cap2.grab();
+cap.grab();
+cap2.grab();
+cap.grab();
+cap2.grab();
+cap.retrieve(frame);
+cap2.retrieve(frame2);
 Mat image_odo;
 frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
