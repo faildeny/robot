@@ -343,6 +343,28 @@ void parallelRemap(Camera cap, Mat *frame, double scale,int priority) {
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
 	cout << "remapping thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
+void parallelRemap2(Camera cap, Mat *frame, double scale, int priority) {
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	//std::lock_guard<std::mutex> lk(iomutex);
+
+	if (priority >= 0) {
+		sch.sched_priority = priority;
+		if (pthread_setschedparam(pthread_self(), SCHED_RR, &sch)) {
+			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+		}
+	}
+
+	cap.remapFrame(*frame);
+	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
+
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
+	cout << "cam 2 remapping  thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
+}
 
 void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
@@ -491,7 +513,7 @@ Point2i punkt(300, 300);
 
 // Loading and checking camera settings
 if(cap.setIntrinsics("extrinsics.yml", 1) 
-	&& cap2.setIntrinsics("extrinsics.yml", 1) 
+	&& cap2.setIntrinsics("extrinsics.yml", 2) 
 	&&stereo.setExtrinsics("extrinsics.yml",0.2))
 
 printf("Camera settings have been read properly.\n");
@@ -578,7 +600,7 @@ while (true) {
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	thread t3(parallelRemap, cap2, framep2, 0.2, 98);
-	thread t4(parallelRemap, cap, framep, 0.2, 98);
+	thread t4(parallelRemap2, cap, framep, 0.2, 98);
 	t3.join();
 	t4.join();
 
