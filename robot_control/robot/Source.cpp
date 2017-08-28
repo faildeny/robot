@@ -315,7 +315,7 @@ void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 	sched_param sch;
 	int policy;
 	pthread_getschedparam(pthread_self(), &policy, &sch);
-	std::lock_guard<std::mutex> lk(iomutex);
+	//std::lock_guard<std::mutex> lk(iomutex);
 	
 	if (priority >= 0) {
 		sch.sched_priority = priority;
@@ -486,9 +486,9 @@ while (true) {
 	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	thread t2(parallelCam, cap2, framep2, 0.2, 2);
-	thread t1(parallelCam, cap, framep, 0.2,1);
-	thread t3(parallelCam, cap, framep, 0.2, 3);
+	thread t2(parallelCam, cap2, framep2, 0.2, 82);
+	thread t1(parallelCam, cap, framep, 0.2,81);
+	//thread t3(parallelCam, cap, framep, 0.2, 3);
 	
 
 	/*sched_param sch;
@@ -504,7 +504,7 @@ while (true) {
 
 	t1.join();
 	t2.join();
-	t3.join();
+	//t3.join();
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
