@@ -512,7 +512,7 @@ Mat disp8;
 Point2i punkt(300, 300);
 
 // Loading and checking camera settings
-if(cap.setIntrinsics("extrinsics.yml", 1) 
+if(cap.setIntrinsics("extrinsics.yml", 2) 
 	&& cap2.setIntrinsics("extrinsics.yml", 2) 
 	&&stereo.setExtrinsics("extrinsics.yml",0.2))
 
@@ -599,8 +599,9 @@ while (true) {
 	//cap2.remapFrame(frame2);
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	thread t3(parallelRemap, cap2, framep2, 0.2, 98);
+	
 	thread t4(parallelRemap2, cap, framep, 0.2, 98);
+	thread t3(parallelRemap, cap2, framep2, 0.2, 98);
 	t3.join();
 	t4.join();
 
