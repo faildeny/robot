@@ -294,7 +294,20 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void parallelGrab(VideoCapture cap, Mat *frame) {
+void parallelGrab(VideoCapture cap, Mat *frame,int priority) {
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	//std::lock_guard<std::mutex> lk(iomutex);
+
+	if (priority >= 0) {
+		sch.sched_priority = priority;
+		if (pthread_setschedparam(pthread_self(), SCHED_RR, &sch)) {
+			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+		}
+	}
 	//cap.grab();
 	cap.grab();
 	cap.grab();
@@ -302,11 +315,33 @@ void parallelGrab(VideoCapture cap, Mat *frame) {
 	cap.grab();
 	cap.grab();
 	cap.retrieve(*frame);
+
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
+	cout << "grab thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
-void parallelRemap(Camera cap, Mat *frame, double scale) {
+void parallelRemap(Camera cap, Mat *frame, double scale,int priority) {
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	//std::lock_guard<std::mutex> lk(iomutex);
+
+	if (priority >= 0) {
+		sch.sched_priority = priority;
+		if (pthread_setschedparam(pthread_self(), SCHED_RR, &sch)) {
+			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+		}
+	}
+
 	cap.remapFrame(*frame);
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
+
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
+	cout << "remapping thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
 void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
@@ -501,25 +536,14 @@ while (true) {
 	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	thread t2(parallelCam, cap2, framep2, 0.2, 98);
-	thread t1(parallelCam, cap, framep, 0.2, 98);
-	//parallelCam(cap, framep, 0.2, 1);
+	
+	thread t2(parallelGrab, cap2, framep2);
+	thread t1(parallelGrab, cap, framep);
 	t2.join();
 	t1.join();
-	//thread t1(parallelCam, cap, framep, 0.2,81);
-	//thread t3(parallelCam, cap, framep, 0.2, 3);
+	
 	
 
-	/*sched_param sch;
-	int policy;
-	pthread_getschedparam(t1.native_handle(), &policy, &sch);
-	sch.sched_priority = 90;
-	if (pthread_setschedparam(t1.native_handle(), SCHED_FIFO, &sch)) {
-	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-	}
-	if (pthread_setschedparam(t2.native_handle(), SCHED_FIFO, &sch)) {
-	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-	}*/
 
 	//t1.join();
 	
@@ -546,26 +570,22 @@ while (true) {
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "multithreaded cams: " << (double)duration1 / 1000 << " ms" << endl;
+	cout << "grabing threaded: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
 	//cap.remapFrame(frame);
 	//cap2.remapFrame(frame2);
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	thread t3(parallelRemap, cap2, framep2, 0.2, 98);
+	thread t4(parallelRemap, cap, framep, 0.2, 98);
+	t3.join();
+	t4.join();
 
-	thread th1(f, 1);
-	thread th2(f, 2);
-	thread th3(f, 3);
-	thread th4(f, 4);
-	th1.join();
-	th2.join();
-	th3.join();
-	th4.join();
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
-	cout << "tasks threaded in: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
 	//thread t1(parallelGrab, cap, framep);
 	//thread t2(parallelGrab, cap2, framep2);
@@ -588,7 +608,7 @@ while (true) {
 
 	high_resolution_clock::time_point time9 = high_resolution_clock::now();
 	auto duration9 = duration_cast<microseconds>(time9 - time3).count();
-	cout << "cam2 and frame detect: " << (double)duration9 / 1000 << " ms" << endl;
+	cout << "both cams standard list: " << (double)duration9 / 1000 << " ms" << endl;
 
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
 	if(i==14) vis_odo.initOdometry(frame);
