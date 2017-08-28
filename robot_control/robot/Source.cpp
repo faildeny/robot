@@ -310,6 +310,15 @@ void parallelRemap(Camera cap, Mat *frame, double scale) {
 }
 
 void parallelCam(Camera cap, Mat *frame, double scale) {
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	std::lock_guard<std::mutex> lk(iomutex);
+	std::cout << "ThreadCam " << " is executing at priority "
+		<< sch.sched_priority << '\n';
+
+
 	cap.grab();
 	cap.grab();
 	cap.grab();
@@ -505,6 +514,12 @@ while (true) {
 
 	thread t1(parallelCam, cap, framep, 0.2);
 	thread t2(parallelCam, cap2, framep2, 0.2);
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(t1.native_handle(), &policy, &sch);
+	sch.sched_priority = 90;
+
 	t1.join();
 	t2.join();
 
