@@ -351,13 +351,13 @@ void f(int num)
 {
 	//std::this_thread::sleep_for(std::chrono::seconds(1));
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	
+	int priority = 99;
 	sched_param sch;
 	int policy;
 	pthread_getschedparam(pthread_self(), &policy, &sch);
 	//std::lock_guard<std::mutex> lk(iomutex);
 	if (priority >= 0) {
-		sch.sched_priority = 99;
+		sch.sched_priority = priority;
 		if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &sch)) {
 			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 		}
