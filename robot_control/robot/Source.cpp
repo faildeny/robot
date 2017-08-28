@@ -470,9 +470,9 @@ while (true) {
 	int policy;
 	pthread_getschedparam(th1.native_handle(), &policy, &sch);
 	sch.sched_priority = 30;
-	if (pthread_setschedparam(th1.native_handle(), SCHED_FIFO, &sch)) {
-		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-	}
+	//if (pthread_setschedparam(th1.native_handle(), SCHED_FIFO, &sch)) {
+	//	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+	//}
 
 	th1.join(); th2.join();
 	/*frame_detect = frame;
