@@ -349,14 +349,29 @@ void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 
 void f(int num)
 {
-	std::this_thread::sleep_for(std::chrono::seconds(1));
-
+	//std::this_thread::sleep_for(std::chrono::seconds(1));
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+	
 	sched_param sch;
 	int policy;
 	pthread_getschedparam(pthread_self(), &policy, &sch);
-	std::lock_guard<std::mutex> lk(iomutex);
+	//std::lock_guard<std::mutex> lk(iomutex);
+	if (priority >= 0) {
+		sch.sched_priority = 99;
+		if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &sch)) {
+			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+		}
+	}
 	std::cout << "Thread " << num << " is executing at priority "
 		<< sch.sched_priority << '\n';
+	double a = 1.0;
+	for (int i = 0; i < 10000000;i++) {
+		a = (a + (double)i) / 3;
+	}
+
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
+	cout << "task " << num << " executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
 int main (int argc, char** argv) {
@@ -539,14 +554,19 @@ while (true) {
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
+	thread th1(f, 1);
+	thread th2(f,2);
+	thread th3(f, 3);
+	th1.join();
+	th2.join();
+	th3.join();
 	
-	parallelCam(cap2, framep2, 0.2,-1);
 	
 	
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time1).count();
-	cout << "single threaded cam1: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "tasks threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
 	//thread t1(parallelGrab, cap, framep);
 	//thread t2(parallelGrab, cap2, framep2);
@@ -554,7 +574,7 @@ while (true) {
 	//t2.join();
 	////framep->copyTo(frame);
 	////framep2->copyTo(frame2);
-
+	parallelCam(cap2, framep2, 0.2, -1);
 	parallelCam(cap, framep, 0.2,-1);
 
 	frame.copyTo(frame_detect);
