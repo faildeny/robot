@@ -467,11 +467,11 @@ int i = 0;
 char cKey = 'w';
 double dist = 1.0;
 
-int priority = 0;
+int priority = 1;
 sched_param sch5;
 int policy5;
 pthread_getschedparam(pthread_self(), &policy5, &sch5);
-std::lock_guard<std::mutex> lk(iomutex);
+//std::lock_guard<std::mutex> lk(iomutex);
 
 if (priority >= 0) {
 	sch5.sched_priority = priority;
