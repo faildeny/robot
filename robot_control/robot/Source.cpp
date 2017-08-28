@@ -477,19 +477,19 @@ while (true) {
 	cap2.grab();
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);*/
-	thread th1(f, 1), th2(f, 2);
+	
 
 	//if (pthread_setschedparam(th1.native_handle(), SCHED_FIFO, &sch)) {
 	//	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 	//}
-
-	th1.join(); th2.join();
+	parallelCam(cap, framep, 0.2);
+	
 	/*frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "test: " << (double)duration1 / 1000 << " ms" << endl;
+	cout << "single threaded cam1: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
 	//cap.remapFrame(frame);
@@ -498,12 +498,13 @@ while (true) {
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	
+	parallelCam(cap2, framep2, 0.2);
 	
 	
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time1).count();
-	cout << "grab and remap and resize: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "single threaded cam2: " << (double)duration2 / 1000 << " ms" << endl;
 
 	//thread t1(parallelGrab, cap, framep);
 	//thread t2(parallelGrab, cap2, framep2);
