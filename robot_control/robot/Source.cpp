@@ -365,7 +365,7 @@ void f(int num)
 	std::cout << "Thread " << num << " is executing at priority "
 		<< sch.sched_priority << '\n';
 	double a = 1.0;
-	for (int i = 0; i < 40000000;i++) {
+	for (int i = 0; i < 10000;i++) {
 		a = (a + (double)i) / 3;
 	}
 
