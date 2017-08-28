@@ -294,7 +294,7 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void parallelGrab(VideoCapture cap, Mat *frame,int priority) {
+void parallelGrab(Camera cap, Mat *frame,int priority) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
 	sched_param sch;
