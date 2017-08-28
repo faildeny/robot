@@ -236,7 +236,7 @@ int main(void)
 		//bm->compute(frame, frame2, disp);
 		//bm->compute(cropped1, cropped2, disp_scan);
 
-		stereo.match(cropped1, cropped2, disp_scan);
+		stereo.match(frame,frame2, disp_scan);
 
 		//resize(disp8, disp8, Size(), 3, 3, INTER_LINEAR);
 		Mat preview;
