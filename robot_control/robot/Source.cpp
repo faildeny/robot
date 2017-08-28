@@ -312,7 +312,7 @@ void parallelRemap(Camera cap, Mat *frame, double scale) {
 void parallelCam(Camera cap, Mat *frame, double scale) {
 
 	
-
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	cap.grab();
 	cap.grab();
