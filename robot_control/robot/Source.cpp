@@ -311,12 +311,7 @@ void parallelRemap(Camera cap, Mat *frame, double scale) {
 
 void parallelCam(Camera cap, Mat *frame, double scale) {
 
-	sched_param sch;
-	int policy;
-	pthread_getschedparam(pthread_self(), &policy, &sch);
-	std::lock_guard<std::mutex> lk(iomutex);
-	std::cout << "ThreadCam " << " is executing at priority "
-		<< sch.sched_priority << '\n';
+	
 
 
 	cap.grab();
@@ -328,6 +323,13 @@ void parallelCam(Camera cap, Mat *frame, double scale) {
 
 	cap.remapFrame(*frame);
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	std::lock_guard<std::mutex> lk(iomutex);
+	std::cout << "ThreadCam " << " is executing at priority "
+		<< sch.sched_priority << '\n';
 }
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
