@@ -462,6 +462,23 @@ while (true) {
 	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+
+	thread t1(parallelCam, cap, framep, 0.2);
+	thread t2(parallelCam, cap2, framep2, 0.2);
+
+	/*sched_param sch;
+	int policy;
+	pthread_getschedparam(t1.native_handle(), &policy, &sch);
+	sch.sched_priority = 90;
+	if (pthread_setschedparam(t1.native_handle(), SCHED_FIFO, &sch)) {
+	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+	}
+	if (pthread_setschedparam(t2.native_handle(), SCHED_FIFO, &sch)) {
+	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+	}*/
+
+	t1.join();
+	t2.join();
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
@@ -482,14 +499,14 @@ while (true) {
 	//if (pthread_setschedparam(th1.native_handle(), SCHED_FIFO, &sch)) {
 	//	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 	//}
-	parallelCam(cap, framep, 0.2);
+	
 	
 	/*frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "single threaded cam1: " << (double)duration1 / 1000 << " ms" << endl;
+	cout << "multithreaded cams: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
 	//cap.remapFrame(frame);
@@ -504,7 +521,7 @@ while (true) {
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time1).count();
-	cout << "single threaded cam2: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "single threaded cam1: " << (double)duration2 / 1000 << " ms" << endl;
 
 	//thread t1(parallelGrab, cap, framep);
 	//thread t2(parallelGrab, cap2, framep2);
@@ -513,22 +530,7 @@ while (true) {
 	////framep->copyTo(frame);
 	////framep2->copyTo(frame2);
 
-	thread t1(parallelCam, cap, framep, 0.2);
-	thread t2(parallelCam, cap2, framep2, 0.2);
-
-	sched_param sch;
-	int policy;
-	pthread_getschedparam(t1.native_handle(), &policy, &sch);
-	sch.sched_priority = 90;
-	if (pthread_setschedparam(t1.native_handle(), SCHED_FIFO, &sch)) {
-		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-	}
-	if (pthread_setschedparam(t2.native_handle(), SCHED_FIFO, &sch)) {
-		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-	}
-
-	t1.join();
-	t2.join();
+	parallelCam(cap, framep, 0.2);
 
 	frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
@@ -542,7 +544,7 @@ while (true) {
 
 	high_resolution_clock::time_point time9 = high_resolution_clock::now();
 	auto duration9 = duration_cast<microseconds>(time9 - time3).count();
-	cout << "grab and remap and resize threaded: " << (double)duration9 / 1000 << " ms" << endl;
+	cout << "cam2 and frame detect: " << (double)duration9 / 1000 << " ms" << endl;
 
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
 	if(i==14) vis_odo.initOdometry(frame);
