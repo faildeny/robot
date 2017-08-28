@@ -10,6 +10,10 @@
 #include <thread>
 #include <chrono>
 
+#include <mutex>
+#include <cstring>
+#include <pthread.h>
+
 extern "C" {
 #include "gopigo.h"
 }
@@ -21,6 +25,8 @@ extern "C" {
 using namespace cv;
 using namespace std;
 using namespace std::chrono;
+
+mutex iomutex;
 
 
 String object_cascade_name = "cascade.xml";
@@ -319,6 +325,18 @@ void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 	vis_odo.update(image);
 }
 
+void f(int num)
+{
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	std::lock_guard<std::mutex> lk(iomutex);
+	std::cout << "Thread " << num << " is executing at priority "
+		<< sch.sched_priority << '\n';
+}
+
 int main (int argc, char** argv) {
 
 parseArguments(argc, argv);
@@ -446,13 +464,23 @@ while (true) {
 	cap2.grab();
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);*/
-	
+	thread th1(f, 1), th2(f, 2);
+
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(th1.native_handle(), &policy, &sch);
+	sch.sched_priority = 20;
+	if (pthread_setschedparam(th1.native_handle(), SCHED_FIFO, &sch)) {
+		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+	}
+
+	th1.join(); th2.join();
 	/*frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "grab and retrieve: " << (double)duration1 / 1000 << " ms" << endl;
+	cout << "test: " << (double)duration1 / 1000 << " ms" << endl;
 	//Visual odometry
 
 	//cap.remapFrame(frame);
@@ -574,8 +602,10 @@ while (true) {
 ////
 
 	i++;
-	direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
+	//direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
+	direction = 0.0;
 	target_size = target.width / frame_detect.cols;
+	target_size = 0.6;
 
 // keyboard button press
 
