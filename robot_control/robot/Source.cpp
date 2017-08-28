@@ -310,6 +310,7 @@ void parallelRemap(Camera cap, Mat *frame, double scale) {
 }
 
 void parallelCam(Camera cap, Mat *frame, double scale) {
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
 	cap.grab();
 	cap.grab();
@@ -327,6 +328,10 @@ void parallelCam(Camera cap, Mat *frame, double scale) {
 	std::lock_guard<std::mutex> lk(iomutex);
 	std::cout << "ThreadCam " << " is executing at priority "
 		<< sch.sched_priority << '\n';
+
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
+	cout << "camera thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
