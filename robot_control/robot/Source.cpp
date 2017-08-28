@@ -517,7 +517,7 @@ while (true) {
 	sched_param sch;
 	int policy;
 	pthread_getschedparam(t1.native_handle(), &policy, &sch);
-	sch.sched_priority = 90;
+	sch.sched_priority = 30;
 
 	t1.join();
 	t2.join();
