@@ -318,13 +318,13 @@ void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 	//std::lock_guard<std::mutex> lk(iomutex);
 	
 	if (priority >= 0) {
-		sch.sched_priority = 0;
-			if (pthread_setschedparam(pthread_self(), SCHED_BATCH, &sch)) {
+		sch.sched_priority = priority;
+			if (pthread_setschedparam(pthread_self(), SCHED_RR, &sch)) {
 				std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 			}
 		}
-	std::cout << "ThreadCam " << " is executing at priority "
-		<< sch.sched_priority << '\n';
+	//std::cout << "ThreadCam " << " is executing at priority "
+	//	<< sch.sched_priority << '\n';
 
 	cap.grab();
 	cap.grab();
@@ -340,7 +340,7 @@ void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "camera "<<priority<<" thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
+	//cout << "camera "<<priority<<" thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
@@ -486,10 +486,11 @@ while (true) {
 	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	thread t2(parallelCam, cap2, framep2, 0.2, 82);
-	
-	parallelCam(cap, framep, 0.2, 1);
+	thread t2(parallelCam, cap2, framep2, 0.2, 99);
+	thread t1(parallelCam, cap, framep, 0.2, 99);
+	//parallelCam(cap, framep, 0.2, 1);
 	t2.join();
+	t1.join();
 	//thread t1(parallelCam, cap, framep, 0.2,81);
 	//thread t3(parallelCam, cap, framep, 0.2, 3);
 	
