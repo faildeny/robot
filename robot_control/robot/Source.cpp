@@ -467,6 +467,21 @@ int i = 0;
 char cKey = 'w';
 double dist = 1.0;
 
+int priority = 90;
+sched_param sch5;
+int policy5;
+pthread_getschedparam(pthread_self(), &policy5, &sch5);
+std::lock_guard<std::mutex> lk(iomutex);
+
+if (priority >= 0) {
+	sch5.sched_priority = priority;
+	if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &sch5)) {
+		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+	}
+}
+std::cout << "mainThread " << " is executing at priority "
+<< sch5.sched_priority << '\n';
+
 while (true) {
 	
 	
