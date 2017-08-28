@@ -475,7 +475,7 @@ pthread_getschedparam(pthread_self(), &policy5, &sch5);
 
 if (priority >= 0) {
 	sch5.sched_priority = priority;
-	if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &sch5)) {
+	if (pthread_setschedparam(pthread_self(), SCHED_BATCH, &sch5)) {
 		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 	}
 }
