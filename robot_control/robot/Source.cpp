@@ -475,10 +475,7 @@ while (true) {
 	cap2.retrieve(frame2);*/
 	thread th1(f, 1), th2(f, 2);
 
-	sched_param sch;
-	int policy;
-	pthread_getschedparam(th1.native_handle(), &policy, &sch);
-	sch.sched_priority = 30;
+	
 	//if (pthread_setschedparam(th1.native_handle(), SCHED_FIFO, &sch)) {
 	//	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 	//}
