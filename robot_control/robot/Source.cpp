@@ -555,13 +555,18 @@ while (true) {
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	thread th1(f, 1);
-	thread th2(f,2);
-	thread th3(f, 3);
-	thread th4(f, 4);
 	th1.join();
+	thread th2(f,2);
+	th2.join();
+	thread th3(f, 3);
+	th3.join();
+	thread th4(f, 4);
+	th4.join();
+	
+	/*th1.join();
 	th2.join();
 	th3.join();
-	th4.join();
+	th4.join();*/
 	
 	
 	
