@@ -467,7 +467,7 @@ int i = 0;
 char cKey = 'w';
 double dist = 1.0;
 
-int priority = 90;
+int priority = 0;
 sched_param sch5;
 int policy5;
 pthread_getschedparam(pthread_self(), &policy5, &sch5);
