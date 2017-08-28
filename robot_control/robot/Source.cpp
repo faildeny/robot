@@ -309,8 +309,22 @@ void parallelRemap(Camera cap, Mat *frame, double scale) {
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
 }
 
-void parallelCam(Camera cap, Mat *frame, double scale) {
+void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+	
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	std::lock_guard<std::mutex> lk(iomutex);
+	
+	if (priority >= 0) {
+		sch.sched_priority = priority;
+			if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &sch)) {
+				std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+			}
+		}
+	std::cout << "ThreadCam " << " is executing at priority "
+		<< sch.sched_priority << '\n';
 
 	cap.grab();
 	cap.grab();
@@ -322,12 +336,7 @@ void parallelCam(Camera cap, Mat *frame, double scale) {
 	cap.remapFrame(*frame);
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
 
-	sched_param sch;
-	int policy;
-	pthread_getschedparam(pthread_self(), &policy, &sch);
-	std::lock_guard<std::mutex> lk(iomutex);
-	std::cout << "ThreadCam " << " is executing at priority "
-		<< sch.sched_priority << '\n';
+	
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
@@ -463,8 +472,8 @@ while (true) {
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
-	thread t1(parallelCam, cap, framep, 0.2);
-	thread t2(parallelCam, cap2, framep2, 0.2);
+	thread t1(parallelCam, cap, framep, 0.2,1);
+	thread t2(parallelCam, cap2, framep2, 0.2,1);
 
 	/*sched_param sch;
 	int policy;
@@ -495,11 +504,6 @@ while (true) {
 	cap.retrieve(frame);
 	cap2.retrieve(frame2);*/
 	
-
-	//if (pthread_setschedparam(th1.native_handle(), SCHED_FIFO, &sch)) {
-	//	std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-	//}
-	
 	
 	/*frame_detect = frame;
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
@@ -515,7 +519,7 @@ while (true) {
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 
 	
-	parallelCam(cap2, framep2, 0.2);
+	parallelCam(cap2, framep2, 0.2,-1);
 	
 	
 	
@@ -530,7 +534,7 @@ while (true) {
 	////framep->copyTo(frame);
 	////framep2->copyTo(frame2);
 
-	parallelCam(cap, framep, 0.2);
+	parallelCam(cap, framep, 0.2,-1);
 
 	frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
