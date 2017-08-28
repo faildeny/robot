@@ -311,9 +311,6 @@ void parallelRemap(Camera cap, Mat *frame, double scale) {
 
 void parallelCam(Camera cap, Mat *frame, double scale) {
 
-	
-	std::this_thread::sleep_for(std::chrono::seconds(1));
-
 	cap.grab();
 	cap.grab();
 	cap.grab();
@@ -520,8 +517,11 @@ while (true) {
 	sched_param sch;
 	int policy;
 	pthread_getschedparam(t1.native_handle(), &policy, &sch);
-	sch.sched_priority = 20;
+	sch.sched_priority = -20;
 	if (pthread_setschedparam(t1.native_handle(), SCHED_FIFO, &sch)) {
+		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+	}
+	if (pthread_setschedparam(t2.native_handle(), SCHED_FIFO, &sch)) {
 		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 	}
 
