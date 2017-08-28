@@ -340,7 +340,7 @@ void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "camera thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "camera "<<priority<<" thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
@@ -486,8 +486,9 @@ while (true) {
 	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	thread t2(parallelCam, cap2, framep2, 0.2, 1);
+	thread t2(parallelCam, cap2, framep2, 0.2, 2);
 	thread t1(parallelCam, cap, framep, 0.2,1);
+	thread t3(parallelCam, cap, framep, 0.2, 3);
 	
 
 	/*sched_param sch;
@@ -503,6 +504,7 @@ while (true) {
 
 	t1.join();
 	t2.join();
+	t3.join();
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
