@@ -490,7 +490,7 @@ pthread_getschedparam(pthread_self(), &policy5, &sch5);
 
 if (priority >= 0) {
 	sch5.sched_priority = priority;
-	if (pthread_setschedparam(pthread_self(), SCHED_BATCH, &sch5)) {
+	if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &sch5)) {
 		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 	}
 }
@@ -557,9 +557,13 @@ while (true) {
 	thread th1(f, 1);
 	thread th2(f,2);
 	thread th3(f, 3);
+	thread th4(f, 4);
+	thread th5(f, 5);
 	th1.join();
 	th2.join();
 	th3.join();
+	th4.join();
+	th5.join();
 	
 	
 	
