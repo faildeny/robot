@@ -553,35 +553,15 @@ while (true) {
 	//cap2.remapFrame(frame2);
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	high_resolution_clock::time_point time21 = high_resolution_clock::now();
+
 	thread th1(f, 1);
+	thread th2(f, 2);
+	thread th3(f, 3);
+	thread th4(f, 4);
 	th1.join();
-	high_resolution_clock::time_point time22 = high_resolution_clock::now();
-	auto duration21 = duration_cast<microseconds>(time22 - time21).count();
-	cout << "task creation and execution: " << (double)duration21 / 1000 << " ms" << endl;
-	thread th1(f, 1);
-	th1.join();
-	high_resolution_clock::time_point time23 = high_resolution_clock::now();
-	auto duration21 = duration_cast<microseconds>(time23 - time22).count();
-	cout << "task creation and execution: " << (double)duration21 / 1000 << " ms" << endl;
-	thread th1(f, 1);
-	th1.join();
-	high_resolution_clock::time_point time24 = high_resolution_clock::now();
-	auto duration21 = duration_cast<microseconds>(time24 - time23).count();
-	cout << "task creation and execution: " << (double)duration21 / 1000 << " ms" << endl;
-	thread th1(f, 1);
-	th1.join();
-	high_resolution_clock::time_point time25 = high_resolution_clock::now();
-	auto duration21 = duration_cast<microseconds>(time25 - time24).count();
-	cout << "task creation and execution: " << (double)duration21 / 1000 << " ms" << endl;
-	
-	/*th1.join();
 	th2.join();
 	th3.join();
-	th4.join();*/
-	
-	
-	
+	th4.join();
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
