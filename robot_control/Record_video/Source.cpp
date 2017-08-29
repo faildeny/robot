@@ -46,24 +46,24 @@ int main(int argc, char** argv) {
 
 	while (true) {
 		cap.grab();
-		cap1.grab();
-		cap.grab();
-		cap1.grab();
-		cap.grab();
-		cap1.grab();
-		cap.grab();
-		cap1.grab();
-		cap.grab();
-		cap1.grab();
 		cap.retrieve(frame);
+		cap1.grab();
 		cap1.retrieve(frame1);
-		resize(frame, frame, Size(), 0.3, 0.3);
-		resize(frame1, frame1, Size(), 0.3, 0.3);
-		diff = frame*0.5 + frame1*0.5;
+	/*	cap.grab();
+		cap1.grab();
+		cap.grab();
+		cap1.grab();
+		cap.grab();
+		cap1.grab();
+		cap.grab();
+		cap1.grab();*/
+		resize(frame, frame, Size(), 0.2, 0.2);
+		resize(frame1, frame1, Size(), 0.2, 0.2);
+		//diff = frame*0.5 + frame1*0.5;
 		//saveImage(frame, n++);
 		imshow("frame", frame);
 		imshow("frame1", frame1);
-		imshow("diff", diff);
+		//imshow("diff", diff);
 
 		int key = waitKey(1);
 		if (key == 27) {
