@@ -468,8 +468,8 @@ cap2.setSize(frameSize.width, frameSize.height);
 //cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
 //Setting ROI of depthmap
-Rect area(0, 40, frameSize.width*0.2, 30);
-cout << "area" << area.width <<"x"<<area.height<< endl;
+Rect area(0, 0, frameSize.width*0.2, 130);
+
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -503,6 +503,7 @@ resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
 cout << "init Odometry" << endl;
 VisualOdometry vis_odo(image_odo, 2.0);
 cout << "odometry initiated" << endl;
+
 //Sliders for camera parameters control
 stereo.showMenu();
 namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
@@ -556,8 +557,7 @@ if (priority >= 0) {
 		std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 	}
 }
-std::cout << "mainThread " << " is executing at priority "
-<< sch5.sched_priority << '\n';
+cout << "mainThread " << " is executing at priority " << sch5.sched_priority << '\n';
 
 while (true) {
 	
@@ -609,22 +609,9 @@ while (true) {
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
-	//thread t1(parallelGrab, cap, framep);
-	//thread t2(parallelGrab, cap2, framep2);
-	//t1.join();
-	//t2.join();
-	////framep->copyTo(frame);
-	////framep2->copyTo(frame2);
-	//parallelCam(cap2, framep2, 0.2, -1);
-	//parallelCam(cap, framep, 0.2,-1);
 
 	frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
-
-	/*thread t3(parallelRemap, cap, framep, 0.2);
-	thread t4(parallelRemap, cap2, framep2, 0.2);
-	t3.join();
-	t4.join();*/
 
 
 
@@ -638,8 +625,6 @@ while (true) {
 	//imshow("frame", frame);
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
-	cout << "size: " << frame.cols << "x" << frame.rows << endl;
-	cout << "size: " << frame2.cols << "x" << frame2.rows << endl;
 	Mat diff=frame-frame2;
 	//imshow("camera 0", frame);
 	//imshow("camera 1", frame2);
@@ -648,7 +633,6 @@ while (true) {
 	cout << "size: " << frame.cols << "x" << frame.rows << endl;
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
-	cout << "ROI selected" << endl;
 //	object searching
 	//target_found=detectAndDisplay(frame_detect, target);
 
@@ -659,24 +643,21 @@ while (true) {
 
 	//resize(disp, disp, Size(), 5, 5, INTER_AREA);
 	//disp*= 5;
-	if (i == 15) {
-		FileStorage map("depth_low.xml", FileStorage::WRITE);
-		map<<"Depth"<< disp;
-		cout << "saved" << endl;
-	}
+	
 	//imwrite("depth_full.bmp", disp);
 
 	high_resolution_clock::time_point time4 = high_resolution_clock::now();
 	auto duration3 = duration_cast<microseconds>(time4 - time3).count();
 	cout << "cropping and BGR to GRAY: " << (double)duration3 / 1000 << " ms" << endl;
+	
 	stereo.match(scan_line1, scan_line2, disp);
 
-	//disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
+	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
 
-	//resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
-	//Mat preview;
+	resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
+	Mat preview;
 
-	//disp8.convertTo(preview, -1, double(stereo.ratio) / 50., stereo.offset - 200);
+	disp8.convertTo(preview, -1, double(stereo.ratio) / 50., stereo.offset - 200);
 //distance from central area
 	
 	dist = distCentralArea(disp, stereo);
@@ -689,13 +670,13 @@ while (true) {
 	cout << "matching and depthmap processing: " << (double)duration4 / 1000 << " ms" << endl;
 //showing interface on the disparity image
 
-	/*applyColorMap(preview, preview, COLORMAP_JET);
+	applyColorMap(preview, preview, COLORMAP_JET);
 	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
 
 	rectangle(preview, left_area, Scalar(255, 50, 50), 2, 8);
 	rectangle(preview, right_area, Scalar(0, 100, 255), 2, 8);
 	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
-	imshow("Depth map", preview);*/
+	imshow("Depth map", preview);
 	
 // end of camera setup
 	//visual_odometry.join();
