@@ -26,6 +26,7 @@ public:
 	void setSize(int width, int height);
 	void setExp(int e);
 	bool setIntrinsics(String filename, int n);
+	void scaleIntrinsics(double scale);
 	void setUndistortRectifyMap(Size frame_size);
 	void remapFrame(Mat& frame);
 };

@@ -58,3 +58,18 @@ void Camera::setUndistortRectifyMap(Size frame_size) {
 void Camera::remapFrame(Mat& frame) {
 	remap(frame, frame, mapx, mapy, INTER_LINEAR, BORDER_CONSTANT, Scalar());
 }
+
+void Camera::scaleIntrinsics(double scale) {
+	params.CM.at<double>(0, 0) *= scale;
+	params.CM.at<double>(0, 2) *= scale;
+	params.CM.at<double>(1, 1) *= scale;
+	params.CM.at<double>(1, 2) *= scale;
+
+	params.D = params.D*scale;
+
+	params.P.at<double>(0, 0) *= scale;
+	params.P.at<double>(0, 2) *= scale;
+	params.P.at<double>(1, 1) *= scale;
+	params.P.at<double>(1, 2) *= scale;
+
+}

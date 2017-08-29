@@ -336,8 +336,9 @@ void parallelRemap(Camera cap, Mat *frame, double scale,int priority) {
 		}
 	}
 
-	cap.remapFrame(*frame);
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
+	cap.remapFrame(*frame);
+	
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
@@ -458,6 +459,8 @@ Mat temp1;
 Mat temp2;
 
 Size frameSize(1280, 720);
+double scale = 0.2;
+Size frameSizeScaled(frameSize.width*scale, frameSize.height*scale);
 
 //Setting camera resolution
 cap.setSize(frameSize.width, frameSize.height);
@@ -468,7 +471,7 @@ cap2.setSize(frameSize.width, frameSize.height);
 //cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
 //Setting ROI of depthmap
-Rect area(0, 40, frameSize.width*0.2, 30);
+Rect area(0, 40, frameSize.width*scale, 30);
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -524,8 +527,10 @@ else {
 
 printf("frame size: %d x %d \n",frame.cols, frame.rows);
 //Preparing undistortion maps for further frame transformations
-cap.setUndistortRectifyMap(frameSize);
-cap2.setUndistortRectifyMap(frameSize);
+cap.scaleIntrinsics(scale);
+cap2.scaleIntrinsics(scale);
+cap.setUndistortRectifyMap(frameSizeScaled);
+cap2.setUndistortRectifyMap(frameSizeScaled);
 
 //Initialize robot
 RobotControl robot(speed);
@@ -600,8 +605,8 @@ while (true) {
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	
-	thread t4(parallelRemap2, cap, framep, 0.2, 98);
-	thread t3(parallelRemap, cap2, framep2, 0.2, 98);
+	thread t4(parallelRemap2, cap, framep, scale, 98);
+	thread t3(parallelRemap, cap2, framep2, scale, 98);
 	t3.join();
 	t4.join();
 
