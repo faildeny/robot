@@ -604,6 +604,8 @@ while (true) {
 	//thread t3(parallelRemap, cap2, framep2, scale, 98);
 	//t3.join();
 	//t4.join();
+	resize(temp1, temp1, Size(), 0.2, 0.2, INTER_AREA);
+	resize(temp2, temp2, Size(), 0.2, 0.2, INTER_AREA);
 	temp1.copyTo(frame);
 	temp2.copyTo(frame2);
 	
