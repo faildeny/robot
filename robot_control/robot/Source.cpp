@@ -518,7 +518,7 @@ Point2i punkt(300, 300);
 // Loading and checking camera settings
 if(cap.setIntrinsics("extrinsics.yml", 1)
 	&& cap2.setIntrinsics("extrinsics.yml", 2) 
-	&&stereo.setExtrinsics("extrinsics.yml",0.2))
+	&&stereo.setExtrinsics("extrinsics.yml",scale))
 
 printf("Camera settings have been read properly.\n");
 else {
@@ -569,13 +569,7 @@ while (true) {
 	thread t1(parallelGrab, cap, framep,99);
 	t2.join();
 	t1.join();
-	
-	
 
-
-	//t1.join();
-	
-	//t3.join();
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
@@ -622,8 +616,8 @@ while (true) {
 	//t2.join();
 	////framep->copyTo(frame);
 	////framep2->copyTo(frame2);
-	parallelCam(cap2, framep2, 0.2, -1);
-	parallelCam(cap, framep, 0.2,-1);
+	//parallelCam(cap2, framep2, 0.2, -1);
+	//parallelCam(cap, framep, 0.2,-1);
 
 	frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
