@@ -450,9 +450,9 @@ Mat temp1;
 Mat temp2;
 
 Mat *framep;
-framep = &temp1;
+framep = &frame;
 Mat *framep2;
-framep2 = &temp2;
+framep2 = &frame2;
 
 
 
@@ -493,10 +493,10 @@ parallelGrab(cap, framep, 99,6);
 parallelGrab(cap2, framep2, 99,6);
 //cap.grab();
 //cap2.grab();
-cap.retrieve(frame);
-cap2.retrieve(frame2);
-//cap.retrieve(temp1);
-//cap2.retrieve(temp2);
+//cap.retrieve(frame);
+//cap2.retrieve(frame2);
+cap.retrieve(temp1);
+cap2.retrieve(temp2);
 Mat image_odo;
 frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
@@ -604,10 +604,11 @@ while (true) {
 	//thread t3(parallelRemap, cap2, framep2, scale, 98);
 	//t3.join();
 	//t4.join();
-	resize(temp1, temp1, Size(), 0.2, 0.2, INTER_AREA);
-	resize(temp2, temp2, Size(), 0.2, 0.2, INTER_AREA);
-	temp1.copyTo(frame);
-	temp2.copyTo(frame2);
+
+	resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
+	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
+	//temp1.copyTo(frame);
+	//temp2.copyTo(frame2);
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
