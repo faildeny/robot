@@ -391,9 +391,9 @@ void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 	cap.grab();
 	cap.retrieve(*frame);
 
-	cap.remapFrame(*frame);
+	
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
-
+	cap.remapFrame(*frame);
 	
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
