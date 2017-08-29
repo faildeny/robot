@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 	}
 
 	VideoCapture cap(1);
-	VideoCapture cap1(2);
+	VideoCapture cap1(0);
 
 	Mat frame;
 	Mat frame1;
