@@ -565,16 +565,14 @@ while (true) {
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	
-	thread t2(parallelGrab, cap2, framep2,99,4);
+	/*thread t2(parallelGrab, cap2, framep2,99,4);
 	thread t1(parallelGrab, cap, framep,99,4);
 	t2.join();
-	t1.join();
+	t1.join();*/
 
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
-	/*cap.grab();
-	cap2.grab();
 	cap.grab();
 	cap2.grab();
 	cap.grab();
@@ -583,8 +581,10 @@ while (true) {
 	cap2.grab();
 	cap.grab();
 	cap2.grab();
-	cap.retrieve(frame);
-	cap2.retrieve(frame2);*/
+	cap.grab();
+	cap2.grab();
+	cap.retrieve(temp1);
+	cap2.retrieve(temp2);
 	
 	
 	/*frame_detect = frame;
