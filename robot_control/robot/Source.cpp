@@ -472,6 +472,7 @@ cap2.setSize(frameSize.width, frameSize.height);
 
 //Setting ROI of depthmap
 Rect area(0, 40, frameSize.width*0.2, 30);
+cout << "area" << area.width <<"x"<<area.height<< endl;
 //Checking cameras
 if (!cap.isOpened()) {
 	cout << "Couldn't open camera 1 \n" << endl;
@@ -650,6 +651,7 @@ while (true) {
 	//imshow("camera 1", frame2);
 	//imshow("Diff", diff);
 	cout << "selecting ROI" << endl;
+	cout << "size: " << frame.cols << "x" << frame.rows << endl;
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
 	cout << "ROI selected" << endl;
