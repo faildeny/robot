@@ -490,6 +490,8 @@ if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be lo
 //Grabbing first frame for further image settings
 parallelGrab(cap, framep, 99,6);
 parallelGrab(cap2, framep2, 99,6);
+cap.retrieve(frame);
+cap2.retrieve(frame2);
 //cap.grab();
 //cap2.grab();
 //cap.retrieve(frame);
