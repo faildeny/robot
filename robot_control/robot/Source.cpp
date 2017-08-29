@@ -564,8 +564,8 @@ while (true) {
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	
-	thread t2(parallelGrab, cap2, framep2,99,2);
-	thread t1(parallelGrab, cap, framep,99,2);
+	thread t2(parallelGrab, cap2, framep2,99,3);
+	thread t1(parallelGrab, cap, framep,99,3);
 	t2.join();
 	t1.join();
 
