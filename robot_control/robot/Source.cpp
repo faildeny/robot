@@ -294,7 +294,7 @@ double avoidDirection(Mat disp) {
 
 //threading
 
-void parallelGrab(Camera cap, Mat *frame,int priority) {
+void parallelGrab(Camera cap, Mat *frame,int priority,int n) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
 	sched_param sch;
@@ -308,12 +308,9 @@ void parallelGrab(Camera cap, Mat *frame,int priority) {
 			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 		}
 	}
-	//cap.grab();
-	cap.grab();
-	cap.grab();
-	cap.grab();
-	cap.grab();
-	cap.grab();
+	for (int i = 0; i < n; i++) {
+		cap.grab();	
+	}
 	cap.retrieve(*frame);
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
@@ -491,8 +488,8 @@ double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 //Grabbing first frame for further image settings
-parallelGrab(cap, framep, 99);
-parallelGrab(cap2, framep2, 99);
+parallelGrab(cap, framep, 99,6);
+parallelGrab(cap2, framep2, 99,6);
 //cap.grab();
 //cap2.grab();
 //cap.retrieve(frame);
@@ -567,8 +564,8 @@ while (true) {
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	
-	thread t2(parallelGrab, cap2, framep2,99);
-	thread t1(parallelGrab, cap, framep,99);
+	thread t2(parallelGrab, cap2, framep2,99,2);
+	thread t1(parallelGrab, cap, framep,99,2);
 	t2.join();
 	t1.join();
 
