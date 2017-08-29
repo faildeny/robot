@@ -9,12 +9,12 @@ using namespace cv;
 
 int speed = 60;
 
-void saveImage(Mat frame, int n) {
-	String filename("frame/image_");
-	filename += to_string(n);
-	filename += ".jpg";
-	imwrite(filename, frame);
-}
+//void saveImage(Mat frame, int n) {
+//	String filename("frame/image_");
+//	filename += to_string(n);
+//	filename += ".jpg";
+//	imwrite(filename, frame);
+//}
 
 
 int main(int argc, char** argv) {
