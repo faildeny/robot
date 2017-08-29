@@ -491,10 +491,12 @@ double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 //Grabbing first frame for further image settings
-cap.grab();
-cap2.grab();
-cap.retrieve(frame);
-cap2.retrieve(frame2);
+parallelGrab(cap, framep, 99);
+parallelGrab(cap2, framep2, 99);
+//cap.grab();
+//cap2.grab();
+//cap.retrieve(frame);
+//cap2.retrieve(frame2);
 cap.retrieve(temp1);
 cap2.retrieve(temp2);
 Mat image_odo;
