@@ -604,7 +604,8 @@ while (true) {
 	//thread t3(parallelRemap, cap2, framep2, scale, 98);
 	//t3.join();
 	//t4.join();
-
+	temp1.copyTo(frame);
+	temp2.copyTo(frame2);
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
