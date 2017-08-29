@@ -446,14 +446,15 @@ StereoCamera stereo;
 //Create frames for both cameras
 Mat frame;
 Mat frame2;
-
-Mat *framep;
-framep = &frame;
-Mat *framep2;
-framep2 = &frame2;
-
 Mat temp1;
 Mat temp2;
+
+Mat *framep;
+framep = &temp1;
+Mat *framep2;
+framep2 = &temp2;
+
+
 
 Size frameSize(1280, 720);
 double scale = 0.2;
@@ -488,13 +489,12 @@ double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 //Grabbing first frame for further image settings
-//parallelGrab(cap, framep, 99,6);
-//parallelGrab(cap2, framep2, 99,6);
-
-cap.grab();
-cap2.grab();
-cap.retrieve(frame);
-cap2.retrieve(frame2);
+parallelGrab(cap, framep, 99,6);
+parallelGrab(cap2, framep2, 99,6);
+//cap.grab();
+//cap2.grab();
+//cap.retrieve(frame);
+//cap2.retrieve(frame2);
 cap.retrieve(temp1);
 cap2.retrieve(temp2);
 Mat image_odo;
@@ -564,21 +564,11 @@ while (true) {
 	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	cap.grab();
-	cap2.grab();
-	cap.grab();
-	cap2.grab();
-	cap.grab();
-	cap2.grab();
-	cap.grab();
-	cap2.grab();
-	cap.retrieve(frame);
-	cap2.retrieve(frame2);
-	//thread t2(parallelGrab, cap2, framep2,99,0);
-	//thread t1(parallelGrab, cap, framep,99,0);
-	//t2.join();
-	//t1.join();
-
+	
+	thread t2(parallelGrab, cap2, framep2,99,4);
+	thread t1(parallelGrab, cap, framep,99,4);
+	t2.join();
+	t1.join();
 
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
@@ -610,10 +600,10 @@ while (true) {
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	
-	thread t4(parallelRemap, cap, framep, scale, 98);
-	thread t3(parallelRemap, cap2, framep2, scale, 98);
-	t3.join();
-	t4.join();
+	//thread t4(parallelRemap, cap, framep, scale, 98);
+	//thread t3(parallelRemap, cap2, framep2, scale, 98);
+	//t3.join();
+	//t4.join();
 
 	
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
