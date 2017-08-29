@@ -65,7 +65,7 @@ void Camera::scaleIntrinsics(double scale) {
 	params.CM.at<double>(1, 1) *= scale;
 	params.CM.at<double>(1, 2) *= scale;
 
-	params.D = params.D*scale;
+	params.D = params.D*scale*0;
 
 	params.P.at<double>(0, 0) *= scale;
 	params.P.at<double>(0, 2) *= scale;
