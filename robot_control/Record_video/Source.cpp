@@ -67,8 +67,8 @@ int main(int argc, char** argv) {
 
 		int key = waitKey(1);
 		if (key == 27) {
-			saveImage(frame, n);
-			saveImage(frame1, n + 1);
+			//saveImage(frame, n);
+			//saveImage(frame1, n + 1);
 			break;
 		}
 	}
