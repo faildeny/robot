@@ -572,10 +572,12 @@ while (true) {
 	cap2.grab();
 	cap.grab();
 	cap2.grab();
-	thread t2(parallelGrab, cap2, framep2,99,0);
-	thread t1(parallelGrab, cap, framep,99,0);
-	t2.join();
-	t1.join();
+	cap.retrieve(frame);
+	cap2.retrieve(frame2);
+	//thread t2(parallelGrab, cap2, framep2,99,0);
+	//thread t1(parallelGrab, cap, framep,99,0);
+	//t2.join();
+	//t1.join();
 
 
 	//cap.setExp(stereo.exposure);
