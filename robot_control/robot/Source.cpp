@@ -602,7 +602,7 @@ while (true) {
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
 	
-	thread t4(parallelRemap2, cap, framep, scale, 98);
+	thread t4(parallelRemap, cap, framep, scale, 98);
 	thread t3(parallelRemap, cap2, framep2, scale, 98);
 	t3.join();
 	t4.join();
