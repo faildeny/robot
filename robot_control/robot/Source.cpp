@@ -311,7 +311,7 @@ void parallelGrab(Camera cap, Mat *frame,int priority,int n) {
 	for (int i = 0; i < n; i++) {
 		cap.grab();	
 	}
-	//cap.retrieve(*frame);
+	cap.retrieve(*frame);
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
@@ -488,14 +488,13 @@ double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
 
 //Grabbing first frame for further image settings
-parallelGrab(cap, framep, 99,6);
-parallelGrab(cap2, framep2, 99,6);
+//parallelGrab(cap, framep, 99,6);
+//parallelGrab(cap2, framep2, 99,6);
+
+cap.grab();
+cap2.grab();
 cap.retrieve(frame);
 cap2.retrieve(frame2);
-//cap.grab();
-//cap2.grab();
-//cap.retrieve(frame);
-//cap2.retrieve(frame2);
 cap.retrieve(temp1);
 cap2.retrieve(temp2);
 Mat image_odo;
@@ -565,14 +564,20 @@ while (true) {
 	
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	
-	thread t2(parallelGrab, cap2, framep2,99,4);
-	thread t1(parallelGrab, cap, framep,99,4);
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	cap.grab();
+	cap2.grab();
+	thread t2(parallelGrab, cap2, framep2,99,0);
+	thread t1(parallelGrab, cap, framep,99,0);
 	t2.join();
 	t1.join();
 
-	cap.retrieve(frame);
-	cap2.retrieve(frame2);
+
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
