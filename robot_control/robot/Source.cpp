@@ -641,7 +641,8 @@ while (true) {
 	//imshow("frame", frame);
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
-
+	cout << "size: " << frame.cols << "x" << frame.rows << endl;
+	cout << "size: " << frame2.cols << "x" << frame2.rows << endl;
 	Mat diff=frame-frame2;
 	//imshow("camera 0", frame);
 	//imshow("camera 1", frame2);
