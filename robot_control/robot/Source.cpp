@@ -311,7 +311,7 @@ void parallelGrab(Camera cap, Mat *frame,int priority,int n) {
 	for (int i = 0; i < n; i++) {
 		cap.grab();	
 	}
-	cap.retrieve(*frame);
+	//cap.retrieve(*frame);
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
@@ -569,6 +569,8 @@ while (true) {
 	t2.join();
 	t1.join();
 
+	cap.retrieve(frame);
+	cap2.retrieve(frame2);
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
 	
