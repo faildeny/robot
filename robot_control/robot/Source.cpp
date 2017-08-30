@@ -116,7 +116,7 @@ void decodeEncoders() {
 void updateCoordinates(int left,int right) {
 	azimuth += (left-right)*angle_step;
 	position.x += ((left+right)*move_step)*sin(azimuth);
-	position.y += ((left+right)*move_step)*cos(azimuth);
+	position.y += -((left+right)*move_step)*cos(azimuth);
 	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth<<endl;
 
 	posx = posx_base + position.y*0.00000005;
