@@ -52,14 +52,16 @@ void RobotControl::move() {
 				led_on(0);
 				led_off(1);
 				set_speed(speed.rotate);
-				right_rot();
+				//right_rot();
+				right();
 				break;
 			case 'a':
 				printf("skrecam w lewo");
 				led_on(1);
 				led_off(0);
 				set_speed(speed.rotate);
-				left_rot();
+				//left_rot();
+				left();
 				break;
 			case 'w':
 				//printf("jade");
@@ -196,7 +198,7 @@ int RobotControl::turn() {
 	cmd[2] = 'd';
 	printf("skrecac w prawo \n");
 
-	if (enc_left-enc_begin_left>7)
+	if (enc_left-enc_begin_left>13)
 	{
 		busy = false;
 		return 1;
