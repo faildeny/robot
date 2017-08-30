@@ -116,10 +116,10 @@ void updateCoordinates(int left,int right) {
 	double positionx_old = position.x;
 	double positiony_old = position.y;
 	azimuth += (left-right)*angle_step;
-	position.x += (left+right*move_step)*sin(azimuth);
-	position.y += -(left+right*move_step)*cos(azimuth);
+	position.x += ((left+right)*move_step)*sin(azimuth);
+	position.y += -((left+right)*move_step)*cos(azimuth);
 	double movement = pow(position.x - positionx_old, 2.0) + pow(position.y - positiony_old, 2.0);
-	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth <<"azimuth change: "<<azimuth_old-azimuth<<"movement: "<<movement<<endl;
+	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth<<endl;
 
 	posx = posx_base - position.y*0.00000005;
 	posy = posy_base + position.x*0.00000005;
