@@ -502,7 +502,7 @@ frame.copyTo(image_odo);
 resize(image_odo, image_odo, Size(), 0.2, 0.2, INTER_AREA);
 //cvtColor(image_odo, image_odo, COLOR_BGR2GRAY);
 cout << "init Odometry" << endl;
-VisualOdometry vis_odo(image_odo, 2.0);
+//VisualOdometry vis_odo(image_odo, 2.0);
 cout << "odometry initiated" << endl;
 
 //Sliders for camera parameters control
@@ -625,7 +625,7 @@ while (true) {
 	cout << "both cams standard list: " << (double)duration9 / 1000 << " ms" << endl;
 
 	//thread visual_odometry(parallelOdometry, frame,vis_odo);
-	if(i==14) vis_odo.initOdometry(frame);
+	//if(i==14) vis_odo.initOdometry(frame);
 	//if (i>14) vis_odo.update(frame);
 	//imshow("frame", frame);
 	cvtColor(frame, frame, COLOR_BGR2GRAY);
@@ -703,7 +703,7 @@ while (true) {
 	//direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
 	direction = 0.0;
 	target_size = target.width / frame_detect.cols;
-	target_size = 0.6;
+	target_size = 0.1;
 
 // keyboard button press
 
