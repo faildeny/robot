@@ -256,7 +256,10 @@ void RobotControl::square() {
 			break;
 
 		case 7:
-			if (turn()) step++;
+			if (turn()) {
+				printf("Order has been completed! \n");
+				step = 0;
+			}
 			break;
 
 		case 8:
