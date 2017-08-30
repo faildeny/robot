@@ -686,17 +686,17 @@ while (true) {
 // end of camera setup
 	//visual_odometry.join();
 // Odometry
-	//robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
-	//decodeEncoders();
-	//updateCoordinates(enc_diff_left, enc_diff_right);
+	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
+	decodeEncoders();
+	updateCoordinates(enc_diff_left, enc_diff_right);
 	////thread t1(updateMap, position);
-	//updateMap(position);
+	updateMap(position);
 	//
 	//disp.convertTo(disp, CV_32F);
 	//reprojectImageTo3D(disp, image3d, stereo.Qs);
 	////customReproject(disp, stereo.Qs, image3d);
 	//map3d(map, image3d);
-	//imshow("map", background + map + robot_shape);
+	imshow("map", background + map + robot_shape);
 ////
 
 	i++;
