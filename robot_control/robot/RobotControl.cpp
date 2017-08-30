@@ -198,7 +198,7 @@ int RobotControl::turn() {
 	cmd[2] = 'd';
 	printf("skrecac w prawo \n");
 
-	if (enc_left-enc_begin_left>15)
+	if (enc_left-enc_begin_left>16)
 	{
 		busy = false;
 		return 1;
