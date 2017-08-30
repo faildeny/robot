@@ -307,8 +307,8 @@ void RobotControl::showStatus() {
 }
 
 void RobotControl::readEncoders(int &left,int &right,int &l_dir, int &r_dir) {
-	enc_left= enc_read(1);
-	enc_right = enc_read(0);
+	enc_left= enc_read(0);
+	enc_right = enc_read(1);
 	left = enc_left;
 	right = enc_right;
 	l_dir = 1;

@@ -107,24 +107,20 @@ void decodeEncoders() {
 	cout << "enc_left: " << enc_left << " enc_right: " << enc_right << endl;
 	enc_diff_left = (enc_l_dir < 0) ? -enc_left + enc_left_old : enc_left - enc_left_old;
 	enc_diff_right = (enc_r_dir < 0) ? -enc_right + enc_right_old : enc_right - enc_right_old;
-	if (enc_l_dir == 0) { enc_diff_left = enc_diff_right; enc_diff_right = 0; }
-	if (enc_r_dir == 0) { enc_diff_right = enc_diff_left; enc_diff_left = 0; }
+	//if (enc_l_dir == 0) { enc_diff_left = enc_diff_right; enc_diff_right = 0; }
+	//if (enc_r_dir == 0) { enc_diff_right = enc_diff_left; enc_diff_left = 0; }
 	enc_left_old = enc_left;
 	enc_right_old = enc_right;
 }
 
 void updateCoordinates(int left,int right) {
-	double azimuth_old = azimuth;
-	double positionx_old = position.x;
-	double positiony_old = position.y;
 	azimuth += (left-right)*angle_step;
 	position.x += ((left+right)*move_step)*sin(azimuth);
-	position.y += -((left+right)*move_step)*cos(azimuth);
-	double movement = pow(position.x - positionx_old, 2.0) + pow(position.y - positiony_old, 2.0);
+	position.y += ((left+right)*move_step)*cos(azimuth);
 	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth<<endl;
 
-	posx = posx_base - position.y*0.00000005;
-	posy = posy_base + position.x*0.00000005;
+	posx = posx_base + position.y*0.00000005;
+	posy = posy_base - position.x*0.00000005;
 
 }
 
