@@ -62,12 +62,12 @@ int main(int argc, char** argv)
 	//detector->setHessianThreshold(minHessian);
 	std::vector<KeyPoint> keypoints_1, keypoints_2;
 	Mat descriptors_1, descriptors_2;
-	int i = 0;
-	while (i < 30) {
+	int q = 0;
+	while (q < 30) {
 		cap.read(img_2);
 		imshow("okno", img_2);
 		waitKey(20);
-		i++;
+		q++;
 	}
 	while (true) {
 		//detector->setHessianThreshold(thresh);
