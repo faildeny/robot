@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 	createTrackbar("dist", "controls", &slider_dist, 50000);
 	createTrackbar("thresh", "controls", &thresh, 5000);
 	createTrackbar("blur", "controls", &blurs, 30);
-	Mat img_1 = imread("iii.png", IMREAD_GRAYSCALE);
+	Mat img_1 = imread("iii.PNG", IMREAD_GRAYSCALE);
 	cout << "image loaded" <<img_1.cols<< endl;
 	Mat img_1p;
 	//blur(img_1, img_1p, Size(3, 3));
