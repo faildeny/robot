@@ -69,8 +69,8 @@ int main(int argc, char** argv)
 		//Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-Hamming");
 		BFMatcher matcher;
 		std::vector< DMatch > matches;
-		/*descriptors_1.convertTo(descriptors_1, CV_32F);
-		descriptors_2.convertTo(descriptors_2, CV_32F);*/
+		descriptors_1.convertTo(descriptors_1, CV_32F);
+		descriptors_2.convertTo(descriptors_2, CV_32F);
 		//matcher.match(c);
 		cout << "matching" << endl;
 		matcher.match(descriptors_1, descriptors_2, matches);
