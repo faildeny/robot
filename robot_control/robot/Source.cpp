@@ -107,8 +107,6 @@ void decodeEncoders() {
 	cout << "enc_left: " << enc_left << " enc_right: " << enc_right << endl;
 	enc_diff_left = (enc_l_dir < 0) ? -enc_left + enc_left_old : enc_left - enc_left_old;
 	enc_diff_right = (enc_r_dir < 0) ? -enc_right + enc_right_old : enc_right - enc_right_old;
-	//if (enc_l_dir == 0) { enc_diff_left = enc_diff_right; enc_diff_right = 0; }
-	//if (enc_r_dir == 0) { enc_diff_right = enc_diff_left; enc_diff_left = 0; }
 	enc_left_old = enc_left;
 	enc_right_old = enc_right;
 }
