@@ -33,12 +33,12 @@ int main(int argc, char** argv)
 	Mat img_1 = imread("iii.png", IMREAD_GRAYSCALE);
 	cout << "image loaded" << endl;
 	Mat img_1p;
-	blur(img_1, img_1p, Size(2, 2));
+	blur(img_1, img_1p, Size(3, 3));
 	//resize(img_1, img_1, Size(), 0.5, 0.5,INTER_AREA);
 	VideoCapture cap(1);
 	//cap.set(CAP_PROP_FRAME_WIDTH, 1280);
 	//cap.set(CAP_PROP_FRAME_HEIGHT, 720);
-
+	cout << "camera ok" << endl;
 	Mat img_2;
 	cap.read(img_2);
 	//= imread("img2.jpg", IMREAD_GRAYSCALE);
