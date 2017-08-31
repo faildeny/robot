@@ -66,13 +66,14 @@ int main(int argc, char** argv)
 		detector->detectAndCompute(img_2, Mat(), keypoints_2, descriptors_2);
 		//-- Step 2: Matching descriptor vectors using FLANN matcher
 		//FlannBasedMatcher matcher;
-		Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-Hamming");
-		//BFMatcher matcher;
+		//Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-Hamming");
+		BFMatcher matcher;
 		std::vector< DMatch > matches;
 		/*descriptors_1.convertTo(descriptors_1, CV_32F);
 		descriptors_2.convertTo(descriptors_2, CV_32F);*/
 		//matcher.match(c);
-		matcher->match(descriptors_1, descriptors_2, matches);
+		cout << "matching" << endl;
+		matcher.match(descriptors_1, descriptors_2, matches);
 		double max_dist = 0; double min_dist = (double)slider_dist / 100.0;
 		//-- Quick calculation of max and min distances between keypoints
 		for (int i = 0; i < descriptors_1.rows; i++)
