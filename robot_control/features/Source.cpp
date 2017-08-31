@@ -31,6 +31,7 @@ int main(int argc, char** argv)
 	createTrackbar("thresh", "controls", &thresh, 5000);
 	createTrackbar("blur", "controls", &blurs, 30);
 	Mat img_1 = imread("iii.png", IMREAD_GRAYSCALE);
+	cout << "image loaded" << endl;
 	Mat img_1p;
 	blur(img_1, img_1p, Size(2, 2));
 	//resize(img_1, img_1, Size(), 0.5, 0.5,INTER_AREA);
