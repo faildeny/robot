@@ -62,7 +62,13 @@ int main(int argc, char** argv)
 	//detector->setHessianThreshold(minHessian);
 	std::vector<KeyPoint> keypoints_1, keypoints_2;
 	Mat descriptors_1, descriptors_2;
-
+	int i = 0;
+	while (i < 30) {
+		cap.read(img_2);
+		imshow("okno", img_2);
+		waitKey(20);
+		i++;
+	}
 	while (true) {
 		//detector->setHessianThreshold(thresh);
 		//GaussianBlur(img_1, img_1p, Size(blurs * 2 + 1, blurs * 2 + 1), 0, 0);
