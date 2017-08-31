@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 	Mat img_1 = imread("iii.png", IMREAD_GRAYSCALE);
 	cout << "image loaded" << endl;
 	Mat img_1p;
-	blur(img_1, img_1p, Size(3, 3));
+	//blur(img_1, img_1p, Size(3, 3));
 	//resize(img_1, img_1, Size(), 0.5, 0.5,INTER_AREA);
 	VideoCapture cap(1);
 	//cap.set(CAP_PROP_FRAME_WIDTH, 1280);
@@ -57,8 +57,8 @@ int main(int argc, char** argv)
 
 	while (true) {
 		//detector->setHessianThreshold(thresh);
-		GaussianBlur(img_1, img_1p, Size(blurs * 2 + 1, blurs * 2 + 1), 0, 0);
-		detector->detectAndCompute(img_1p, Mat(), keypoints_1, descriptors_1);
+		//GaussianBlur(img_1, img_1p, Size(blurs * 2 + 1, blurs * 2 + 1), 0, 0);
+		detector->detectAndCompute(img_1, Mat(), keypoints_1, descriptors_1);
 		cap.grab();
 		cap.retrieve(img_2);
 		//resize(img_2, img_2, Size(), 0.5, 0.5, INTER_AREA);
