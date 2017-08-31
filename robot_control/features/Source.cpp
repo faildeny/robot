@@ -71,6 +71,8 @@ int main(int argc, char** argv)
 		std::vector< DMatch > matches;
 		descriptors_1.convertTo(descriptors_1, CV_32F);
 		descriptors_2.convertTo(descriptors_2, CV_32F);
+		cout << descriptors_1.cols << " " << descriptors_1.rows << endl;
+		cout << descriptors_2.cols << " " << descriptors_2.rows << endl;
 		//matcher.match(c);
 		cout << "matching" << endl;
 		matcher.match(descriptors_1, descriptors_2, matches);
