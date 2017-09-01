@@ -629,7 +629,9 @@ while (true) {
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
 	if(i>20) target_found=feature.search(frame_detect);
+	cout << "target found"<<endl;
 	if (target_found&& far==0) { 
+		cout << "markingTarget" << endl;
 		markTarget();
 		far = 10;
 	}
