@@ -73,7 +73,7 @@ bool FeatureDetection::search(Mat image) {
 	int sum_x = 0;
 	int sum_y = 0;
 	vector<Point2i> points;
-	if ((int)good_matches.size() > 5) {
+	if ((int)good_matches.size() > 6) {
 		int size = (int)good_matches.size();
 		for (int i = 0; i < size; i++) {
 			int j = good_matches[i].trainIdx;
@@ -85,6 +85,8 @@ bool FeatureDetection::search(Mat image) {
 		return 1;
 		//cout << "x " << center.x << "y " << center.y << endl;
 	}
+	else
+		return 0;
 	drawMatches(img_1, keypoints_1, img_2, keypoints_2,
 		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);

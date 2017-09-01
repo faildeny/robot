@@ -173,7 +173,7 @@ void markTarget() {
 	int y1 = -20;
 	int x2 = x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
 	int y2 = x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
-	putText(map, "object", Point(x2+3, y2), CV_FONT_HERSHEY_COMPLEX,0.25, Scalar(30, 255, 30), 1, CV_AA, 0);
+	putText(map, "object", Point(x2+3, y2), CV_FONT_HERSHEY_COMPLEX,0.25, Scalar(30, 255, 30), 0.5, LINE_4, 0);
 	circle(map, Point(x2, y2), 2, CV_RGB(30, 255, 30), 0.5);
 }
 
@@ -626,6 +626,7 @@ while (true) {
 
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
+	
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
 	if (i > 20) target_found = feature.search(frame_detect);
@@ -634,7 +635,7 @@ while (true) {
 		markTarget();
 		far = 10;
 	}
-	if (far != 0) {far--; target_found = false;}
+	if (far != 0) far--; 
 	/*frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
