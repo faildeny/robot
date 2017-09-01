@@ -73,6 +73,16 @@ bool FeatureDetection::search(Mat image) {
 	int sum_x = 0;
 	int sum_y = 0;
 	vector<Point2i> points;
+
+	drawMatches(img_1, keypoints_1, img_2, keypoints_2,
+		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
+		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+	//-- Show detected matches
+	imshow("Detector", img_matches);
+	for (int i = 0; i < (int)good_matches.size(); i++)
+	{
+		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
+	}
 	if ((int)good_matches.size() > 6) {
 		int size = (int)good_matches.size();
 		for (int i = 0; i < size; i++) {
@@ -87,13 +97,4 @@ bool FeatureDetection::search(Mat image) {
 	}
 	else
 		return 0;
-	drawMatches(img_1, keypoints_1, img_2, keypoints_2,
-		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
-	//-- Show detected matches
-	imshow("Detector", img_matches);
-	for (int i = 0; i < (int)good_matches.size(); i++)
-	{
-		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
-	}
 }
