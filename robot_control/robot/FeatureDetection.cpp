@@ -1,6 +1,7 @@
 #include "FeatureDetection.h"
 
 FeatureDetection::FeatureDetection(cv::String filename, int dist) {
+	namedWindow("Detector", WINDOW_KEEPRATIO);
 	namedWindow("controls");
 	slider_dist = dist;
 	createTrackbar("dist", "controls", &slider_dist, 50000);
@@ -23,7 +24,7 @@ FeatureDetection::FeatureDetection(cv::String filename, int dist) {
 
 FeatureDetection::~FeatureDetection() {};
 
-void FeatureDetection::search(Mat image) {
+bool FeatureDetection::search(Mat image) {
 
 	area = Rect(0, image.rows*0.5, image.cols, image.rows*0.5);
 	img_2= image(area);
@@ -39,6 +40,7 @@ void FeatureDetection::search(Mat image) {
 	descriptors_2.convertTo(descriptors_2, CV_32F);
 	cout << descriptors_1.cols << " " << descriptors_1.rows << endl;
 	cout << descriptors_2.cols << " " << descriptors_2.rows << endl;
+	if (descriptors_2.rows == 0 || descriptors_1.rows == 0) return -1;
 	//matcher.match(c);
 	cout << "matching" << endl;
 	matcher.match(descriptors_1, descriptors_2, matches);
@@ -86,7 +88,7 @@ void FeatureDetection::search(Mat image) {
 		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 	//-- Show detected matches
-	imshow("Good Matches", img_matches);
+	imshow("Detector", img_matches);
 	for (int i = 0; i < (int)good_matches.size(); i++)
 	{
 		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);

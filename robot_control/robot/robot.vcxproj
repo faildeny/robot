@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="FeatureDetection.cpp" />
     <ClCompile Include="gopigo.c" />
     <ClCompile Include="initial-state.c" />
     <ClCompile Include="RobotControl.cpp" />

@@ -31,5 +31,5 @@ public:
 public:
 	FeatureDetection(cv::String filename, int dist);
 	~FeatureDetection();
-	void search(Mat image);
+	bool search(Mat image);
 };

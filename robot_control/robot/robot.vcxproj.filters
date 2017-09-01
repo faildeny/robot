@@ -39,6 +39,9 @@
     <ClCompile Include="VisualOdometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FeatureDetection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gopigo.h">
@@ -63,7 +66,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FeatureDetection.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
