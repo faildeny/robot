@@ -575,18 +575,18 @@ if (priority >= 0) {
 cout << "mainThread " << " is executing at priority " << sch5.sched_priority << '\n';
 
 while (true) {
-	
-	
+
+
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	
-	thread t2(parallelGrab, cap2, framep2,99,5);
-	thread t1(parallelGrab, cap, framep,99,5);
+
+	thread t2(parallelGrab, cap2, framep2, 99, 5);
+	thread t1(parallelGrab, cap, framep, 99, 5);
 	t2.join();
 	t1.join();
 
 	//cap.setExp(stereo.exposure);
 	//cap2.setExp(-stereo.exposure);
-	
+
 	/*cap.grab();
 	cap2.grab();
 	cap.grab();
@@ -599,8 +599,8 @@ while (true) {
 	cap2.grab();
 	cap.retrieve(temp1);
 	cap2.retrieve(temp2);*/
-	
-	
+
+
 	frame_detect = frame;
 	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
@@ -613,7 +613,7 @@ while (true) {
 	//cap2.remapFrame(frame2);
 	//resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
 	//resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);
-	
+
 	thread t4(parallelRemap, cap, framep, scale, 98);
 	thread t3(parallelRemap, cap2, framep2, scale, 98);
 	t3.join();
@@ -623,19 +623,18 @@ while (true) {
 	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);*/
 	//temp1.copyTo(frame);
 	//temp2.copyTo(frame2);
-	
+
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
-	if(i>20) target_found=feature.search(frame_detect);
-	if (target_found&& far==0) { 
+	if (i > 20) target_found = feature.search(frame_detect);
+	if (target_found&& far == 0) {
 		cout << "markingTarget" << endl;
 		markTarget();
-		target_found = false;
 		far = 10;
 	}
-	if (far != 0) far--;
+	if (far != 0) {far--; target_found = false;}
 	/*frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
@@ -756,7 +755,7 @@ while (true) {
 	auto duration = duration_cast<microseconds>(time6 - time1).count();
 	cout << "TOTAL TIME: " << (double)duration / 1000 << " ms" << endl;
 
-	imshow("fr", frame);
+	//imshow("fr", frame);
 	waitKey(1);
 
 }
