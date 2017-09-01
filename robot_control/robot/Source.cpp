@@ -445,7 +445,7 @@ Camera cap2(1);
 StereoCamera stereo;
 
 //Load ORB feature detector
-FeatureDetection feature("iii.PNG", 13900);
+FeatureDetection feature("iii.png", 13900);
 
 //Create frames for both cameras
 Mat frame;
