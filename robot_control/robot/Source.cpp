@@ -169,7 +169,7 @@ void updateMap(Point2d position)
 }
 
 void markTarget() {
-	int x1 = 0;
+	int x1 = 1;
 	int y1 = 20;
 	int x2 = x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
 	int y2 = x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
@@ -629,7 +629,6 @@ while (true) {
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
 	if(i>20) target_found=feature.search(frame_detect);
-	cout << "target found"<<endl;
 	if (target_found&& far==0) { 
 		cout << "markingTarget" << endl;
 		markTarget();
