@@ -17,6 +17,7 @@
 extern "C" {
 #include "gopigo.h"
 }
+#include "FeatureDetection.h"
 #include "VisualOdometry.h"
 #include "StereoCamera.h"
 #include "Streamer.h"
@@ -443,6 +444,9 @@ Camera cap2(1);
 //Load stereomodule
 StereoCamera stereo;
 
+//Load ORB feature detector
+FeatureDetection feature("iii.PNG", 13900);
+
 //Create frames for both cameras
 Mat frame;
 Mat frame2;
@@ -587,8 +591,8 @@ while (true) {
 	cap2.retrieve(temp2);*/
 	
 	
-	/*frame_detect = frame;
-	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
+	frame_detect = frame;
+	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
@@ -614,9 +618,9 @@ while (true) {
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
-
-	frame.copyTo(frame_detect);
-	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	if(i>20) feature.search(frame_detect);
+	/*frame.copyTo(frame_detect);
+	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
 
 

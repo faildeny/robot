@@ -62,5 +62,8 @@
     <ClInclude Include="VisualOdometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FeatureDetection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

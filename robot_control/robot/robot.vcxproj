@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="FeatureDetection.h" />
     <ClInclude Include="gopigo.h" />
     <ClInclude Include="initial-state.h" />
     <ClInclude Include="RobotControl.h" />
