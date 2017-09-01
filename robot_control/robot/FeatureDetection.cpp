@@ -26,7 +26,7 @@ FeatureDetection::~FeatureDetection() {};
 
 bool FeatureDetection::search(Mat image) {
 
-	area = Rect(0, image.rows*0.5, image.cols, image.rows*0.5);
+	area = Rect(0, image.rows*0.3, image.cols, image.rows*0.6);
 	img_2= image(area);
 	//resize(img_2, img_2, Size(), 0.5, 0.5, INTER_AREA);
 	cvtColor(img_2, img_2, COLOR_BGR2GRAY);
