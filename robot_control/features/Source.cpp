@@ -37,8 +37,9 @@ int main(int argc, char** argv)
 	//resize(img_1, img_1, Size(), 0.5, 0.5,INTER_AREA);
 	VideoCapture cap(1);
 	
-	//cap.set(CAP_PROP_FRAME_WIDTH, 1280);
-	//cap.set(CAP_PROP_FRAME_HEIGHT, 720);
+	cap.set(CAP_PROP_FRAME_WIDTH, 1280);
+	cap.set(CAP_PROP_FRAME_HEIGHT, 720);
+	Rect area(0, 360, 1280, 360);
 	cout << "camera ok" << endl;
 	Mat img_2;
 	cap.read(img_2);
@@ -75,6 +76,7 @@ int main(int argc, char** argv)
 		detector->detectAndCompute(img_1, Mat(), keypoints_1, descriptors_1);
 		cap.grab();
 		cap.retrieve(img_2);
+		img_2 = img_2(area);
 		//resize(img_2, img_2, Size(), 0.5, 0.5, INTER_AREA);
 		cvtColor(img_2, img_2, COLOR_BGR2GRAY);
 		detector->detectAndCompute(img_2, Mat(), keypoints_2, descriptors_2);
