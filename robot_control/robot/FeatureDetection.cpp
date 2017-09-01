@@ -40,7 +40,7 @@ bool FeatureDetection::search(Mat image) {
 	descriptors_2.convertTo(descriptors_2, CV_32F);
 	cout << descriptors_1.cols << " " << descriptors_1.rows << endl;
 	cout << descriptors_2.cols << " " << descriptors_2.rows << endl;
-	if (descriptors_2.rows == 0 || descriptors_1.rows == 0) return -1;
+	if (descriptors_2.rows == 0 || descriptors_1.rows == 0) return 0;
 	//matcher.match(c);
 	cout << "matching" << endl;
 	matcher.match(descriptors_1, descriptors_2, matches);
@@ -82,6 +82,7 @@ bool FeatureDetection::search(Mat image) {
 		}
 		center = Point(sum_x / size, sum_y / size);
 		circle(img_2, center, 30, Scalar(255, 0, 100), 2, 8, 0);
+		return 1;
 		//cout << "x " << center.x << "y " << center.y << endl;
 	}
 	drawMatches(img_1, keypoints_1, img_2, keypoints_2,

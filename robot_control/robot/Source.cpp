@@ -102,6 +102,8 @@ int view_dist=60;
 int view_angleDeg = 30;
 double view_angle=view_angleDeg*3.14159265 / 180;
 int view_res = 3;
+int center_x = 300;
+int center_y = 350;
 
 
 void decodeEncoders() {
@@ -159,19 +161,26 @@ void drawCurrentArea(Mat& background, Point center, double azimuth) {
 void updateMap(Point2d position)
 {
 	//map = Mat::zeros(map.cols, map.rows, map.type());
-	int x = position.x + 300;
-	int y = position.y + 350;
+	int x = position.x + center_x;
+	int y = position.y + center_y;
 	circle(map, Point(x, y), 1, CV_RGB(0, 0, 255), 2);
 	drawRobot(robot_shape, Point(x, y), Size(10, 15), azimuth * 180 / 3.14);
 	drawCurrentArea(background, Point(x, y), azimuth);
+}
+
+void markTarget() {
+	int x1 = 0;
+	int y1 = 20;
+	int x2 = x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
+	int y2 = x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
+	putText(map, "object", Point(x2+3, y2), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(30, 255, 30), 2, CV_AA, 0);
+	circle(map, Point(x2, y2), 1, CV_RGB(30, 255, 30), 0.5);
 }
 
 Mat image3d;
 Mat scan_line1, scan_line2;
 
 void map3d(Mat &map, Mat image3d) {
-	int center_x = 300;
-	int center_y = 350;
 	int j = 120;
 	//map = Mat::zeros(600, 1280, CV_8UC3);
 	//Rect robot_rect(center_x - 10, center_y - 10, 20, 30);
@@ -486,6 +495,7 @@ if (!cap2.isOpened()) {
 }
 
 //Object detector module init
+int far = 0;
 Mat frame_detect;
 bool target_found = false;
 double direction;
@@ -618,7 +628,12 @@ while (true) {
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
-	if(i>20) feature.search(frame_detect);
+	if(i>20) target_found=feature.search(frame_detect);
+	if (target_found&& far==0) { 
+		markTarget();
+		far = 10;
+	}
+	if (far != 0) far--;
 	/*frame.copyTo(frame_detect);
 	resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);*/
 
