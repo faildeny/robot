@@ -110,6 +110,7 @@ int main(int argc, char** argv)
 		{
 			if (matches[i].distance <= max(2 * min_dist, 0.02))
 			{
+				cout << "putting good match: " << matches[i].distance << endl;
 				good_matches.push_back(matches[i]);
 			}
 		}
@@ -130,7 +131,7 @@ int main(int argc, char** argv)
 			circle(img_2, center, 30, Scalar(255, 0, 100), 2, 8, 0);
 			cout << "x " << center.x << "y " << center.y << endl;
 		}
-		drawMatches(img_1p, keypoints_1, img_2, keypoints_2,
+		drawMatches(img_1, keypoints_1, img_2, keypoints_2,
 			good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 			vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 		//-- Show detected matches
