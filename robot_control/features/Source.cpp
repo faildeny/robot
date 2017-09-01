@@ -90,6 +90,7 @@ int main(int argc, char** argv)
 		//matcher.match(c);
 		cout << "matching" << endl;
 		matcher.match(descriptors_1, descriptors_2, matches);
+		cout << "matched:" << matches.size() << endl;
 		double max_dist = 0; double min_dist = (double)slider_dist / 100.0;
 		//-- Quick calculation of max and min distances between keypoints
 		for (int i = 0; i < descriptors_1.rows; i++)
