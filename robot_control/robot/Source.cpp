@@ -437,6 +437,7 @@ cap2.setUndistortRectifyMap(frameSizeScaled);
 
 //Initialize robot
 RobotControl robot(speed);
+RobotControl* robot_p = &robot;
 //Stream battery voltage
 stream.sendVoltage(volt());
 //Define default target
@@ -467,7 +468,7 @@ while (true) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
 	
-	thread thread_map(parallelMapping, odometry_p);
+	thread thread_map(parallelMapping, odometry_p,robot_p);
 
 	thread t2(parallelGrab, cap2, framep2, 99, 5);
 	thread t1(parallelGrab, cap, framep, 99, 5);
