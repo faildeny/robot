@@ -355,7 +355,7 @@ cout << "init Odometry" << endl;
 cout << "odometry initiated" << endl;
 
 //Sliders for camera parameters control
-stereo.showMenu();
+//stereo.showMenu();
 namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
 
 //Images for depth maps
@@ -460,16 +460,14 @@ while (true) {
 
 	high_resolution_clock::time_point time9 = high_resolution_clock::now();
 	auto duration9 = duration_cast<microseconds>(time9 - time3).count();
-	cout << "both cams standard list: " << (double)duration9 / 1000 << " ms" << endl;
+	cout << "feature detection: " << (double)duration9 / 1000 << " ms" << endl;
 
 	
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
 	
 
-	high_resolution_clock::time_point time4 = high_resolution_clock::now();
-	auto duration3 = duration_cast<microseconds>(time4 - time3).count();
-	cout << "cropping and BGR to GRAY: " << (double)duration3 / 1000 << " ms" << endl;
+	
 	
 	//set parameters and compute depthmap
 	stereo.setParams();
@@ -486,12 +484,11 @@ while (true) {
 	//analize depthmap for choosing movement direction
 	turn= stereo.avoidDirection();
 
-	high_resolution_clock::time_point time5 = high_resolution_clock::now();
-	auto duration4 = duration_cast<microseconds>(time5 - time4).count();
-	cout << "matching and depthmap processing: " << (double)duration4 / 1000 << " ms" << endl;
-
-	imshow("Depth map", stereo.preview);
+	//imshow("Depth map", stereo.preview);
 	
+	high_resolution_clock::time_point time4 = high_resolution_clock::now();
+	auto duration3 = duration_cast<microseconds>(time4 - time3).count();
+	cout << "stereo: " << (double)duration3 / 1000 << " ms" << endl;
 // end of camera setup
 
 	//visual_odometry.join();
@@ -515,6 +512,11 @@ while (true) {
 	direction = 0.0;
 	target_size = target.width / frame_detect.cols;
 	target_size = 0.1;
+	
+	
+	high_resolution_clock::time_point time5 = high_resolution_clock::now();
+	auto duration4 = duration_cast<microseconds>(time5 - time4).count();
+	cout << "odometry processing: " << (double)duration4 / 1000 << " ms" << endl;
 
 // keyboard button press
 
