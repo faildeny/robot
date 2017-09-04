@@ -356,7 +356,7 @@ cout << "odometry initiated" << endl;
 
 //Sliders for camera parameters control
 //stereo.showMenu();
-namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
+//namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
 
 //Images for depth maps
 //Mat disp = Mat::zeros(frame.size(), frame.type());
@@ -535,8 +535,7 @@ while (true) {
 	robot.decide(cKey, direction, dist, turn, target_size);
 	//robot.headTo(direction);
 	//if(!target_found) robot.square();
-	robot.move();
-	robot.showStatus();
+	
 
 //Streaming
 	//if (i%10 == 0) stream.send(odometry.posx, odometry.posy);
@@ -544,7 +543,8 @@ while (true) {
 	high_resolution_clock::time_point time6 = high_resolution_clock::now();
 	auto duration5 = duration_cast<microseconds>(time6 - time5).count();
 	cout << "robot functions: " << (double)duration5 / 1000 << " ms" << endl;
-
+	robot.move();
+	robot.showStatus();
 	auto duration = duration_cast<microseconds>(time6 - time1).count();
 	cout << "TOTAL TIME: " << (double)duration / 1000 << " ms" << endl;
 
