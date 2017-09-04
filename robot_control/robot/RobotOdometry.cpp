@@ -107,9 +107,6 @@ void RobotOdometry::markTarget() {
 	circle(map, Point(x2, y2), 2, CV_RGB(30, 255, 30), 0.5);
 }
 
-Mat image3d;
-Mat scan_line1, scan_line2;
-
 void RobotOdometry::map3d(Mat &map, Mat image3d) {
 	int j = 120;
 	//map = Mat::zeros(600, 1280, CV_8UC3);
