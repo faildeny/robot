@@ -24,6 +24,9 @@ RobotControl::RobotControl(int speed_value)
 	dir = 0;
 	busy = false;
 	found = false;
+	cmd_old[0] = cmd[0];
+	cmd_old[1] = cmd[1];
+	cmd_old[2] = cmd[2];
 }
 
 RobotControl::~RobotControl()
@@ -36,108 +39,113 @@ void RobotControl::move() {
 		cmd[0] = 'x';
 		quit();
 	}
+	if (cmd[0] != cmd_old[0] || cmd[1] != cmd_old[1] || cmd[2] != cmd_old[2]) {
 
-	switch (cmd[0])
-	{
-	case 'w':
-
-		//printf("mozna jechac: ");
-		switch (cmd[1])
+		switch (cmd[0])
 		{
 		case 'w':
-			switch (cmd[2])
+
+			//printf("mozna jechac: ");
+			switch (cmd[1])
 			{
-			case 'd':
-				printf("skrecam w prawo");
-				led_on(0);
-				led_off(1);
-				set_speed(speed.rotate);
-				//right_rot();
-				right();
-				break;
-			case 'a':
-				printf("skrecam w lewo");
-				led_on(1);
-				led_off(0);
-				set_speed(speed.rotate);
-				//left_rot();
-				left();
-				break;
 			case 'w':
-				//printf("jade");
-				led_off(0);
-				led_off(1);
-				set_speed(speed.forward);
-				fwd();
+				switch (cmd[2])
+				{
+				case 'd':
+					printf("skrecam w prawo");
+					led_on(0);
+					led_off(1);
+					set_speed(speed.rotate);
+					//right_rot();
+					right();
+					break;
+				case 'a':
+					printf("skrecam w lewo");
+					led_on(1);
+					led_off(0);
+					set_speed(speed.rotate);
+					//left_rot();
+					left();
+					break;
+				case 'w':
+					//printf("jade");
+					led_off(0);
+					led_off(1);
+					set_speed(speed.forward);
+					fwd();
+					break;
+				}
 				break;
+
+			case 'r':
+				printf("za blisko ");
+				switch (cmd[2])
+				{
+				case 'd':
+					printf("skrecam w prawo");
+					led_on(1);
+					led_on(0);
+					set_speed(speed.rotate);
+					right_rot();
+					break;
+				case 'a':
+					printf("skrecam w lewo");
+					led_on(0);
+					led_on(1);
+					set_speed(speed.rotate);
+					left_rot();
+					break;
+				case 'w':
+					set_speed(speed.rotate);
+					right_rot();
+					break;
+				}
+				break;
+			case 'x':
+				printf("I FOUND IT \n");
+				stop();
 			}
+
 			break;
 
-		case 'r':
-			printf("za blisko ");
-			switch (cmd[2])
-			{
-			case 'd':
-				printf("skrecam w prawo");
-				led_on(1);
-				led_on(0);
-				set_speed(speed.rotate);
-				right_rot();
-				break;
-			case 'a':
-				printf("skrecam w lewo");
-				led_on(0);
-				led_on(1);
-				set_speed(speed.rotate);
-				left_rot();
-				break;
-			case 'w':
-				set_speed(speed.rotate);
-				right_rot();
-				break;
-			}
-			break;
 		case 'x':
-			printf("I FOUND IT \n");
 			stop();
+			break;
+		case 'c':
+			stop();
+			led_off(0);
+			led_off(1);
+			exit(0);
+			break;
+		case 'i':
+			set_speed(80);
+			fwd();
+			break;
+		case 'j':
+			set_speed(80);
+			left_rot();
+			break;
+		case 'l':
+			set_speed(80);
+			right_rot();
+			break;
+		case 'k':
+			set_speed(60);
+			bwd();
+			break;
+		case 'd':
+			set_speed(speed.rotate);
+			right();
+			break;
+		case 'a':
+			set_speed(speed.rotate);
+			left();
+			break;
+
 		}
-
-		break;
-
-	case 'x':
-		stop();
-		break;
-	case 'c':
-		stop();
-		led_off(0);
-		led_off(1);
-		exit(0);
-		break;
-	case 'i':
-		set_speed(80);
-		fwd();
-		break;
-	case 'j':
-		set_speed(80);
-		left_rot();
-		break;
-	case 'l':
-		set_speed(80);
-		right_rot();
-		break;
-	case 'k':
-		set_speed(60);
-		bwd();
-		break;
-	case 'd':
-		set_speed(speed.rotate);
-		right();
-		break;
-	case 'a':
-		set_speed(speed.rotate);
-		left();
-		break;
-
+		cmd_old[0] = cmd[0];
+		cmd_old[1] = cmd[1];
+		cmd_old[2] = cmd[2];
 	}
 
 }

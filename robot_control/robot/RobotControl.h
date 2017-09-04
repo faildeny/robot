@@ -9,6 +9,7 @@ class RobotControl
 {
 public:
 	char cmd[3];
+	char cmd_old[3];
 	int i;
 	int step;
 	double dist;
