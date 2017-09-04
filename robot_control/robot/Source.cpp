@@ -396,6 +396,7 @@ parallelGrab(cap2, framep2, 99,6);
 //cap2.grab();
 //cap.retrieve(frame);
 //cap2.retrieve(frame2);
+frame_detect = frame;
 cap.retrieve(temp1);
 cap2.retrieve(temp2);
 Mat image_odo;
@@ -467,7 +468,7 @@ while (true) {
 
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
-	
+	thread thread_feature(parallelFeature, feature, frame_detect, target_found_p);
 	thread thread_map(parallelMapping, odometry_p,robot_p);
 
 	thread t2(parallelGrab, cap2, framep2, 99, 5);
@@ -476,7 +477,7 @@ while (true) {
 	t1.join();
 
 	frame_detect = frame;
-	thread thread_feature(parallelFeature, feature, frame_detect, target_found_p);
+	
 	//cascade object detection
 	//target_found=detectAndDisplay(frame_detect, target);
 
@@ -606,8 +607,13 @@ while (true) {
 		far = 10;
 	}
 	if (far != 0) far--;
+
 	
 	high_resolution_clock::time_point time7 = high_resolution_clock::now();
+
+	auto duration7 = duration_cast<microseconds>(time7 - time6).count();
+	cout << "joining threads: " << (double)duration7 / 1000 << " ms" << endl;
+
 	auto duration6 = duration_cast<microseconds>(time7 - time1).count();
 	cout << "TOTAL TIME: " << (double)duration6 / 1000 << " ms" << endl;
 
