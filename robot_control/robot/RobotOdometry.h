@@ -22,6 +22,8 @@ public:
 	int enc_right;
 	int enc_l_dir;
 	int enc_r_dir;
+	Mat image3d;
+	Mat scan_line1, scan_line2;
 
 	double posx;
 	double posy;
@@ -46,8 +48,7 @@ private:
 	double posx_base;
 	double posy_base;
 
-	Mat image3d;
-	Mat scan_line1, scan_line2;
+	
 
 public:
 	RobotOdometry();
