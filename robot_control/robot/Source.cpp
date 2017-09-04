@@ -172,7 +172,7 @@ void parallelRemap(Camera cap, Mat *frame, double scale,int priority) {
 			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 		}
 	}
-
+	cvtColor(*frame, *frame, COLOR_BGR2GRAY);
 	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
 	cap.remapFrame(*frame);
 	
@@ -420,7 +420,16 @@ while (true) {
 	t1.join();
 
 	frame_detect = frame;
+	//cascade object detection
+	//target_found=detectAndDisplay(frame_detect, target);
+
 	//resize(frame_detect, frame_detect, Size(), 0.2, 0.2, INTER_AREA);
+	
+	//visual odometry
+	//thread visual_odometry(parallelOdometry, frame,vis_odo);
+	//if(i==14) vis_odo.initOdometry(frame);
+	//if (i>14) vis_odo.update(frame);
+	//imshow("frame", frame);
 
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration1 = duration_cast<microseconds>(time2 - time1).count();
@@ -453,58 +462,40 @@ while (true) {
 	auto duration9 = duration_cast<microseconds>(time9 - time3).count();
 	cout << "both cams standard list: " << (double)duration9 / 1000 << " ms" << endl;
 
-	//thread visual_odometry(parallelOdometry, frame,vis_odo);
-	//if(i==14) vis_odo.initOdometry(frame);
-	//if (i>14) vis_odo.update(frame);
-	//imshow("frame", frame);
-	cvtColor(frame, frame, COLOR_BGR2GRAY);
-	cvtColor(frame2, frame2, COLOR_BGR2GRAY);
-	//imshow("camera 0", frame);
-	//imshow("camera 1", frame2);
-	//imshow("Diff", diff);
+	
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
-//	object searching
-	//target_found=detectAndDisplay(frame_detect, target);
-
-	//compute depthmap
-	stereo.setParams();
+	
 
 	high_resolution_clock::time_point time4 = high_resolution_clock::now();
 	auto duration3 = duration_cast<microseconds>(time4 - time3).count();
 	cout << "cropping and BGR to GRAY: " << (double)duration3 / 1000 << " ms" << endl;
 	
+	//set parameters and compute depthmap
+	stereo.setParams();
 	stereo.match(scan_line1, scan_line2);
 
 	stereo.preparePreview();
+	
+	//showing interface on the disparity image
 	stereo.drawDashboard();
 
-	/*stereo.disp.convertTo(stereo.disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
-
-	resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
-
-	disp8.convertTo(preview, -1, double(stereo.ratio) / 50., stereo.offset - 200);*/
-//distance from central area
-	
+	//compute distance from central area	
 	dist = stereo.distCentralArea();
 
-//choosing direction to turn by sides comparison
+	//analize depthmap for choosing movement direction
 	turn= stereo.avoidDirection();
 
 	high_resolution_clock::time_point time5 = high_resolution_clock::now();
 	auto duration4 = duration_cast<microseconds>(time5 - time4).count();
 	cout << "matching and depthmap processing: " << (double)duration4 / 1000 << " ms" << endl;
-//showing interface on the disparity image
 
-	//applyColorMap(preview, preview, COLORMAP_JET);
-	//rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
-	//rectangle(preview, left_area, Scalar(255, 50, 50), 2, 8);
-	//rectangle(preview, right_area, Scalar(0, 100, 255), 2, 8);
-	//putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 1, CV_AA, 0);
 	imshow("Depth map", stereo.preview);
 	
 // end of camera setup
+
 	//visual_odometry.join();
+
 // Odometry
 	robot.readEncoders(odometry.enc_left, odometry.enc_right, odometry.enc_l_dir, odometry.enc_r_dir);
 	odometry.decodeEncoders();
