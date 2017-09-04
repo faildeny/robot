@@ -243,12 +243,42 @@ void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 }
 
 void parallelFeature(FeatureDetection feature, Mat frame_detect, bool *target_found_p) {
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+	int priority = 90;
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	//std::lock_guard<std::mutex> lk(iomutex);
+
+	if (priority >= 0) {
+		sch.sched_priority = priority;
+		if (pthread_setschedparam(pthread_self(), SCHED_RR, &sch)) {
+			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+		}
+	}
 	*target_found_p=feature.search(frame_detect);
+
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
+	cout << "feature thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 void parallelMapping(RobotOdometry* odometry) {
+	
+	high_resolution_clock::time_point time1 = high_resolution_clock::now();
+	int priority = 90;
+	sched_param sch;
+	int policy;
+	pthread_getschedparam(pthread_self(), &policy, &sch);
+	//std::lock_guard<std::mutex> lk(iomutex);
+
+	if (priority >= 0) {
+		sch.sched_priority = priority;
+		if (pthread_setschedparam(pthread_self(), SCHED_RR, &sch)) {
+			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+		}
+	}
 	odometry->decodeEncoders();
 	odometry->updateCoordinates();
-	////thread t1(updateMap, position);
 	odometry->updateMap();
 	//
 	//disp.convertTo(disp, CV_32F);
@@ -256,6 +286,9 @@ void parallelMapping(RobotOdometry* odometry) {
 	////customReproject(disp, stereo.Qs, image3d);
 	//map3d(map, image3d);
 	imshow("map", odometry->background + odometry->map + odometry->robot_shape);
+	high_resolution_clock::time_point time2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
+	cout << "map thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
 void f(int num)
