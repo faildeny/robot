@@ -487,6 +487,7 @@ cap2.setSize(frameSize.width, frameSize.height);
 
 //Setting ROI of depthmap
 Rect area(0, 0, frameSize.width*0.2, 130);
+Mat scan_line1, scan_line2;
 
 //Checking cameras
 if (!cap.isOpened()) {
@@ -661,8 +662,8 @@ while (true) {
 	//imshow("Diff", diff);
 	cout << "selecting ROI" << endl;
 	cout << "size: " << frame.cols << "x" << frame.rows << endl;
-	odometry.scan_line1 = frame(area);
-	odometry.scan_line2 = frame2(area);
+	scan_line1 = frame(area);
+	scan_line2 = frame2(area);
 //	object searching
 	//target_found=detectAndDisplay(frame_detect, target);
 
@@ -680,7 +681,7 @@ while (true) {
 	auto duration3 = duration_cast<microseconds>(time4 - time3).count();
 	cout << "cropping and BGR to GRAY: " << (double)duration3 / 1000 << " ms" << endl;
 	
-	stereo.match(odometry.scan_line1, odometry.scan_line2, disp);
+	stereo.match(scan_line1, scan_line2, disp);
 
 	disp.convertTo(disp8, CV_8U, 255 / (stereo.numberOfDisparities*16.));
 
