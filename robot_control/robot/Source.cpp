@@ -473,10 +473,10 @@ while (true) {
 	stereo.setParams();
 	stereo.match(scan_line1, scan_line2);
 
-	stereo.preparePreview();
+	//stereo.preparePreview();
 	
 	//showing interface on the disparity image
-	stereo.drawDashboard();
+	//stereo.drawDashboard();
 
 	//compute distance from central area	
 	dist = stereo.distCentralArea();
@@ -535,6 +535,7 @@ while (true) {
 	robot.decide(cKey, direction, dist, turn, target_size);
 	//robot.headTo(direction);
 	//if(!target_found) robot.square();
+	robot.move();
 	
 
 //Streaming
@@ -543,7 +544,7 @@ while (true) {
 	high_resolution_clock::time_point time6 = high_resolution_clock::now();
 	auto duration5 = duration_cast<microseconds>(time6 - time5).count();
 	cout << "robot functions: " << (double)duration5 / 1000 << " ms" << endl;
-	robot.move();
+	
 	robot.showStatus();
 	auto duration = duration_cast<microseconds>(time6 - time1).count();
 	cout << "TOTAL TIME: " << (double)duration / 1000 << " ms" << endl;
