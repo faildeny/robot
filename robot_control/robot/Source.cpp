@@ -17,6 +17,7 @@
 extern "C" {
 #include "gopigo.h"
 }
+#include "RobotOdometry.h"
 #include "FeatureDetection.h"
 #include "VisualOdometry.h"
 #include "StereoCamera.h"
@@ -94,10 +95,10 @@ int enc_l_dir = 1;
 int enc_r_dir = 1;
 
 double azimuth = 0;
-double angleDeg = 5.5;
+//old angle/encoder step ratio: 5.5
+double angleDeg = 5.325444;
 double angle_step = angleDeg*3.14159265 / 180;
 double move_step = 0.5;
-int max_step=8;
 int view_dist=60;
 int view_angleDeg = 30;
 double view_angle=view_angleDeg*3.14159265 / 180;
@@ -453,6 +454,9 @@ Camera cap2(1);
 //Load stereomodule
 StereoCamera stereo;
 
+//Load odometry module
+RobotOdometry odometry;
+
 //Load ORB feature detector
 FeatureDetection feature("iii.png", 13900);
 
@@ -632,7 +636,7 @@ while (true) {
 	if (i > 20) target_found = feature.search(frame_detect);
 	if (target_found&& far == 0) {
 		cout << "markingTarget" << endl;
-		markTarget();
+		odometry.markTarget();
 		far = 10;
 	}
 	if (far != 0) far--; 
@@ -701,23 +705,23 @@ while (true) {
 
 	rectangle(preview, left_area, Scalar(255, 50, 50), 2, 8);
 	rectangle(preview, right_area, Scalar(0, 100, 255), 2, 8);
-	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 2, CV_AA, 0);
+	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 1, CV_AA, 0);
 	imshow("Depth map", preview);
 	
 // end of camera setup
 	//visual_odometry.join();
 // Odometry
-	robot.readEncoders(enc_left, enc_right, enc_l_dir, enc_r_dir);
-	decodeEncoders();
-	updateCoordinates(enc_diff_left, enc_diff_right);
+	robot.readEncoders(odometry.enc_left, odometry.enc_right, odometry.enc_l_dir, odometry.enc_r_dir);
+	odometry.decodeEncoders();
+	odometry.updateCoordinates();
 	////thread t1(updateMap, position);
-	updateMap(position);
+	odometry.updateMap();
 	//
 	//disp.convertTo(disp, CV_32F);
 	//reprojectImageTo3D(disp, image3d, stereo.Qs);
 	////customReproject(disp, stereo.Qs, image3d);
 	//map3d(map, image3d);
-	imshow("map", background + map + robot_shape);
+	imshow("map", odometry.background + odometry.map + odometry.robot_shape);
 ////
 
 	i++;

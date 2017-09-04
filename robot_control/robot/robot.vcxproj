@@ -23,6 +23,7 @@
     <ClCompile Include="FeatureDetection.cpp" />
     <ClCompile Include="gopigo.c" />
     <ClCompile Include="initial-state.c" />
+    <ClCompile Include="RobotOdometry.cpp" />
     <ClCompile Include="RobotControl.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StereoCamera.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="FeatureDetection.h" />
     <ClInclude Include="gopigo.h" />
     <ClInclude Include="initial-state.h" />
+    <ClInclude Include="RobotOdometry.h" />
     <ClInclude Include="RobotControl.h" />
     <ClInclude Include="StereoCamera.h" />
     <ClInclude Include="Streamer.h" />
