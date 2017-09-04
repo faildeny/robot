@@ -245,6 +245,18 @@ void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 void parallelFeature(FeatureDetection feature, Mat frame_detect, bool *target_found_p) {
 	*target_found_p=feature.search(frame_detect);
 }
+void parallelMapping(RobotOdometry* odometry) {
+	odometry->decodeEncoders();
+	odometry->updateCoordinates();
+	////thread t1(updateMap, position);
+	odometry->updateMap();
+	//
+	//disp.convertTo(disp, CV_32F);
+	//reprojectImageTo3D(disp, image3d, stereo.Qs);
+	////customReproject(disp, stereo.Qs, image3d);
+	//map3d(map, image3d);
+	imshow("map", odometry->background + odometry->map + odometry->robot_shape);
+}
 
 void f(int num)
 {
@@ -290,6 +302,7 @@ StereoCamera stereo;
 
 //Load odometry module
 RobotOdometry odometry;
+RobotOdometry* odometry_p = &odometry;
 
 //Load ORB feature detector
 FeatureDetection feature("iii.png", 13900);
@@ -419,6 +432,9 @@ while (true) {
 
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
+	robot.readEncoders(odometry.enc_left, odometry.enc_right, odometry.enc_l_dir, odometry.enc_r_dir);
+	thread thread_map(parallelMapping, odometry_p);
+
 	thread t2(parallelGrab, cap2, framep2, 99, 5);
 	thread t1(parallelGrab, cap, framep, 99, 5);
 	t2.join();
@@ -486,24 +502,24 @@ while (true) {
 	//imshow("Depth map", stereo.preview);
 	
 	high_resolution_clock::time_point time4 = high_resolution_clock::now();
-	auto duration3 = duration_cast<microseconds>(time4 - time3).count();
+	auto duration3 = duration_cast<microseconds>(time4 - time9).count();
 	cout << "stereo: " << (double)duration3 / 1000 << " ms" << endl;
 // end of camera setup
 
 	//visual_odometry.join();
 
 // Odometry
-	robot.readEncoders(odometry.enc_left, odometry.enc_right, odometry.enc_l_dir, odometry.enc_r_dir);
-	odometry.decodeEncoders();
-	odometry.updateCoordinates();
-	////thread t1(updateMap, position);
-	odometry.updateMap();
-	//
-	//disp.convertTo(disp, CV_32F);
-	//reprojectImageTo3D(disp, image3d, stereo.Qs);
-	////customReproject(disp, stereo.Qs, image3d);
-	//map3d(map, image3d);
-	imshow("map", odometry.background + odometry.map + odometry.robot_shape);
+	
+	//odometry.decodeEncoders();
+	//odometry.updateCoordinates();
+	//////thread t1(updateMap, position);
+	//odometry.updateMap();
+	////
+	////disp.convertTo(disp, CV_32F);
+	////reprojectImageTo3D(disp, image3d, stereo.Qs);
+	//////customReproject(disp, stereo.Qs, image3d);
+	////map3d(map, image3d);
+	//imshow("map", odometry.background + odometry.map + odometry.robot_shape);
 ////
 
 	i++;
@@ -535,12 +551,13 @@ while (true) {
 	//robot.headTo(direction);
 	//if(!target_found) robot.square();
 	robot.move();
-	
+	robot.showStatus();
 
 //Streaming
 	//if (i%10 == 0) stream.send(odometry.posx, odometry.posy);
 
 	//target_found = feature.search(frame_detect);
+	thread_map.join();
 	thread_feature.join();
 	if (target_found&& far == 0) {
 		cout << "markingTarget" << endl;
@@ -553,7 +570,7 @@ while (true) {
 	auto duration5 = duration_cast<microseconds>(time6 - time5).count();
 	cout << "robot functions: " << (double)duration5 / 1000 << " ms" << endl;
 	
-	robot.showStatus();
+	
 	auto duration = duration_cast<microseconds>(time6 - time1).count();
 	cout << "TOTAL TIME: " << (double)duration / 1000 << " ms" << endl;
 
