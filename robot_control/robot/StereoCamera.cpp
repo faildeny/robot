@@ -4,6 +4,7 @@ StereoCamera::StereoCamera() {
 
 bm= StereoBM::create(16, 9);
 setParams();
+punkt=Point2d(300, 300);
 };
 
 StereoCamera::~StereoCamera() {};
@@ -54,7 +55,7 @@ bool StereoCamera::setExtrinsics(String filename,float scale) {
 		return 1;
 };
 
-void StereoCamera::match(Mat frame1, Mat frame2, Mat &disp) {
+void StereoCamera::match(Mat frame1, Mat frame2) {
 	calculateQs(0.2);
 	bm->compute(frame1,frame2, disp);
 };
@@ -85,3 +86,57 @@ void StereoCamera::calculateQs(float scale) {
 	cout << "baseline" << (double)baseline / 10 << endl;
 	//Qs.convertTo(Qs, CV_32F);
 };
+
+double StereoCamera::distCentralArea() {
+
+	disp_size = disp.size();
+
+	area_rect = Rect(disp_size.width / 2 - disp_size.width / 4, disp_size.height / 2 - disp_size.height / 4, disp_size.width / 2, disp_size.height / 2);
+
+	area_h = Range(disp_size.height / 2 - disp_size.height / 4, disp_size.height / 2 + disp_size.height / 4);
+	area_w = Range(disp_size.width / 2 - disp_size.width / 4, disp_size.width / 2 + disp_size.width / 4);
+	disp.convertTo(disp, CV_32FC1);
+	minMaxLoc(disp(area_h, area_w), &farthest_dist, &nearest_dist);
+	//float d = disp.at<float>(punkt);
+	centdistance = 0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / nearest_dist*16.f;
+	nearest_dist = centdistance;
+	ss << nearest_dist;
+	String text = ss.str();
+
+	return centdistance;
+
+}
+
+double StereoCamera::avoidDirection() {
+	disp_size = disp.size();
+	border = 50;
+	dir_area_l = Range(border, disp_size.width*0.5);
+	dir_area_r = Range(disp_size.width*0.5, disp_size.width - border);
+	dir_area_h = Range(disp_size.height*0.3, disp_size.height*0.9);
+	sum_l_scalar = sum(disp(dir_area_h, dir_area_l));
+	sum_l = sum_l_scalar[0] / countNonZero(disp(dir_area_h, dir_area_l));
+	sum_r_scalar = sum(disp(dir_area_h, dir_area_r));
+	sum_r = sum_r_scalar[0] / countNonZero(disp(dir_area_h, dir_area_r));
+	turn = sum_l - sum_r;
+
+	left_area = Rect(border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
+	right_area = Rect(disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
+	return turn;
+}
+
+void StereoCamera::preparePreview() {
+	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
+
+	resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
+
+	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
+}
+
+void StereoCamera::drawDashboard() {
+
+	applyColorMap(preview, preview, COLORMAP_JET);
+	rectangle(preview, area_rect, Scalar(255, 255, 200), 2, 8);
+	rectangle(preview, left_area, Scalar(255, 50, 50), 2, 8);
+	rectangle(preview, right_area, Scalar(0, 100, 255), 2, 8);
+	putText(preview, text, Point(100, 100), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 250, 255), 1, CV_AA, 0);
+}
