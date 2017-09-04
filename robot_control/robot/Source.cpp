@@ -242,6 +242,10 @@ void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 	vis_odo.update(image);
 }
 
+void parallelFeature(FeatureDetection feature, Mat frame_detect, bool *target_found_p) {
+	*target_found_p=feature.search(frame_detect);
+}
+
 void f(int num)
 {
 	//std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -333,6 +337,7 @@ if (!cap2.isOpened()) {
 int far = 0;
 Mat frame_detect;
 bool target_found = false;
+bool *target_found_p = &target_found;
 double direction;
 double target_size;
 if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be loaded \n"); return -1; }
@@ -420,6 +425,7 @@ while (true) {
 	t1.join();
 
 	frame_detect = frame;
+	thread thread_feature(parallelFeature, feature, frame_detect, target_found_p);
 	//cascade object detection
 	//target_found=detectAndDisplay(frame_detect, target);
 
@@ -450,14 +456,8 @@ while (true) {
 	
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
-	//if (i > 20) 
-	target_found = feature.search(frame_detect);
-	if (target_found&& far == 0) {
-		cout << "markingTarget" << endl;
-		odometry.markTarget();
-		far = 10;
-	}
-	if (far != 0) far--; 
+	
+	
 
 	high_resolution_clock::time_point time9 = high_resolution_clock::now();
 	auto duration9 = duration_cast<microseconds>(time9 - time3).count();
@@ -539,6 +539,15 @@ while (true) {
 
 //Streaming
 	//if (i%10 == 0) stream.send(odometry.posx, odometry.posy);
+
+	//target_found = feature.search(frame_detect);
+	thread_feature.join();
+	if (target_found&& far == 0) {
+		cout << "markingTarget" << endl;
+		odometry.markTarget();
+		far = 10;
+	}
+	if (far != 0) far--;
 
 	high_resolution_clock::time_point time6 = high_resolution_clock::now();
 	auto duration5 = duration_cast<microseconds>(time6 - time5).count();
