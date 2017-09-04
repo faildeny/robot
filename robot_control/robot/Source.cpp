@@ -262,7 +262,7 @@ void parallelFeature(FeatureDetection feature, Mat frame_detect, bool *target_fo
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
 	cout << "feature thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
-void parallelMapping(RobotOdometry* odometry) {
+void parallelMapping(RobotOdometry* odometry, RobotControl* robot) {
 	
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	int priority = 90;
@@ -277,6 +277,7 @@ void parallelMapping(RobotOdometry* odometry) {
 			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
 		}
 	}
+	robot->readEncoders(odometry->enc_left, odometry->enc_right, odometry->enc_l_dir, odometry->enc_r_dir);
 	odometry->decodeEncoders();
 	odometry->updateCoordinates();
 	odometry->updateMap();
@@ -288,7 +289,7 @@ void parallelMapping(RobotOdometry* odometry) {
 	imshow("map", odometry->background + odometry->map + odometry->robot_shape);
 	high_resolution_clock::time_point time2 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "map thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
+	cout << "map and encoders thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
 void f(int num)
@@ -465,7 +466,7 @@ while (true) {
 
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
-	robot.readEncoders(odometry.enc_left, odometry.enc_right, odometry.enc_l_dir, odometry.enc_r_dir);
+	
 	thread thread_map(parallelMapping, odometry_p);
 
 	thread t2(parallelGrab, cap2, framep2, 99, 5);
