@@ -592,6 +592,12 @@ while (true) {
 	//if (i%10 == 0) stream.send(odometry.posx, odometry.posy);
 
 	//target_found = feature.search(frame_detect);
+
+
+	high_resolution_clock::time_point time6 = high_resolution_clock::now();
+	auto duration5 = duration_cast<microseconds>(time6 - time5).count();
+	cout << "robot functions: " << (double)duration5 / 1000 << " ms" << endl;
+
 	thread_map.join();
 	thread_feature.join();
 	if (target_found&& far == 0) {
@@ -600,14 +606,10 @@ while (true) {
 		far = 10;
 	}
 	if (far != 0) far--;
-
-	high_resolution_clock::time_point time6 = high_resolution_clock::now();
-	auto duration5 = duration_cast<microseconds>(time6 - time5).count();
-	cout << "robot functions: " << (double)duration5 / 1000 << " ms" << endl;
 	
-	
-	auto duration = duration_cast<microseconds>(time6 - time1).count();
-	cout << "TOTAL TIME: " << (double)duration / 1000 << " ms" << endl;
+	high_resolution_clock::time_point time7 = high_resolution_clock::now();
+	auto duration6 = duration_cast<microseconds>(time7 - time1).count();
+	cout << "TOTAL TIME: " << (double)duration6 / 1000 << " ms" << endl;
 
 	//imshow("fr", frame);
 	waitKey(1);
