@@ -447,6 +447,7 @@ int i = 0;
 //Default starting key for controlling robot
 char cKey = 'w';
 double dist = 1.0;
+double turn = 0;
 
 int priority = 1;
 sched_param sch5;
