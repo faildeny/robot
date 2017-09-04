@@ -450,7 +450,8 @@ while (true) {
 	
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
 
-	if (i > 20) target_found = feature.search(frame_detect);
+	//if (i > 20) 
+	target_found = feature.search(frame_detect);
 	if (target_found&& far == 0) {
 		cout << "markingTarget" << endl;
 		odometry.markTarget();
@@ -465,8 +466,6 @@ while (true) {
 	
 	scan_line1 = frame(area);
 	scan_line2 = frame2(area);
-	
-
 	
 	
 	//set parameters and compute depthmap
