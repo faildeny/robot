@@ -100,7 +100,7 @@ void RobotOdometry::updateMap()
 
 void RobotOdometry::markTarget() {
 	int x1 = 1;
-	int y1 = -20;
+	int y1 = -40;
 	int x2 = x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
 	int y2 = x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
 	putText(map, "object", Point(x2 + 3, y2), CV_FONT_HERSHEY_COMPLEX, 0.25, Scalar(30, 255, 30), 0.5, LINE_4, 0);
