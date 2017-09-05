@@ -486,7 +486,7 @@ while (true) {
 	if (target_found&& far == 0) {
 		cout << "markingTarget" << endl;
 		odometry.markTarget();
-		far = 10;
+		far = 20;
 	}
 	if (far != 0) far--;
 

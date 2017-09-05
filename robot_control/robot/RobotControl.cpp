@@ -163,7 +163,7 @@ void RobotControl::decide(char key, double direction, double distance, int turn,
 	dist= distance;
 	dir = direction;
 
-	cmd[1] = ((distance > 0.30 && distance < 10) || distance<0) ? 'w' : 'r';
+	cmd[1] = ((distance > 0.35 && distance < 10) || distance<0) ? 'w' : 'r';
 	if (target_size > 0.3) cmd[1] = 'x';
 	//cmd[1] = (read_enc_status() != 1) ? 'w' : 'r';
 	
@@ -182,8 +182,11 @@ void RobotControl::decide(char key, double direction, double distance, int turn,
 		break;
 
 	case 'r':
-		cmd[2] = (turn < 0) ? 'a' : 'd';
-		printf("roznica wyboru kierunku: %d \n", turn);
+
+		if (cmd_old[1] != cmd[1]) {
+			cmd[2] = (turn < 0) ? 'a' : 'd';
+			printf("roznica wyboru kierunku: %d \n", turn);
+		}
 		break;
 	}
 	//print current command and distance
