@@ -100,6 +100,7 @@ double StereoCamera::distCentralArea() {
 	//float d = disp.at<float>(punkt);
 	centdistance = 1000* 0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / nearest_dist*16.f;
 	nearest_dist = centdistance;
+	cout << "distance: " << nearest_dist << endl<<endl;
 	ss << nearest_dist;
 	text = ss.str();
 
@@ -121,6 +122,8 @@ double StereoCamera::avoidDirection() {
 
 	left_area = Rect(border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
 	right_area = Rect(disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
+
+	cout << "turn: " << turn << endl;
 	return turn;
 }
 
