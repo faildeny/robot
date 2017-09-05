@@ -405,7 +405,7 @@ while (true) {
 	stereo.setParams();
 	stereo.match(scan_line1, scan_line2);
 
-	//stereo.preparePreview();
+	stereo.preparePreview();
 	
 	
 
@@ -416,7 +416,7 @@ while (true) {
 	turn= stereo.avoidDirection();
 
 	//showing interface on the disparity image
-	//stereo.drawDashboard();
+	stereo.drawDashboard();
 	cout << "stereo size: " << stereo.preview.cols << endl;
 	if (stereo.preview.cols>0) imshow("Depth map", stereo.preview);
 	
