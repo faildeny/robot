@@ -15,8 +15,8 @@ public:
 	int dispmax = 1;
 	int roiw1 = 100;
 	int roiw2 = 200;
-	int ratio = 90; 
-	int offset = 125;
+	int ratio = 74; 
+	int offset = 162;
 	int exposure = 200;
 	int focalcenter = 10;
 	int focallength = 10;
