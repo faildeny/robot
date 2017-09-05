@@ -38,10 +38,12 @@ void RobotOdometry::decodeEncoders() {
 	cout << "enc_left: " << enc_left << " enc_right: " << enc_right << endl;
 	enc_diff_left = (enc_l_dir < 0) ? -enc_left + enc_left_old : enc_left - enc_left_old;
 	enc_diff_right = (enc_r_dir < 0) ? -enc_right + enc_right_old : enc_right - enc_right_old;
-	left = enc_diff_left;
-	right = enc_diff_right;
-	enc_left_old = enc_left;
-	enc_right_old = enc_right;
+	if (enc_diff_left < 40 && enc_diff_right < 40) {
+		left = enc_diff_left;
+		right = enc_diff_right;
+		enc_left_old = enc_left;
+		enc_right_old = enc_right;
+	}
 }
 
 void RobotOdometry::updateCoordinates() {
