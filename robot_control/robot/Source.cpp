@@ -405,8 +405,7 @@ while (true) {
 	stereo.setParams();
 	stereo.match(scan_line1, scan_line2);
 
-	stereo.preparePreview();
-	
+	//showing disparity with interpretation interface
 	
 
 	//compute distance from central area	
@@ -415,8 +414,8 @@ while (true) {
 	//analize depthmap for choosing movement direction
 	turn= stereo.avoidDirection();
 
-	//showing interface on the disparity image
-	stereo.drawDashboard();
+	stereo.preparePreview();
+	
 	cout << "stereo size: " << stereo.preview.cols << endl;
 	if (stereo.preview.cols>0) imshow("Depth map", stereo.preview);
 	

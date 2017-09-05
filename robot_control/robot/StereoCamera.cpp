@@ -101,7 +101,7 @@ double StereoCamera::distCentralArea() {
 	centdistance = 0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / nearest_dist*16.f;
 	nearest_dist = centdistance;
 	ss << nearest_dist;
-	String text = ss.str();
+	text = ss.str();
 
 	return centdistance;
 
@@ -127,9 +127,11 @@ double StereoCamera::avoidDirection() {
 void StereoCamera::preparePreview() {
 	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
 
-	resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
-
 	disp8.convertTo(preview, -1, double(ratio) / 50., offset - 200);
+
+	drawDashboard();
+
+	resize(disp8, disp8, Size(), 2, 2, INTER_LINEAR);
 }
 
 void StereoCamera::drawDashboard() {
