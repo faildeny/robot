@@ -39,7 +39,7 @@ void RobotControl::move() {
 		cmd[0] = 'x';
 		quit();
 	}
-	if (cmd[0] != cmd_old[0] || cmd[1] != cmd_old[1] || cmd[2] != cmd_old[2]) {
+	//if (cmd[0] != cmd_old[0] || cmd[1] != cmd_old[1] || cmd[2] != cmd_old[2]) {
 
 		switch (cmd[0])
 		{
@@ -146,7 +146,7 @@ void RobotControl::move() {
 		cmd_old[0] = cmd[0];
 		cmd_old[1] = cmd[1];
 		cmd_old[2] = cmd[2];
-	}
+	//}
 
 }
 void RobotControl::quit() {
