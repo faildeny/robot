@@ -407,14 +407,16 @@ while (true) {
 
 	//stereo.preparePreview();
 	
-	//showing interface on the disparity image
-	stereo.drawDashboard();
+	
 
 	//compute distance from central area	
 	dist = stereo.distCentralArea();
 
 	//analize depthmap for choosing movement direction
 	turn= stereo.avoidDirection();
+
+	//showing interface on the disparity image
+	stereo.drawDashboard();
 
 	imshow("Depth map", stereo.preview);
 	
