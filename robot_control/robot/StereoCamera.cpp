@@ -111,7 +111,7 @@ double StereoCamera::distCentralArea() {
 
 double StereoCamera::avoidDirection() {
 	disp_size = disp.size();
-	border = 70;
+	border = 30;
 	dir_area_l = Range(border, disp_size.width*0.5);
 	dir_area_r = Range(disp_size.width*0.5, disp_size.width - border);
 	dir_area_h = Range(disp_size.height*0.3, disp_size.height*0.9);
