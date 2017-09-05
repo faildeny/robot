@@ -25,8 +25,8 @@ void readme();
 */
 int main(int argc, char** argv)
 {
-	FeatureDetection feature("iii.PNG",13900);
-	VideoCapture cap(1);
+	FeatureDetection feature("bottle.png",3900);
+	VideoCapture cap(0);
 	cap.set(CAP_PROP_FRAME_WIDTH, 1280);
 	cap.set(CAP_PROP_FRAME_HEIGHT, 720);
 	Mat img_2;

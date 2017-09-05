@@ -31,7 +31,7 @@ mutex iomutex;
 
 String object_cascade_name = "cascade.xml";
 CascadeClassifier object_cascade;
-RNG rng(12345);
+//RNG rng(12345);
 
 int speed=60;
 
@@ -69,68 +69,6 @@ bool detectAndDisplay(Mat frame, Rect &target)
 	}
 }
 
-//Depth map processing
-
-//double farthest_dist, nearest_dist;
-//ostringstream ss;
-//Size disp_size;
-//Rect area_rect;
-//Range area_h;
-//Range area_w;
-//double centdistance;
-//String text;
-//
-//int sum_l, sum_r;
-//int turn;
-//int border;
-//Range dir_area_l;
-//Range dir_area_r;
-//Range dir_area_h;
-//Scalar sum_l_scalar;
-//Scalar sum_r_scalar;
-//
-//Rect left_area;
-//Rect right_area;
-//
-//double distCentralArea(Mat disp, StereoCamera stereo) {
-//	
-//	disp_size = disp.size();
-//
-//	area_rect=Rect(disp_size.width / 2 - disp_size.width / 4, disp_size.height / 2 - disp_size.height / 4, disp_size.width / 2, disp_size.height / 2);
-//
-//	area_h=Range(disp_size.height / 2 - disp_size.height / 4, disp_size.height / 2 + disp_size.height / 4);
-//	area_w=Range(disp_size.width / 2 - disp_size.width / 4, disp_size.width / 2 + disp_size.width / 4);
-//	disp.convertTo(disp, CV_32FC1);
-//	minMaxLoc(disp(area_h, area_w), &farthest_dist, &nearest_dist);
-//	//float d = disp.at<float>(punkt);
-//	centdistance = 0.2 * 0.001 / stereo.Q.at<double>(3, 2)*stereo.Q.at<double>(2, 3) / nearest_dist*16.f;
-//	nearest_dist = centdistance;
-//	ss << nearest_dist;
-//	String text = ss.str();
-//
-//	return centdistance;
-//
-//}
-//
-//double avoidDirection(Mat disp) {
-//	disp_size = disp.size();
-//	border = 50;
-//	dir_area_l=Range (border, disp_size.width*0.5);
-//	dir_area_r=Range (disp_size.width*0.5, disp_size.width - border);
-//	dir_area_h=Range (disp_size.height*0.3, disp_size.height*0.9);
-//	sum_l_scalar = sum(disp(dir_area_h, dir_area_l));
-//	sum_l = sum_l_scalar[0] / countNonZero(disp(dir_area_h, dir_area_l));
-//	sum_r_scalar = sum(disp(dir_area_h, dir_area_r));
-//	sum_r = sum_r_scalar[0] / countNonZero(disp(dir_area_h, dir_area_r));
-//	turn = sum_l - sum_r;
-//
-//	left_area=Rect (border, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
-//	right_area=Rect (disp_size.width*0.5, disp_size.height*0.3, disp_size.width*0.5 - border, disp_size.height*0.6);
-//	return turn;
-//}
-
-//End of depthmap processing
-
 //threading
 
 void parallelGrab(Camera cap, Mat *frame,int priority,int n) {
@@ -156,7 +94,6 @@ void parallelGrab(Camera cap, Mat *frame,int priority,int n) {
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
 	cout << "grab thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
-
 void parallelRemap(Camera cap, Mat *frame, double scale,int priority) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
@@ -180,29 +117,6 @@ void parallelRemap(Camera cap, Mat *frame, double scale,int priority) {
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
 	cout << "remapping thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
-void parallelRemap2(Camera cap, Mat *frame, double scale, int priority) {
-	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-
-	sched_param sch;
-	int policy;
-	pthread_getschedparam(pthread_self(), &policy, &sch);
-	//std::lock_guard<std::mutex> lk(iomutex);
-
-	if (priority >= 0) {
-		sch.sched_priority = priority;
-		if (pthread_setschedparam(pthread_self(), SCHED_RR, &sch)) {
-			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-		}
-	}
-
-	cap.remapFrame(*frame);
-	resize(*frame, *frame, Size(), scale, scale, INTER_AREA);
-
-	high_resolution_clock::time_point time2 = high_resolution_clock::now();
-	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "cam 2 remapping  thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
-}
-
 void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	
@@ -236,11 +150,9 @@ void parallelCam(Camera cap, Mat *frame, double scale, int priority) {
 	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
 	//cout << "camera "<<priority<<" thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
-
 void parallelOdometry(Mat image, VisualOdometry vis_odo) {
 	vis_odo.update(image);
 }
-
 void parallelFeature(FeatureDetection feature, Mat frame_detect, bool *target_found_p) {
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 	int priority = 90;
@@ -291,32 +203,6 @@ void parallelMapping(RobotOdometry* odometry, RobotControl* robot) {
 	cout << "map and encoders thread executed in: " << (double)duration2 / 1000 << " ms" << endl;
 }
 
-void f(int num)
-{
-	//std::this_thread::sleep_for(std::chrono::seconds(1));
-	high_resolution_clock::time_point time1 = high_resolution_clock::now();
-	int priority = 99;
-	sched_param sch;
-	int policy;
-	pthread_getschedparam(pthread_self(), &policy, &sch);
-	//std::lock_guard<std::mutex> lk(iomutex);
-	if (priority >= 0) {
-		sch.sched_priority = priority;
-		if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &sch)) {
-			std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
-		}
-	}
-	std::cout << "Thread " << num << " is executing at priority "
-		<< sch.sched_priority << '\n';
-	double a = 1.0;
-	for (int i = 0; i < 10000;i++) {
-		a = (a + (double)i) / 3;
-	}
-
-	high_resolution_clock::time_point time2 = high_resolution_clock::now();
-	auto duration2 = duration_cast<microseconds>(time2 - time1).count();
-	cout << "task " << num << " executed in: " << (double)duration2 / 1000 << " ms" << endl;
-}
 
 
 int main (int argc, char** argv) {
@@ -338,7 +224,7 @@ RobotOdometry odometry;
 RobotOdometry* odometry_p = &odometry;
 
 //Load ORB feature detector
-FeatureDetection feature("iii.png", 13900);
+FeatureDetection feature("bottle.png", 13900);
 
 //Create frames for both cameras
 Mat frame;
@@ -391,10 +277,6 @@ if (!object_cascade.load(object_cascade_name)) { printf("classifier cannot be lo
 //Grabbing first frame for further image settings
 parallelGrab(cap, framep, 99,6);
 parallelGrab(cap2, framep2, 99,6);
-//cap.grab();
-//cap2.grab();
-//cap.retrieve(frame);
-//cap2.retrieve(frame2);
 frame_detect = frame;
 cap.retrieve(temp1);
 cap2.retrieve(temp2);
@@ -411,7 +293,6 @@ cout << "odometry initiated" << endl;
 //namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
 
 //Images for depth maps
-//Mat disp = Mat::zeros(frame.size(), frame.type());
 Mat disp;
 Mat disp8;
 //Default point for distance measurement
