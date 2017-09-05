@@ -48,11 +48,10 @@ void RobotOdometry::updateCoordinates() {
 	azimuth += (left - right)*angle_step;
 	position.x += ((left + right)*move_step)*sin(azimuth);
 	position.y += -((left + right)*move_step)*cos(azimuth);
-	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth << endl;
+	cout << "left: " << left << " right: " << right << " azimuth: " << azimuth <<"position: "<<position.x<<" "<<position.y << endl;
 
 	posx = posx_base + position.y*0.00000005;
 	posy = posy_base - position.x*0.00000005;
-
 }
 
 void RobotOdometry::drawRobot(Mat& image, Point centerPoint, Size rectangleSize, double rotationDegrees) {
