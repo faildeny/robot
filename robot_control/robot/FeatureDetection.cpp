@@ -84,7 +84,7 @@ bool FeatureDetection::search(Mat image) {
 	{
 		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
 	}
-	if ((int)good_matches.size() > 14) {
+	if ((int)good_matches.size() > 10) {
 		int size = (int)good_matches.size();
 		for (int i = 0; i < size; i++) {
 			int j = good_matches[i].trainIdx;
