@@ -289,8 +289,8 @@ cout << "init Odometry" << endl;
 cout << "odometry initiated" << endl;
 
 //Sliders for camera parameters control
-//stereo.showMenu();
-//namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
+stereo.showMenu();
+namedWindow("Depth map", CV_WINDOW_KEEPRATIO);
 
 //Images for depth maps
 Mat disp;
