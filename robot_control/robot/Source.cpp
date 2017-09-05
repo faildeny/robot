@@ -418,7 +418,7 @@ while (true) {
 	//showing interface on the disparity image
 	//stereo.drawDashboard();
 	cout << "stereo size: " << stereo.preview.cols << endl;
-	imshow("Depth map", stereo.preview);
+	if (stereo.preview.cols>0) imshow("Depth map", stereo.preview);
 	
 	high_resolution_clock::time_point time4 = high_resolution_clock::now();
 	auto duration3 = duration_cast<microseconds>(time4 - time9).count();
