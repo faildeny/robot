@@ -54,8 +54,8 @@ bool FeatureDetection::search(Mat image) {
 		if (dist < min_dist) min_dist = dist;
 		if (dist > max_dist) max_dist = dist;
 	}
-	printf("-- Max dist : %f \n", max_dist);
-	printf("-- Min dist : %f \n", min_dist);
+	//printf("-- Max dist : %f \n", max_dist);
+	//printf("-- Min dist : %f \n", min_dist);
 	//-- Draw only "good" matches (i.e. whose distance is less than 2*min_dist,
 	//-- or a small arbitary value ( 0.02 ) in the event that min_dist is very
 	//-- small)
@@ -84,7 +84,7 @@ bool FeatureDetection::search(Mat image) {
 	{
 		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
 	}
-	if ((int)good_matches.size() > 15) {
+	if ((int)good_matches.size() > 14) {
 		int size = (int)good_matches.size();
 		for (int i = 0; i < size; i++) {
 			int j = good_matches[i].trainIdx;
@@ -92,7 +92,7 @@ bool FeatureDetection::search(Mat image) {
 			sum_y += keypoints_2[j].pt.y;
 		}
 		center = Point(sum_x / size, sum_y / size);
-		circle(img_2, center, 30, Scalar(255, 0, 100), 2, 8, 0);
+		circle(img_2, center, 60, Scalar(255, 0, 100), 5, 8, 0);
 		return 1;
 		//cout << "x " << center.x << "y " << center.y << endl;
 	}

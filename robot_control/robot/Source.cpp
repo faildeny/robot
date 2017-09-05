@@ -252,7 +252,7 @@ cap2.setSize(frameSize.width, frameSize.height);
 //cap2.set(CAP_PROP_AUTO_EXPOSURE, 1);
 
 //Setting ROI of depthmap
-Rect area(0, 0, frameSize.width*0.2, 130);
+Rect area(0, 0, frameSize.width*scale, 130);
 Mat scan_line1, scan_line2;
 
 //Checking cameras
@@ -408,7 +408,7 @@ while (true) {
 	//stereo.preparePreview();
 	
 	//showing interface on the disparity image
-	//stereo.drawDashboard();
+	stereo.drawDashboard();
 
 	//compute distance from central area	
 	dist = stereo.distCentralArea();
@@ -416,7 +416,7 @@ while (true) {
 	//analize depthmap for choosing movement direction
 	turn= stereo.avoidDirection();
 
-	//imshow("Depth map", stereo.preview);
+	imshow("Depth map", stereo.preview);
 	
 	high_resolution_clock::time_point time4 = high_resolution_clock::now();
 	auto duration3 = duration_cast<microseconds>(time4 - time9).count();
