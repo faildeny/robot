@@ -7,6 +7,7 @@ FeatureDetection::FeatureDetection(cv::String filename, int dist) {
 	createTrackbar("dist", "controls", &slider_dist, 50000);
 	createTrackbar("thresh", "controls", &thresh, 5000);
 	img_1 = imread(filename, IMREAD_GRAYSCALE);
+	resize(img_1, img_1, Size(), 0.5, 0.5, INTER_AREA);
 	cout << "image loaded" << img_1.cols << endl;
 
 	if (!img_1.data || !img_2.data)
@@ -83,7 +84,7 @@ bool FeatureDetection::search(Mat image) {
 	{
 		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
 	}
-	if ((int)good_matches.size() > 5) {
+	if ((int)good_matches.size() > 15) {
 		int size = (int)good_matches.size();
 		for (int i = 0; i < size; i++) {
 			int j = good_matches[i].trainIdx;
