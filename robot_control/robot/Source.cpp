@@ -464,7 +464,7 @@ while (true) {
 	cKey = (char)iKey;
 
 // robot control
-	dist = 0.9;
+	//dist = 0.9;
 	robot.decide(cKey, direction, dist, turn, target_size);
 	//robot.headTo(direction);
 	//if(!target_found) robot.square();

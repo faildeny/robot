@@ -31,7 +31,6 @@ public:
 
 private:
 	double farthest_dist, nearest_dist;
-	ostringstream ss;
 	Size disp_size;
 	Rect area_rect;
 	Range area_h;

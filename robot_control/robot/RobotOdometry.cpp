@@ -103,8 +103,8 @@ void RobotOdometry::markTarget() {
 	int y1 = -20;
 	int x2 = x1 / cos(atan(y1 / x1))*cos(atan(y1 / x1) + azimuth) + position.x + center_x;
 	int y2 = x1 / cos(atan(y1 / x1))*sin(atan(y1 / x1) + azimuth) + position.y + center_y;
-	putText(background, "object", Point(x2 + 3, y2), CV_FONT_HERSHEY_COMPLEX, 0.25, Scalar(30, 255, 30), 0.5, LINE_4, 0);
-	circle(background, Point(x2, y2), 2, CV_RGB(30, 255, 30), 0.5);
+	putText(map, "object", Point(x2 + 3, y2), CV_FONT_HERSHEY_COMPLEX, 0.25, Scalar(30, 255, 30), 0.5, LINE_4, 0);
+	circle(map, Point(x2, y2), 2, CV_RGB(30, 255, 30), 0.5);
 }
 
 void RobotOdometry::map3d(Mat &map, Mat image3d) {

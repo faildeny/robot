@@ -98,9 +98,10 @@ double StereoCamera::distCentralArea() {
 	disp.convertTo(disp, CV_32FC1);
 	minMaxLoc(disp(area_h, area_w), &farthest_dist, &nearest_dist);
 	//float d = disp.at<float>(punkt);
-	centdistance = 1000* 0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / nearest_dist*16.f;
+	centdistance = 0.2 * 0.001 / Q.at<double>(3, 2)*Q.at<double>(2, 3) / nearest_dist*16.f;
 	nearest_dist = centdistance;
 	cout << "distance: " << nearest_dist << endl<<endl;
+	ostringstream ss;
 	ss << nearest_dist;
 	text = ss.str();
 
