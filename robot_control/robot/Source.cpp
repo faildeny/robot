@@ -416,8 +416,8 @@ while (true) {
 	turn= stereo.avoidDirection();
 
 	//showing interface on the disparity image
-	stereo.drawDashboard();
-
+	//stereo.drawDashboard();
+	cout << "stereo size: " << stereo.preview.cols << endl;
 	imshow("Depth map", stereo.preview);
 	
 	high_resolution_clock::time_point time4 = high_resolution_clock::now();
