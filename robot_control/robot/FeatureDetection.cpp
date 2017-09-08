@@ -32,9 +32,7 @@ bool FeatureDetection::search(Mat image) {
 	//resize(img_2, img_2, Size(), 0.5, 0.5, INTER_AREA);
 	cvtColor(img_2, img_2, COLOR_BGR2GRAY);
 	detector->detectAndCompute(img_2, Mat(), keypoints_2, descriptors_2);
-	//-- Step 2: Matching descriptor vectors using FLANN matcher
-	//FlannBasedMatcher matcher;
-	//Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-Hamming");
+	
 	BFMatcher matcher;
 	std::vector< DMatch > matches;
 	descriptors_1.convertTo(descriptors_1, CV_32F);

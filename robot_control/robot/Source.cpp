@@ -349,7 +349,7 @@ while (true) {
 
 	high_resolution_clock::time_point time1 = high_resolution_clock::now();
 
-	thread thread_feature(parallelFeature, feature, frame_detect, target_found_p);
+	//thread thread_feature(parallelFeature, feature, frame_detect, target_found_p);
 	thread thread_map(parallelMapping, odometry_p,robot_p);
 
 	thread t2(parallelGrab, cap2, framep2, 99, 5);
@@ -482,11 +482,11 @@ while (true) {
 	cout << "robot functions: " << (double)duration5 / 1000 << " ms" << endl;
 
 	thread_map.join();
-	thread_feature.join();
+	//thread_feature.join();
 	if (target_found&& far == 0) {
 		cout << "markingTarget" << endl;
 		odometry.markTarget();
-		far = 20;
+		far = 40;
 	}
 	if (far != 0) far--;
 
