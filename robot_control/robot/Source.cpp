@@ -224,7 +224,7 @@ RobotOdometry odometry;
 RobotOdometry* odometry_p = &odometry;
 
 //Load ORB feature detector
-FeatureDetection feature("bottle.png", 13900);
+//FeatureDetection feature("bottle.png", 13900);
 
 //Create frames for both cameras
 Mat frame;
@@ -379,18 +379,11 @@ while (true) {
 	t3.join();
 	t4.join();
 
-	/*resize(frame, frame, Size(), 0.2, 0.2, INTER_AREA);
-	resize(frame2, frame2, Size(), 0.2, 0.2, INTER_AREA);*/
-	//temp1.copyTo(frame);
-	//temp2.copyTo(frame2);
 
 	high_resolution_clock::time_point time3 = high_resolution_clock::now();
 	auto duration2 = duration_cast<microseconds>(time3 - time2).count();
 	
 	cout << "remapping threaded in: " << (double)duration2 / 1000 << " ms" << endl;
-
-	
-	
 
 	high_resolution_clock::time_point time9 = high_resolution_clock::now();
 	auto duration9 = duration_cast<microseconds>(time9 - time3).count();
@@ -424,22 +417,6 @@ while (true) {
 	cout << "stereo: " << (double)duration3 / 1000 << " ms" << endl;
 // end of camera setup
 
-	//visual_odometry.join();
-
-// Odometry
-	
-	//odometry.decodeEncoders();
-	//odometry.updateCoordinates();
-	//////thread t1(updateMap, position);
-	//odometry.updateMap();
-	////
-	////disp.convertTo(disp, CV_32F);
-	////reprojectImageTo3D(disp, image3d, stereo.Qs);
-	//////customReproject(disp, stereo.Qs, image3d);
-	////map3d(map, image3d);
-	//imshow("map", odometry.background + odometry.map + odometry.robot_shape);
-////
-
 	i++;
 	//direction = (target.x + target.width*0.5 - frame_detect.cols*0.5)/frame_detect.cols;
 	direction = 0.0;
@@ -472,7 +449,7 @@ while (true) {
 	robot.showStatus();
 
 //Streaming
-	//if (i%10 == 0) stream.send(odometry.posx, odometry.posy);
+	if (i%10 == 0) stream.send(odometry.posx, odometry.posy);
 
 	//target_found = feature.search(frame_detect);
 
@@ -483,6 +460,7 @@ while (true) {
 
 	thread_map.join();
 	//thread_feature.join();
+	//visual_odometry.join();
 	if (target_found&& far == 0) {
 		cout << "markingTarget" << endl;
 		odometry.markTarget();
